@@ -1,4 +1,4 @@
-package com.tapp.api.models;
+package com.tapp.api.v1.models;
 
 public enum AnswerType {
     text,

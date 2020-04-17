@@ -1,4 +1,4 @@
-package com.tapp.api.services;
+package com.tapp.api.v1.services;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

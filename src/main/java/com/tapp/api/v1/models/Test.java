@@ -1,8 +1,7 @@
-package com.tapp.api.models;
+package com.tapp.api.v1.models;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
 
 @Entity

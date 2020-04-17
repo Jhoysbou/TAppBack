@@ -1,12 +1,10 @@
-package com.tapp.api.dao;
+package com.tapp.api.v1.dao;
 
-import com.tapp.api.models.Question;
-import com.tapp.api.models.User;
-import com.tapp.api.utils.HibernateSessionFactoryUtil;
+import com.tapp.api.v1.models.User;
+import com.tapp.api.v1.utils.HibernateSessionFactoryUtil;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,7 +23,7 @@ public class UserDao implements Dao<User> {
         List<User> users = (List<User>) HibernateSessionFactoryUtil
                 .getSessionFactory()
                 .openSession()
-                .createQuery("from users")
+                .createQuery("from tapp.users")
                 .list();
         return users;
     }

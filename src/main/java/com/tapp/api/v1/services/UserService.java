@@ -1,8 +1,8 @@
-package com.tapp.api.services;
+package com.tapp.api.v1.services;
 
-import com.tapp.api.dao.UserDao;
-import com.tapp.api.exceptions.UserNotFoundException;
-import com.tapp.api.models.User;
+import com.tapp.api.v1.dao.UserDao;
+import com.tapp.api.v1.exceptions.UserNotFoundException;
+import com.tapp.api.v1.models.User;
 
 import java.util.List;
 
@@ -13,7 +13,7 @@ public class UserService {
     public UserService() {
     }
 
-    public User findUser(int id) {
+    public User getUser(long id) {
         return usersDao.get(id).orElseThrow(UserNotFoundException::new);
     }
 

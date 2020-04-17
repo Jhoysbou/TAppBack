@@ -1,4 +1,4 @@
-package com.tapp.api.models;
+package com.tapp.api.v1.models;
 
 import javax.persistence.*;
 import java.util.List;
@@ -20,7 +20,7 @@ public class User {
 
     @ManyToMany(cascade = {CascadeType.ALL})
     @JoinTable(
-            name = "users_tests",
+            name = "tapp.users_tests",
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "test_id")}
     )

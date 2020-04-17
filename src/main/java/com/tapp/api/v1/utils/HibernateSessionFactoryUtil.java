@@ -1,9 +1,9 @@
-package com.tapp.api.utils;
+package com.tapp.api.v1.utils;
 
-import com.tapp.api.models.Answer;
-import com.tapp.api.models.Question;
-import com.tapp.api.models.Test;
-import com.tapp.api.models.User;
+import com.tapp.api.v1.models.Answer;
+import com.tapp.api.v1.models.Question;
+import com.tapp.api.v1.models.Test;
+import com.tapp.api.v1.models.User;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;

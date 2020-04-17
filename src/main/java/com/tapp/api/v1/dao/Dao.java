@@ -1,4 +1,4 @@
-package com.tapp.api.dao;
+package com.tapp.api.v1.dao;
 
 import java.util.List;
 import java.util.Optional;
