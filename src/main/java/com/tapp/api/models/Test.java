@@ -20,13 +20,14 @@ public class Test {
     @Column(name = "description")
     private String description;
 
-    @ManyToMany(mappedBy = "tests")
+    @OneToMany(mappedBy = "tests", cascade = CascadeType.ALL, orphanRemoval = true)
     private LinkedList<Question> questions;
-    private Date creationDate;
 
-    public void setId(long id) {
-        this.id = id;
+    public Test() {
     }
+
+    @Column(name = "date")
+    private Date creationDate;
 
     public void setPathToImage(String pathToImage) {
         this.pathToImage = pathToImage;

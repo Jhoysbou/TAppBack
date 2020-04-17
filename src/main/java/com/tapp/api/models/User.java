@@ -18,7 +18,7 @@ public class User {
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "test_id")}
     )
-    private HashSet<Test> unfinishedTests;
+    private HashSet<Test> tests;
 
     public User() {
     }
@@ -31,8 +31,8 @@ public class User {
         this.level = progress;
     }
 
-    public void setUnfinishedTests(HashSet<Test> unfinishedTests) {
-        this.unfinishedTests = unfinishedTests;
+    public void setTests(HashSet<Test> tests) {
+        this.tests = tests;
     }
 
     public long getId() {
@@ -43,8 +43,8 @@ public class User {
         return level;
     }
 
-    public HashSet<Test> getUnfinishedTests() {
-        return unfinishedTests;
+    public HashSet<Test> getTests() {
+        return tests;
 
     }
 }
