@@ -3,9 +3,10 @@ package com.tapp.api.models;
 import javax.persistence.*;
 import java.util.Date;
 import java.util.LinkedList;
+import java.util.List;
 
 @Entity
-@Table(name = "tests")
+@Table(name = "tests", schema = "tapp")
 public class Test {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,8 +21,8 @@ public class Test {
     @Column(name = "description")
     private String description;
 
-    @OneToMany(mappedBy = "tests", cascade = CascadeType.ALL, orphanRemoval = true)
-    private LinkedList<Question> questions;
+    @OneToMany(mappedBy = "test", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Question> questions;
 
     public Test() {
     }
@@ -41,7 +42,7 @@ public class Test {
         this.description = description;
     }
 
-    public void setQuestions(LinkedList<Question> questions) {
+    public void setQuestions(List<Question> questions) {
         this.questions = questions;
     }
 
@@ -65,7 +66,7 @@ public class Test {
         return description;
     }
 
-    public LinkedList<Question> getQuestions() {
+    public List<Question> getQuestions() {
         return questions;
     }
 

@@ -41,7 +41,7 @@ public class UserDao implements Dao<User> {
     }
 
     @Override
-    public void update(User user, String[] params) {
+    public void update(User user) {
         Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
         Transaction tx1 = session.beginTransaction();
         session.update(user);

@@ -1,10 +1,10 @@
 package com.tapp.api.models;
 
 import javax.persistence.*;
-import java.util.HashSet;
+import java.util.List;
 
 @Entity
-@Table(name = "users")
+@Table(name = "users", schema = "tapp")
 public class User {
     @Id
     private long id;
@@ -12,15 +12,48 @@ public class User {
     @Column(name = "level")
     private int level;
 
+    @Column(name = "school")
+    private String school;
+
+    @Column(name = "age")
+    private int age;
+
     @ManyToMany(cascade = {CascadeType.ALL})
     @JoinTable(
             name = "users_tests",
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "test_id")}
     )
-    private HashSet<Test> tests;
+    private List<Test> tests;
 
     public User() {
+    }
+
+    public User(long id, int level, int age, String school) {
+        this.id = id;
+        this.level = level;
+        this.school = school;
+        this.age = age;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public String getSchool() {
+        return school;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public void setSchool(String school) {
+        this.school = school;
     }
 
     public void setId(long id) {
@@ -31,7 +64,7 @@ public class User {
         this.level = progress;
     }
 
-    public void setTests(HashSet<Test> tests) {
+    public void setTests(List<Test> tests) {
         this.tests = tests;
     }
 
@@ -43,7 +76,7 @@ public class User {
         return level;
     }
 
-    public HashSet<Test> getTests() {
+    public List<Test> getTests() {
         return tests;
 
     }

@@ -2,9 +2,10 @@ package com.tapp.api.models;
 
 import javax.persistence.*;
 import java.util.LinkedList;
+import java.util.List;
 
 @Entity
-@Table(name = "questions")
+@Table(name = "questions", schema = "tapp")
 public class Question {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,10 +15,21 @@ public class Question {
     private String questionText;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "test_id", nullable = false)
     private Test test;
 
-    @OneToMany(mappedBy = "answers", cascade = CascadeType.ALL, orphanRemoval = true)
-    private LinkedList<Answer> answers;
+    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Answer> answers;
+
+
+    public void setTest(Test test) {
+        this.test = test;
+    }
+
+    public Test getTest() {
+        return test;
+    }
+
 
     public Question() {
     }
@@ -30,7 +42,7 @@ public class Question {
         this.questionText = questionText;
     }
 
-    public void setAnswers(LinkedList<Answer> answers) {
+    public void setAnswers(List<Answer> answers) {
         this.answers = answers;
     }
 
@@ -38,10 +50,9 @@ public class Question {
         return questionText;
     }
 
-    public LinkedList<Answer> getAnswers() {
+    public List<Answer> getAnswers() {
         return answers;
     }
-
 
 
 }
