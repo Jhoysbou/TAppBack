@@ -17,11 +17,12 @@ public class UsersTests {
     @JoinColumn(name = "test_id")
     private Test test;
 
-    @Column(name = "question_id")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "question_id")
     private Question question;
 
-    @Column(name = "time")
-    private String time;
+    @Column(name = "start_time")
+    private String start_time;
 
     public UsersTests() {
     }
@@ -38,8 +39,8 @@ public class UsersTests {
         this.question = question;
     }
 
-    public void setTime(String time) {
-        this.time = time;
+    public void setStart_time(String time) {
+        this.start_time = time;
     }
 
     public long getId() {
@@ -58,7 +59,7 @@ public class UsersTests {
         return question;
     }
 
-    public String getTime() {
-        return time;
+    public String getStart_time() {
+        return start_time;
     }
 }

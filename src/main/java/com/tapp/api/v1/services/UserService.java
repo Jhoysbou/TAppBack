@@ -2,18 +2,23 @@ package com.tapp.api.v1.services;
 
 import com.tapp.api.v1.dao.TestDao;
 import com.tapp.api.v1.dao.UserDao;
+import com.tapp.api.v1.dao.UsersTestsDao;
 import com.tapp.api.v1.exceptions.TestNotFoundException;
 import com.tapp.api.v1.exceptions.UserNotFoundException;
 import com.tapp.api.v1.models.Question;
 import com.tapp.api.v1.models.Test;
 import com.tapp.api.v1.models.User;
+import com.tapp.api.v1.models.UsersTests;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class UserService {
-
+    private DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
     private UserDao usersDao = new UserDao();
     private TestDao testDao = new TestDao();
+    private UsersTestsDao usersTestsDao = new UsersTestsDao();
 
     public UserService() {
     }
@@ -40,10 +45,16 @@ public class UserService {
 
     public void addTest(long id, long testId) {
         User user = usersDao.get(id).orElseThrow(UserNotFoundException::new);
-        List<Test> tests = user.getTests();
+        List<UsersTests> tests = user.getUsersTests();
         Test newTest = testDao.get(testId).orElseThrow(TestNotFoundException::new);
-        tests.add(newTest);
-        user.setTests(tests);
-        usersDao.update(user);
+        Question question = newTest.getQuestions().get(0);
+
+        UsersTests usersTests = new UsersTests();
+        usersTests.setTest(newTest);
+        usersTests.setQuestion(question);
+        usersTests.setUser(user);
+        usersTests.setStart_time(LocalDateTime.now().format(DATE_TIME_FORMATTER));
+        usersTestsDao.save(usersTests);
+
     }
 }

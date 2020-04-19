@@ -19,7 +19,7 @@ public class User {
     private int age;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
-    private List<Test> tests;
+    private List<UsersTests> usersTests;
 
     public User() {
     }
@@ -79,8 +79,8 @@ public class User {
         this.level = progress;
     }
 
-    public void setTests(List<Test> tests) {
-        this.tests = tests;
+    public void setUsersTests(List<UsersTests> usersTests) {
+        this.usersTests = usersTests;
     }
 
     public long getId() {
@@ -91,8 +91,8 @@ public class User {
         return level;
     }
 
-    public List<Test> getTests() {
-        return tests;
+    public List<UsersTests> getUsersTests() {
+        return usersTests;
 
     }
 }
