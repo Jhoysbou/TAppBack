@@ -1,8 +1,9 @@
 package com.tapp.api.v1.models;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
+
 
 @Entity
 @Table(name = "tests")
@@ -24,18 +25,24 @@ public class Test {
     private List<Question> questions;
 
     @Column(name = "date")
-    private Date creationDate;
+    private LocalDateTime creationDate;
 
     public Test() {
     }
 
-    public Test(String img, String title, String description, List<Question> questions, Date creationDate) {
+    public Test(String img, String title, String description, LocalDateTime creationDate) {
+        this.pathToImage = img;
+        this.title = title;
+        this.description = description;
+        this.creationDate = creationDate;
+    }
+
+    public Test(String img, String title, String description, List<Question> questions, LocalDateTime creationDate) {
         this.pathToImage = img;
         this.title = title;
         this.description = description;
         this.questions = questions;
         this.creationDate = creationDate;
-
     }
 
     public void setPathToImage(String pathToImage) {
@@ -54,7 +61,7 @@ public class Test {
         this.questions = questions;
     }
 
-    public void setCreationDate(Date creationDate) {
+    public void setCreationDate(LocalDateTime creationDate) {
         this.creationDate = creationDate;
     }
 
@@ -78,7 +85,7 @@ public class Test {
         return questions;
     }
 
-    public Date getCreationDate() {
+    public LocalDateTime getCreationDate() {
         return creationDate;
     }
 }
