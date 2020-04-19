@@ -1,9 +1,11 @@
 package com.tapp.api.v1.controllers;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.tapp.api.v1.models.User;
 import com.tapp.api.v1.services.UserService;
-import org.apache.coyote.Response;
+
+import com.tapp.api.v1.utils.IdWrapper;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     private UserService userService = new UserService();
     private final Gson gson = new Gson();
+    private final ObjectMapper mapper = new ObjectMapper();
 
     @GetMapping
     String getAllUsers() {
@@ -24,12 +27,16 @@ public class UserController {
 
     @PutMapping("{id}")
     void saveUser(@PathVariable long id,
-                  @RequestParam int level,
-                  @RequestParam int age,
-                  @RequestParam String school) {
-        User user = new User(id, level, age, school);
-
+            @RequestBody User user) {
+        user.setId(id);
         userService.saveUser(user);
+    }
+
+    @PatchMapping("{id}")
+    void updateUser(@PathVariable long id,
+                    @RequestBody IdWrapper idWrapper) {
+
+        userService.addTest(id, idWrapper.getId());
     }
 
     @DeleteMapping("{id}")

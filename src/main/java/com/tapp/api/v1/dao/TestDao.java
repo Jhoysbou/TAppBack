@@ -1,7 +1,6 @@
 package com.tapp.api.v1.dao;
 
 import com.tapp.api.v1.models.Test;
-import com.tapp.api.v1.models.User;
 import com.tapp.api.v1.utils.HibernateSessionFactoryUtil;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -15,6 +14,7 @@ public class TestDao implements Dao<Test> {
     public Optional<Test> get(long id) {
         Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
         Test test = session.get(Test.class, id);
+        session.close();
         return Optional.of(test);
     }
 

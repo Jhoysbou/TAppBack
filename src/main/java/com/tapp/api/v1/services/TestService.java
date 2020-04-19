@@ -2,8 +2,8 @@ package com.tapp.api.v1.services;
 
 import com.tapp.api.v1.dao.TestDao;
 import com.tapp.api.v1.exceptions.UserNotFoundException;
+import com.tapp.api.v1.models.Question;
 import com.tapp.api.v1.models.Test;
-import com.tapp.api.v1.models.User;
 
 import java.util.List;
 
@@ -18,6 +18,8 @@ public class TestService {
     }
 
     public void saveTest(Test test) {
+        test.getQuestions().stream().forEach(question -> question.setTest(test));
+
         testDao.save(test);
     }
 

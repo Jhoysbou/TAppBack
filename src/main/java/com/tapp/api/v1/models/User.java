@@ -18,12 +18,7 @@ public class User {
     @Column(name = "age")
     private int age;
 
-    @ManyToMany(cascade = {CascadeType.ALL})
-    @JoinTable(
-            name = "users_tests",
-            joinColumns = {@JoinColumn(name = "user_id")},
-            inverseJoinColumns = {@JoinColumn(name = "test_id")}
-    )
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private List<Test> tests;
 
     public User() {
@@ -34,6 +29,26 @@ public class User {
         this.level = level;
         this.school = school;
         this.age = age;
+    }
+
+    public User(int level, int age, String school) {
+        this.level = level;
+        this.school = school;
+        this.age = age;
+    }
+
+    public User(int level, int age) {
+        this.level = level;
+        this.age = age;
+    }
+
+    public User(int level, String school) {
+        this.level = level;
+        this.school = school;
+    }
+
+    public User(int level) {
+        this.level = level;
     }
 
     public int getLevel() {

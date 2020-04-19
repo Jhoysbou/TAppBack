@@ -18,6 +18,9 @@ public class Test {
     @Column(name = "title")
     private String title;
 
+    @OneToMany(mappedBy = "test", fetch = FetchType.LAZY)
+    private List<User> users;
+
     @Column(name = "description")
     private String description;
 
@@ -25,19 +28,19 @@ public class Test {
     private List<Question> questions;
 
     @Column(name = "date")
-    private LocalDateTime creationDate;
+    private String creationDate;
 
     public Test() {
     }
 
-    public Test(String img, String title, String description, LocalDateTime creationDate) {
+    public Test(String img, String title, String description, String creationDate) {
         this.pathToImage = img;
         this.title = title;
         this.description = description;
         this.creationDate = creationDate;
     }
 
-    public Test(String img, String title, String description, List<Question> questions, LocalDateTime creationDate) {
+    public Test(String img, String title, String description, List<Question> questions, String creationDate) {
         this.pathToImage = img;
         this.title = title;
         this.description = description;
@@ -61,7 +64,7 @@ public class Test {
         this.questions = questions;
     }
 
-    public void setCreationDate(LocalDateTime creationDate) {
+    public void setCreationDate(String creationDate) {
         this.creationDate = creationDate;
     }
 
@@ -85,7 +88,7 @@ public class Test {
         return questions;
     }
 
-    public LocalDateTime getCreationDate() {
+    public String getCreationDate() {
         return creationDate;
     }
 }

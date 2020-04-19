@@ -16,7 +16,7 @@ public class Question {
     @Column(name = "img")
     private String pathToImage;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "test_id", nullable = false)
     private Test test;
 
@@ -24,9 +24,15 @@ public class Question {
     private List<Answer> answers;
 
     @Column(name = "number")
-    private int SerialNumber;
+    private int serialNumber;
 
     public Question() {
+    }
+
+    public Question(String questionText, String pathToImage, int serialNumber) {
+        this.questionText = questionText;
+        this.pathToImage = pathToImage;
+        this.serialNumber = serialNumber;
     }
 
 
@@ -39,11 +45,11 @@ public class Question {
     }
 
     public void setSerialNumber(int serialNumber) {
-        SerialNumber = serialNumber;
+        this.serialNumber = serialNumber;
     }
 
     public int getSerialNumber() {
-        return SerialNumber;
+        return serialNumber;
     }
 
 
