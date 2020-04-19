@@ -1,5 +1,10 @@
 package com.tapp.api.v1.dao;
 
+import com.tapp.api.v1.utils.HibernateSessionFactoryUtil;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.hibernate.query.Query;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -9,11 +14,29 @@ public interface Dao<T> {
 
     List<T> getAll();
 
-    void save(T t);
+    default void save(T t) {
+        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
+        Transaction tx1 = session.beginTransaction();
+        session.save(t);
+        tx1.commit();
+        session.close();
+    }
 
-    void update(T t);
+    default void update(T t) {
+        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
+        Transaction tx1 = session.beginTransaction();
+        session.update(t);
+        tx1.commit();
+        session.close();
+    }
 
-    void delete(T t);
+    default void delete(T t) {
+        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
+        Transaction tx1 = session.beginTransaction();
+        session.delete(t);
+        tx1.commit();
+        session.close();
+    }
 
     void deleteById(long id);
 }

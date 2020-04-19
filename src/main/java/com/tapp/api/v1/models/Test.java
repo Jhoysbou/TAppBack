@@ -23,11 +23,20 @@ public class Test {
     @OneToMany(mappedBy = "test", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Question> questions;
 
+    @Column(name = "date")
+    private Date creationDate;
+
     public Test() {
     }
 
-    @Column(name = "date")
-    private Date creationDate;
+    public Test(String img, String title, String description, List<Question> questions, Date creationDate) {
+        this.pathToImage = img;
+        this.title = title;
+        this.description = description;
+        this.questions = questions;
+        this.creationDate = creationDate;
+
+    }
 
     public void setPathToImage(String pathToImage) {
         this.pathToImage = pathToImage;

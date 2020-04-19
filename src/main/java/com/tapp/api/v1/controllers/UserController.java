@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("v1/users")
 public class UserController {
     private UserService userService = new UserService();
-    Gson gson = new Gson();
+    private final Gson gson = new Gson();
 
     @GetMapping
     String getAllUsers() {
@@ -31,7 +31,7 @@ public class UserController {
 
         userService.saveUser(user);
     }
-    
+
     @DeleteMapping("{id}")
     void deleteUser(@PathVariable long id) {
         userService.deleteUser(id);
