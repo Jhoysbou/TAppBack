@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "questions", schema = "tapp")
+@Table(name = "questions")
 public class Question {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -13,7 +13,7 @@ public class Question {
     @Column(name = "question_text")
     private String questionText;
 
-    @Column(name = "")
+    @Column(name = "img")
     private String pathToImage;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -28,6 +28,7 @@ public class Question {
 
     public Question() {
     }
+
 
     public void setPathToImage(String pathToImage) {
         this.pathToImage = pathToImage;

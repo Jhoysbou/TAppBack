@@ -3,7 +3,7 @@ package com.tapp.api.v1.models;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "answers", schema = "tapp")
+@Table(name = "answers")
 public class Answer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

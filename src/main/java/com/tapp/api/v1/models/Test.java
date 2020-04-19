@@ -5,13 +5,13 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name = "tests", schema = "tapp")
+@Table(name = "tests")
 public class Test {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "image")
+    @Column(name = "img")
     private String pathToImage;
 
     @Column(name = "title")

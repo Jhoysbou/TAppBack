@@ -4,6 +4,7 @@ import com.tapp.api.v1.models.User;
 import com.tapp.api.v1.utils.HibernateSessionFactoryUtil;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
 import java.util.List;
 import java.util.Optional;
@@ -11,11 +12,9 @@ import java.util.Optional;
 public class UserDao implements Dao<User> {
     @Override
     public Optional<User> get(long id) {
-        return Optional.of(HibernateSessionFactoryUtil
-                .getSessionFactory()
-                .openSession()
-                .get(User.class, id)
-        );
+        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
+        User user = session.get(User.class, id);
+        return Optional.of(user);
     }
 
     @Override
@@ -23,7 +22,7 @@ public class UserDao implements Dao<User> {
         List<User> users = (List<User>) HibernateSessionFactoryUtil
                 .getSessionFactory()
                 .openSession()
-                .createQuery("from tapp.users")
+                .createQuery("from User", User.class)
                 .list();
         return users;
     }
@@ -54,12 +53,19 @@ public class UserDao implements Dao<User> {
         session.delete(user);
         tx1.commit();
         session.close();
+    }
+
+    @Override
+    public void deleteById(long id) {
+        String hql = "delete User where id=:id";
+        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
+        Transaction tx1 = session.beginTransaction();
+        Query q = session.createQuery(hql).setParameter("id", id);
+        q.executeUpdate();
+        tx1.commit();
+        session.close();
 
     }
 
-//    public List<Question> getQuestion(User user) {
-//        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
-//        Transaction tx1 = session.beginTransaction();
-//        session.
-//    }
+
 }

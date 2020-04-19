@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "users", schema = "tapp")
+@Table(name = "users")
 public class User {
     @Id
     private long id;
@@ -20,7 +20,7 @@ public class User {
 
     @ManyToMany(cascade = {CascadeType.ALL})
     @JoinTable(
-            name = "tapp.users_tests",
+            name = "users_tests",
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "test_id")}
     )
