@@ -18,7 +18,9 @@ public class Question {
     @Column(name = "img")
     private String pathToImage;
 
-    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "question",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
     private List<UsersTests> usersTests;
 
     @JsonIgnore
@@ -26,7 +28,10 @@ public class Question {
     @JoinColumn(name = "test_id", nullable = false)
     private Test test;
 
-    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "question",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true,
+            fetch = FetchType.EAGER)
     private List<Answer> answers;
 
     @Column(name = "number")
