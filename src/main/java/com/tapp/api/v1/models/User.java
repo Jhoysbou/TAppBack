@@ -9,8 +9,8 @@ public class User {
     @Id
     private long id;
 
-    @Column(name = "level")
-    private int level;
+    @Column(name = "score")
+    private int score;
 
     @Column(name = "school")
     private String school;
@@ -24,35 +24,35 @@ public class User {
     public User() {
     }
 
-    public User(long id, int level, int age, String school) {
+    public User(long id, int score, int age, String school) {
         this.id = id;
-        this.level = level;
+        this.score = score;
         this.school = school;
         this.age = age;
     }
 
     public User(int level, int age, String school) {
-        this.level = level;
+        this.score = level;
         this.school = school;
         this.age = age;
     }
 
-    public User(int level, int age) {
-        this.level = level;
+    public User(int score, int age) {
+        this.score = score;
         this.age = age;
     }
 
     public User(int level, String school) {
-        this.level = level;
+        this.score = level;
         this.school = school;
     }
 
-    public User(int level) {
-        this.level = level;
+    public User(int score) {
+        this.score = score;
     }
 
-    public int getLevel() {
-        return level;
+    public int getScore() {
+        return score;
     }
 
     public String getSchool() {
@@ -75,8 +75,8 @@ public class User {
         this.id = id;
     }
 
-    public void setLevel(int progress) {
-        this.level = progress;
+    public void setScore(int progress) {
+        this.score = progress;
     }
 
     public void setUsersTests(List<UsersTests> usersTests) {
@@ -88,7 +88,7 @@ public class User {
     }
 
     public int level() {
-        return level;
+        return score;
     }
 
     public List<UsersTests> getUsersTests() {

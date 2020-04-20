@@ -15,6 +15,9 @@ public class Question {
     @Column(name = "question_text")
     private String questionText;
 
+    @Column(name = "reward")
+    private int reward;
+
     @Column(name = "img")
     private String pathToImage;
 
