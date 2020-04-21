@@ -55,8 +55,16 @@ public class User {
         return score;
     }
 
+    public void setScore(int progress) {
+        this.score = progress;
+    }
+
     public String getSchool() {
         return school;
+    }
+
+    public void setSchool(String school) {
+        this.school = school;
     }
 
     public int getAge() {
@@ -67,24 +75,12 @@ public class User {
         this.age = age;
     }
 
-    public void setSchool(String school) {
-        this.school = school;
+    public long getId() {
+        return id;
     }
 
     public void setId(long id) {
         this.id = id;
-    }
-
-    public void setScore(int progress) {
-        this.score = progress;
-    }
-
-    public void setUsersTests(List<UsersTests> usersTests) {
-        this.usersTests = usersTests;
-    }
-
-    public long getId() {
-        return id;
     }
 
     public int level() {
@@ -94,5 +90,9 @@ public class User {
     public List<UsersTests> getUsersTests() {
         return usersTests;
 
+    }
+
+    public void setUsersTests(List<UsersTests> usersTests) {
+        this.usersTests = usersTests;
     }
 }

@@ -1,19 +1,15 @@
 package com.tapp.api.v1.controllers;
 
 
-import org.springframework.web.bind.annotation.*;
 import org.apache.commons.io.IOUtils;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
-
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.FileInputStream;
 import java.io.InputStream;
 
 @RestController
 @RequestMapping("v1/media")
 public class MediaController {
-
 
     @GetMapping("{name}")
     public @ResponseBody
@@ -21,4 +17,11 @@ public class MediaController {
         InputStream resourceBuff = getClass().getClassLoader().getResourceAsStream("images/test/" + name);
         return IOUtils.toByteArray(resourceBuff);
     }
+
+    @PutMapping("{name}")
+    public void uploadImage(@PathVariable String name,
+                          @RequestParam("file") MultipartFile file) {
+//        Todo: implement saving
+    }
+
 }
