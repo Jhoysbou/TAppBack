@@ -17,10 +17,11 @@ public class TestService {
         return testDao.get(id).orElseThrow(UserNotFoundException::new);
     }
 
-    public void saveTest(Test test) {
+    public long saveTest(Test test) {
         test.getQuestions().stream().forEach(question -> question.setTest(test));
-
         testDao.save(test);
+
+        return test.getId();
     }
 
     public void deleteTest(long id) {

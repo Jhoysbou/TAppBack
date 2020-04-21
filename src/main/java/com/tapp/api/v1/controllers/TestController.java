@@ -26,8 +26,9 @@ public class TestController {
     }
 
     @PostMapping
-    void saveTest(@RequestBody Test test) {
-        testService.saveTest(test);
+    String saveTest(@RequestBody Test test) {
+        long id = testService.saveTest(test);
+        return "{'id': "+ id +" }";
     }
 
     @DeleteMapping("{id}")
