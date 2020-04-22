@@ -1,5 +1,6 @@
 HELP.md
 .gradle
+ngrok
 build/
 website_stat.db
 !gradle/wrapper/gradle-wrapper.jar
