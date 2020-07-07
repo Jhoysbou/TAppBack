@@ -1,6 +1,7 @@
 package com.tapp.api.v1.controllers;
 
 import com.tapp.api.v1.models.User;
+import com.tapp.api.v1.services.HistoryService;
 import com.tapp.api.v1.services.UserService;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,6 +11,7 @@ import java.util.List;
 @RequestMapping("v1/users")
 public class UserController {
     private UserService userService = new UserService();
+    private HistoryService historyService = new HistoryService();
 
     @GetMapping
     List<User> getAllUsers() {
@@ -28,11 +30,40 @@ public class UserController {
         userService.saveUser(user);
     }
 
-    @PatchMapping("{id}/add_test/{test_id}")
-    void addTest(@PathVariable long id,
-                 @PathVariable long testId) {
+    @PostMapping("{userId}/startQuestion/")
+    void startQuestion(@PathVariable long userId,
+                       @RequestParam long testId,
+                       @RequestParam int questionNumber,
+                       @RequestParam int questionVariant) {
 
-        userService.addTest(id, testId);
+        historyService.startQuestion(userId,
+                testId,
+                questionNumber,
+                questionVariant);
+    }
+
+    @PostMapping("{userId}/passQuestion/")
+    void passQuestion(@PathVariable long userId,
+                       @RequestParam long testId,
+                       @RequestParam int questionNumber,
+                       @RequestParam int questionVariant) {
+
+        historyService.passQuestion(userId,
+                testId,
+                questionNumber,
+                questionVariant);
+    }
+
+    @PostMapping("{userId}/failQuestion/")
+    void failQuestion(@PathVariable long userId,
+                       @RequestParam long testId,
+                       @RequestParam int questionNumber,
+                       @RequestParam int questionVariant) {
+
+        historyService.failQuestion(userId,
+                testId,
+                questionNumber,
+                questionVariant);
     }
 
     @PatchMapping("{id}")

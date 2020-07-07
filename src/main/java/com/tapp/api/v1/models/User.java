@@ -19,7 +19,7 @@ public class User {
     private int age;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
-    private List<UsersTests> usersTests;
+    private List<HistoryEvent> history;
 
     public User() {
     }
@@ -87,12 +87,12 @@ public class User {
         return score;
     }
 
-    public List<UsersTests> getUsersTests() {
-        return usersTests;
+    public List<HistoryEvent> getHistory() {
+        return history;
 
     }
 
-    public void setUsersTests(List<UsersTests> usersTests) {
-        this.usersTests = usersTests;
+    public void setHistory(List<HistoryEvent> history) {
+        this.history = history;
     }
 }

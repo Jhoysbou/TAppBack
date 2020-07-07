@@ -3,7 +3,6 @@ package com.tapp.api.v1.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -22,7 +21,7 @@ public class Test {
 
     @JsonIgnore
     @OneToMany(mappedBy = "test", fetch = FetchType.LAZY)
-    private List<UsersTests> usersTests;
+    private List<HistoryEvent> history;
 
     @Column(name = "description")
     private String description;
@@ -51,12 +50,12 @@ public class Test {
         this.creationDate = creationDate;
     }
 
-    public List<UsersTests> getUsersTests() {
-        return usersTests;
+    public List<HistoryEvent> getHistory() {
+        return history;
     }
 
-    public void setUsersTests(List<UsersTests> usersTests) {
-        this.usersTests = usersTests;
+    public void setHistory(List<HistoryEvent> history) {
+        this.history = history;
     }
 
     public void setPathToImage(String pathToImage) {
