@@ -1,5 +1,6 @@
 package com.tapp.api.v1.controllers;
 
+import com.tapp.api.v1.models.HistoryEvent;
 import com.tapp.api.v1.models.User;
 import com.tapp.api.v1.services.HistoryService;
 import com.tapp.api.v1.services.UserService;
@@ -30,41 +31,34 @@ public class UserController {
         userService.saveUser(user);
     }
 
-    @PostMapping("{userId}/startQuestion/")
-    void startQuestion(@PathVariable long userId,
-                       @RequestParam long testId,
-                       @RequestParam int questionNumber,
-                       @RequestParam int questionVariant) {
-
-        historyService.startQuestion(userId,
-                testId,
-                questionNumber,
-                questionVariant);
+    @PostMapping("/startQuestion/")
+    void startQuestion(@RequestBody HistoryEvent historyEvent) {
+        historyService.startQuestion(historyEvent);
     }
 
-    @PostMapping("{userId}/passQuestion/")
-    void passQuestion(@PathVariable long userId,
-                       @RequestParam long testId,
-                       @RequestParam int questionNumber,
-                       @RequestParam int questionVariant) {
-
-        historyService.passQuestion(userId,
-                testId,
-                questionNumber,
-                questionVariant);
-    }
-
-    @PostMapping("{userId}/failQuestion/")
-    void failQuestion(@PathVariable long userId,
-                       @RequestParam long testId,
-                       @RequestParam int questionNumber,
-                       @RequestParam int questionVariant) {
-
-        historyService.failQuestion(userId,
-                testId,
-                questionNumber,
-                questionVariant);
-    }
+//    @PostMapping("{userId}/passQuestion/")
+//    void passQuestion(@PathVariable long userId,
+//                       @RequestParam long testId,
+//                       @RequestParam int questionNumber,
+//                       @RequestParam int questionVariant) {
+//
+//        historyService.passQuestion(userId,
+//                testId,
+//                questionNumber,
+//                questionVariant);
+//    }
+//
+//    @PostMapping("{userId}/failQuestion/")
+//    void failQuestion(@PathVariable long userId,
+//                       @RequestParam long testId,
+//                       @RequestParam int questionNumber,
+//                       @RequestParam int questionVariant) {
+//
+//        historyService.failQuestion(userId,
+//                testId,
+//                questionNumber,
+//                questionVariant);
+//    }
 
     @PatchMapping("{id}")
     void updateUser(@PathVariable long id,

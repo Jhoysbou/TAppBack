@@ -1,9 +1,6 @@
 package com.tapp.api.v1.models;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "history")
@@ -11,17 +8,17 @@ public class HistoryEvent {
     @Id
     private long id;
 
-    @Column(name = "userId")
-    private long userId;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "userid")
+    private User user;
 
-    @Column(name = "testId")
-    private long testId;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "testid")
+    private Test test;
 
-    @Column(name = "questionNumber")
-    private long questionNumber;
-
-    @Column(name = "questionVariant")
-    private long questionVariant;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "questionid")
+    private Question question;
 
     @Column(name = "date")
     private String date;
@@ -32,95 +29,55 @@ public class HistoryEvent {
      * 2 - question passed
      *
      */
-    @Column(name = "eventCode")
+    @Column(name = "eventcode")
     private int eventCode;
 
-    public HistoryEvent(long id, long userId, long testId, long questionNumber, long questionVariant, String date, int eventCode) {
-        this.id = id;
-        this.userId = userId;
-        this.testId = testId;
-        this.questionNumber = questionNumber;
-        this.questionVariant = questionVariant;
-        this.date = date;
-        this.eventCode = eventCode;
-    }
+    public HistoryEvent() {}
 
-    public HistoryEvent(long userId, long testId, long questionNumber, long questionVariant, String date, int eventCode) {
-        this.userId = userId;
-        this.testId = testId;
-        this.questionNumber = questionNumber;
-        this.questionVariant = questionVariant;
-        this.date = date;
-        this.eventCode = eventCode;
-    }
-
-    public HistoryEvent(long id, long userId, long testId, long questionNumber, long questionVariant, String date) {
-        this.id = id;
-        this.userId = userId;
-        this.testId = testId;
-        this.questionNumber = questionNumber;
-        this.questionVariant = questionVariant;
-        this.date = date;
-    }
-
-    public HistoryEvent(long userId, long testId, long questionNumber, long questionVariant, String startTime) {
-        this.userId = userId;
-        this.testId = testId;
-        this.questionNumber = questionNumber;
-        this.questionVariant = questionVariant;
-        this.date = date;
+    public HistoryEvent(User user, Test test, Question question) {
+        this.user = user;
+        this.test = test;
+        this.question = question;
     }
 
     public long getId() {
         return id;
     }
 
-    public long getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public long getTestId() {
-        return testId;
+    public Test getTest() {
+        return test;
     }
 
-    public long getQuestionNumber() {
-        return questionNumber;
-    }
-
-    public long getQuestionVariant() {
-        return questionVariant;
+    public Question getQuestion() {
+        return question;
     }
 
     public String getDate() {
         return date;
     }
 
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public void setUserId(long userId) {
-        this.userId = userId;
-    }
-
-    public void setTestId(long testId) {
-        this.testId = testId;
-    }
-
-    public void setQuestionNumber(long questionNumber) {
-        this.questionNumber = questionNumber;
-    }
-
-    public void setQuestionVariant(long questionVariant) {
-        this.questionVariant = questionVariant;
-    }
-
-    public void setDate(String startTime) {
-        this.date = startTime;
-    }
-
     public int getEventCode() {
         return eventCode;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public void setTest(Test test) {
+        this.test = test;
+    }
+
+    public void setQuestion(Question question) {
+        this.question = question;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public void setEventCode(int eventCode) {

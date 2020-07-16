@@ -1,5 +1,7 @@
 package com.tapp.api.v1.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -18,6 +20,7 @@ public class User {
     @Column(name = "age")
     private int age;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private List<HistoryEvent> history;
 

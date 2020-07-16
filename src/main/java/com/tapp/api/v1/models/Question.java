@@ -21,10 +21,11 @@ public class Question {
     @Column(name = "img")
     private String pathToImage;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "question",
             cascade = CascadeType.ALL,
             orphanRemoval = true)
-    private List<UsersTests> usersTests;
+    private List<HistoryEvent> history;
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER)
@@ -37,7 +38,7 @@ public class Question {
             fetch = FetchType.EAGER)
     private List<Answer> answers;
 
-    @Column(name = "number")
+    @Column(name = "serial_number")
     private int serialNumber;
 
     public Question() {
