@@ -20,6 +20,9 @@ public class User {
     @Column(name = "age")
     private int age;
 
+    @Column(name = "role")
+    private String role;
+
     @JsonIgnore
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private List<HistoryEvent> history;
@@ -92,10 +95,18 @@ public class User {
 
     public List<HistoryEvent> getHistory() {
         return history;
-
     }
+
 
     public void setHistory(List<HistoryEvent> history) {
         this.history = history;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }
