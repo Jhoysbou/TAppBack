@@ -34,15 +34,21 @@ public class HistoryService {
         historyEventDao.save(historyEvent);
     }
 
-//    public void failQuestion(final long userId, final long testId, final long questionId) {
-//        HistoryEvent historyEvent = new HistoryEvent(userId, testId, questionId,
-//                LocalDateTime.now().format(DateTimeFormat.getFormatter()), HistoryEventCode.FAILED);
-//        historyEventDao.save(historyEvent);
-//    }
-//
-//    public void passQuestion(final long userId, final long testId, final long questionId) {
-//        HistoryEvent historyEvent = new HistoryEvent(userId, testId, questionId,
-//                LocalDateTime.now().format(DateTimeFormat.getFormatter()), HistoryEventCode.PASSED);
-//        historyEventDao.save(historyEvent);
-//    }
+    public void passQuestion(final long userId, final long questionId) {
+        User user = userDao.get(userId).orElseThrow(UserNotFoundException::new);
+        Question question = questionDao.get(questionId).orElseThrow(QuestionNotFoundException::new);
+        Test test = question.getTest();
+        HistoryEvent historyEvent = new HistoryEvent(user, test, question,
+                LocalDateTime.now().format(DateTimeFormat.getFormatter()), HistoryEventCode.PASSED);
+        historyEventDao.save(historyEvent);
+    }
+
+    public void failQuestion(final long userId, final long questionId) {
+        User user = userDao.get(userId).orElseThrow(UserNotFoundException::new);
+        Question question = questionDao.get(questionId).orElseThrow(QuestionNotFoundException::new);
+        Test test = question.getTest();
+        HistoryEvent historyEvent = new HistoryEvent(user, test, question,
+                LocalDateTime.now().format(DateTimeFormat.getFormatter()), HistoryEventCode.FAILED);
+        historyEventDao.save(historyEvent);
+    }
 }

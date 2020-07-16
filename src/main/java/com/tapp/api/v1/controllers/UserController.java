@@ -33,33 +33,18 @@ public class UserController {
 
     @PostMapping("/start_question/")
     void startQuestion(@RequestBody HistoryEventSupport historyEventSupport) {
-
         historyService.startQuestion(historyEventSupport.getUserId(), historyEventSupport.getQuestionId());
     }
 
-//    @PostMapping("{userId}/passQuestion/")
-//    void passQuestion(@PathVariable long userId,
-//                       @RequestParam long testId,
-//                       @RequestParam int questionNumber,
-//                       @RequestParam int questionVariant) {
-//
-//        historyService.passQuestion(userId,
-//                testId,
-//                questionNumber,
-//                questionVariant);
-//    }
-//
-//    @PostMapping("{userId}/failQuestion/")
-//    void failQuestion(@PathVariable long userId,
-//                       @RequestParam long testId,
-//                       @RequestParam int questionNumber,
-//                       @RequestParam int questionVariant) {
-//
-//        historyService.failQuestion(userId,
-//                testId,
-//                questionNumber,
-//                questionVariant);
-//    }
+    @PostMapping("/pass_question/")
+    void passQuestion(@RequestBody HistoryEventSupport historyEventSupport) {
+        historyService.passQuestion(historyEventSupport.getUserId(), historyEventSupport.getQuestionId());
+    }
+
+    @PostMapping("/fail_question/")
+    void failQuestion(@RequestBody HistoryEventSupport historyEventSupport) {
+        historyService.passQuestion(historyEventSupport.getUserId(), historyEventSupport.getQuestionId());
+    }
 
     @PatchMapping("{id}")
     void updateUser(@PathVariable long id,

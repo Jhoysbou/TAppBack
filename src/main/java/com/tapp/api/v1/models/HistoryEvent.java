@@ -6,6 +6,7 @@ import javax.persistence.*;
 @Table(name = "history")
 public class HistoryEvent {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @ManyToOne(cascade = CascadeType.ALL)
