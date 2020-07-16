@@ -9,15 +9,15 @@ public class HistoryEvent {
     private long id;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "userid")
+    @JoinColumn(name = "user_id")
     private User user;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "testid")
+    @JoinColumn(name = "test_id")
     private Test test;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "questionid")
+    @JoinColumn(name = "question_id")
     private Question question;
 
     @Column(name = "date")
@@ -38,6 +38,14 @@ public class HistoryEvent {
         this.user = user;
         this.test = test;
         this.question = question;
+    }
+
+    public HistoryEvent(User user, Test test, Question question, String date, int eventCode) {
+        this.user = user;
+        this.test = test;
+        this.question = question;
+        this.date = date;
+        this.eventCode = eventCode;
     }
 
     public long getId() {

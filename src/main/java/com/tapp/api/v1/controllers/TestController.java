@@ -16,8 +16,7 @@ public class TestController {
 
     @GetMapping
     List<Test> getAllTests() {
-        List<Test> tests = testService.getAllTests();
-        return tests;
+        return testService.getAllTests();
     }
 
     @GetMapping("{id}")

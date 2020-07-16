@@ -1,9 +1,9 @@
 package com.tapp.api.v1.controllers;
 
-import com.tapp.api.v1.models.HistoryEvent;
 import com.tapp.api.v1.models.User;
 import com.tapp.api.v1.services.HistoryService;
 import com.tapp.api.v1.services.UserService;
+import com.tapp.api.v1.controllers.support.HistoryEventSupport;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,9 +31,10 @@ public class UserController {
         userService.saveUser(user);
     }
 
-    @PostMapping("/startQuestion/")
-    void startQuestion(@RequestBody HistoryEvent historyEvent) {
-        historyService.startQuestion(historyEvent);
+    @PostMapping("/start_question/")
+    void startQuestion(@RequestBody HistoryEventSupport historyEventSupport) {
+
+        historyService.startQuestion(historyEventSupport.getUserId(), historyEventSupport.getQuestionId());
     }
 
 //    @PostMapping("{userId}/passQuestion/")
