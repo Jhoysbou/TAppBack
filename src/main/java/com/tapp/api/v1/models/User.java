@@ -12,7 +12,7 @@ public class User {
     private long id;
 
     @Column(name = "score")
-    private int score;
+    private long score;
 
     @Column(name = "school")
     private String school;
@@ -57,12 +57,12 @@ public class User {
         this.score = score;
     }
 
-    public int getScore() {
+    public long getScore() {
         return score;
     }
 
-    public void setScore(int progress) {
-        this.score = progress;
+    public void setScore(long score) {
+        this.score = score;
     }
 
     public String getSchool() {
@@ -87,10 +87,6 @@ public class User {
 
     public void setId(long id) {
         this.id = id;
-    }
-
-    public int level() {
-        return score;
     }
 
     public List<HistoryEvent> getHistory() {

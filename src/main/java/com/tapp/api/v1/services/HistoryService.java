@@ -68,9 +68,23 @@ public class HistoryService {
         User user = userDao.get(userId).orElseThrow(UserNotFoundException::new);
         Question question = questionDao.get(questionId).orElseThrow(QuestionNotFoundException::new);
         Test test = question.getTest();
-        HistoryEvent historyEvent = new HistoryEvent(user, test, question,
-                LocalDateTime.now().format(DateTimeFormat.getFormatter()), HistoryEventCode.FAILED);
-        historyEventDao.save(historyEvent);
+
+        List<HistoryEvent> history = historyEventDao.getByUserTestHistory(user, test);
+        history.sort(new TimeOrderComparator());
+        HistoryEvent lastHistoryEvent = history.get(history.size() - 1);
+
+        if (lastHistoryEvent.getQuestion().getId() != questionId
+                || lastHistoryEvent.getEventCode() != HistoryEventCode.PASSED
+                || lastHistoryEvent.getEventCode() != HistoryEventCode.FAILED) {
+
+            final long currentScore = lastHistoryEvent.getScore();
+            final long reward = question.getReward();
+            final long score =  currentScore > reward ? currentScore - reward : 0;
+
+            HistoryEvent historyEvent = new HistoryEvent(user, test, question,
+                    LocalDateTime.now().format(DateTimeFormat.getFormatter()), HistoryEventCode.PASSED, score);
+            historyEventDao.save(historyEvent);
+        }
     }
 
     class TimeOrderComparator implements Comparator<HistoryEvent> {
@@ -81,5 +95,6 @@ public class HistoryService {
             return date1.compareTo(date2);
         }
     }
+
 
 }
