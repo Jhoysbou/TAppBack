@@ -8,6 +8,7 @@ website_stat.db
 !**/src/test/**
 
 src/main/resources
+src/main/java/com/tapp/api/v1/utils/AwsCredentials.java
 
 ### STS ###
 .apt_generated

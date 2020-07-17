@@ -20,6 +20,7 @@ dependencies {
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
+    compile group: 'com.amazonaws', name: 'aws-java-sdk-s3', version: '1.11.821'
 }
 
 test {
