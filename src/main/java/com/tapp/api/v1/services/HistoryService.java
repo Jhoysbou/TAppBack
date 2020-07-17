@@ -36,9 +36,9 @@ public class HistoryService {
         HistoryEvent lastHistoryEvent = history.get(history.size() - 1);
 
         if (lastHistoryEvent.getQuestion().getId() != questionId
-                || lastHistoryEvent.getEventCode() != HistoryEventCode.STARTED
-                || lastHistoryEvent.getEventCode() != HistoryEventCode.PASSED
-                || lastHistoryEvent.getEventCode() != HistoryEventCode.FAILED) {
+                || (lastHistoryEvent.getEventCode() != HistoryEventCode.STARTED
+                && lastHistoryEvent.getEventCode() != HistoryEventCode.PASSED
+                && lastHistoryEvent.getEventCode() != HistoryEventCode.FAILED)) {
             HistoryEvent historyEvent = new HistoryEvent(user, test, question,
                     LocalDateTime.now().format(DateTimeFormat.getFormatter()), HistoryEventCode.STARTED, 0);
             historyEventDao.save(historyEvent);
@@ -53,10 +53,10 @@ public class HistoryService {
         List<HistoryEvent> history = historyEventDao.getByUserTestHistory(user, test);
         history.sort(new TimeOrderComparator());
         HistoryEvent lastHistoryEvent = history.get(history.size() - 1);
-
+        System.out.println(lastHistoryEvent.getEventCode());
         if (lastHistoryEvent.getQuestion().getId() != questionId
-                || lastHistoryEvent.getEventCode() != HistoryEventCode.PASSED
-                || lastHistoryEvent.getEventCode() != HistoryEventCode.FAILED) {
+                || (lastHistoryEvent.getEventCode() != HistoryEventCode.PASSED
+                && lastHistoryEvent.getEventCode() != HistoryEventCode.FAILED)) {
             final long score = lastHistoryEvent.getScore() + question.getReward();
             HistoryEvent historyEvent = new HistoryEvent(user, test, question,
                     LocalDateTime.now().format(DateTimeFormat.getFormatter()), HistoryEventCode.PASSED, score);
