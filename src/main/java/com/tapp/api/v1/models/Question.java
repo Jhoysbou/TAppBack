@@ -50,51 +50,64 @@ public class Question {
         this.serialNumber = serialNumber;
     }
 
-
-    public void setImg(String pathToImage) {
-        this.img = pathToImage;
-    }
-
     public String getImg() {
         return img;
     }
 
-    public void setSerialNumber(int serialNumber) {
-        this.serialNumber = serialNumber;
+    public void setImg(String pathToImage) {
+        this.img = pathToImage;
     }
 
     public int getSerialNumber() {
         return serialNumber;
     }
 
-
-    public void setTest(Test test) {
-        this.test = test;
+    public void setSerialNumber(int serialNumber) {
+        this.serialNumber = serialNumber;
     }
 
     public Test getTest() {
         return test;
     }
 
+    public void setTest(Test test) {
+        this.test = test;
+    }
+
+    public int getReward() {
+        return reward;
+    }
+
+    public void setReward(int reward) {
+        this.reward = reward;
+    }
+
+    public List<HistoryEvent> getHistory() {
+        return history;
+    }
+
+    public void setHistory(List<HistoryEvent> history) {
+        this.history = history;
+    }
 
     public long getId() {
         return id;
-    }
-
-    public void setQuestionText(String questionText) {
-        this.questionText = questionText;
-    }
-
-    public void setAnswers(List<Answer> answers) {
-        this.answers = answers;
     }
 
     public String getQuestionText() {
         return questionText;
     }
 
+    public void setQuestionText(String questionText) {
+        this.questionText = questionText;
+    }
+
     public List<Answer> getAnswers() {
         return answers;
+    }
+
+    public void setAnswers(List<Answer> answers) {
+        this.answers = answers;
     }
 
 

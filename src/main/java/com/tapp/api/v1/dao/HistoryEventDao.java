@@ -1,6 +1,8 @@
 package com.tapp.api.v1.dao;
 
 import com.tapp.api.v1.models.HistoryEvent;
+import com.tapp.api.v1.models.Test;
+import com.tapp.api.v1.models.User;
 import com.tapp.api.v1.utils.HibernateSessionFactoryUtil;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -36,5 +38,15 @@ public class HistoryEventDao implements Dao<HistoryEvent> {
         q.executeUpdate();
         tx1.commit();
         session.close();
+    }
+
+    public List<HistoryEvent> getByUserTestHistory(final User user, final Test test) {
+        return HibernateSessionFactoryUtil
+                .getSessionFactory()
+                .openSession()
+                .createQuery("from HistoryEvent where user=:user and test=:test", HistoryEvent.class)
+                .setParameter("user", user)
+                .setParameter("test", test)
+                .list();
     }
 }
