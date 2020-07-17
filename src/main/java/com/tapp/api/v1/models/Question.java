@@ -19,7 +19,7 @@ public class Question {
     private int reward;
 
     @Column(name = "img")
-    private String pathToImage;
+    private String img;
 
     @JsonIgnore
     @OneToMany(mappedBy = "question",
@@ -44,19 +44,19 @@ public class Question {
     public Question() {
     }
 
-    public Question(String questionText, String pathToImage, int serialNumber) {
+    public Question(String questionText, String img, int serialNumber) {
         this.questionText = questionText;
-        this.pathToImage = pathToImage;
+        this.img = img;
         this.serialNumber = serialNumber;
     }
 
 
-    public void setPathToImage(String pathToImage) {
-        this.pathToImage = pathToImage;
+    public void setImg(String pathToImage) {
+        this.img = pathToImage;
     }
 
-    public String getPathToImage() {
-        return pathToImage;
+    public String getImg() {
+        return img;
     }
 
     public void setSerialNumber(int serialNumber) {
