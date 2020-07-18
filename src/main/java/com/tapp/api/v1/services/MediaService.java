@@ -16,7 +16,7 @@ import java.io.IOException;
 public class MediaService {
     private static final AWSCredentials CREDENTIALS = new BasicAWSCredentials(AwsCredentials.ACCESS_KEY, AwsCredentials.SECRET_ACCESS_KEY);
     private static final String BUCKET_NAME = "tapp-media";
-    private static final String TEST_IMAGES_PATH = "test_images";
+    private static final String TEST_IMAGES_PATH = "test_images/";
     private static AmazonS3 s3Client;
 
     public String uploadTestImage(final MultipartFile file) {
@@ -26,7 +26,7 @@ public class MediaService {
                 .withRegion(Regions.EU_NORTH_1)
                 .build();
         try {
-            s3Client.putObject(BUCKET_NAME, TEST_IMAGES_PATH + "/" + file.getOriginalFilename(),
+            s3Client.putObject(BUCKET_NAME, TEST_IMAGES_PATH + file.getOriginalFilename(),
                     new ByteArrayInputStream(file.getBytes()), new ObjectMetadata());
         } catch (IOException e) {
             e.printStackTrace();

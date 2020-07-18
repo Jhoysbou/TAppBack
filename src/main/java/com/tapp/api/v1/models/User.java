@@ -27,6 +27,14 @@ public class User {
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private List<HistoryEvent> history;
 
+    @ManyToMany
+    @JoinTable(
+            name = "users_stickers",
+            joinColumns = {@JoinColumn(name = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "sticker_id")}
+    )
+    private List<Sticker> stickers;
+
     public User() {
     }
 
@@ -104,5 +112,17 @@ public class User {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public List<Sticker> getStickers() {
+        return stickers;
+    }
+
+    public void setStickers(List<Sticker> stickers) {
+        this.stickers = stickers;
+    }
+
+    public void addSticker(Sticker sticker) {
+        this.stickers.add(sticker);
     }
 }

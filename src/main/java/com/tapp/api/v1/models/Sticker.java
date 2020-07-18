@@ -1,6 +1,7 @@
 package com.tapp.api.v1.models;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "stickers")
@@ -21,9 +22,10 @@ public class Sticker {
     @Column(name = "quote")
     private String quote;
 
-    public Sticker(long cost) {
-        this.cost = cost;
-    }
+    @ManyToMany(mappedBy = "stickers")
+    private List<User> holders;
+
+    public Sticker() {}
 
     public Sticker(long cost, String img, String description, String quote) {
         this.cost = cost;

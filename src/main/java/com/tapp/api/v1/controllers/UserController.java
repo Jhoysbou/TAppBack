@@ -3,7 +3,6 @@ package com.tapp.api.v1.controllers;
 import com.tapp.api.v1.models.User;
 import com.tapp.api.v1.services.HistoryService;
 import com.tapp.api.v1.services.UserService;
-import com.tapp.api.v1.controllers.support.HistoryEventSupport;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,18 +31,23 @@ public class UserController {
     }
 
     @PostMapping("/start_question/")
-    void startQuestion(@RequestBody HistoryEventSupport historyEventSupport) {
-        historyService.startQuestion(historyEventSupport.getUserId(), historyEventSupport.getQuestionId());
+    void startQuestion(@RequestBody HistoryEventHelper historyEventHelper) {
+        historyService.startQuestion(historyEventHelper.getUserId(), historyEventHelper.getQuestionId());
     }
 
     @PostMapping("/pass_question/")
-    void passQuestion(@RequestBody HistoryEventSupport historyEventSupport) {
-        historyService.passQuestion(historyEventSupport.getUserId(), historyEventSupport.getQuestionId());
+    void passQuestion(@RequestBody HistoryEventHelper historyEventHelper) {
+        historyService.passQuestion(historyEventHelper.getUserId(), historyEventHelper.getQuestionId());
     }
 
     @PostMapping("/fail_question/")
-    void failQuestion(@RequestBody HistoryEventSupport historyEventSupport) {
-        historyService.passQuestion(historyEventSupport.getUserId(), historyEventSupport.getQuestionId());
+    void failQuestion(@RequestBody HistoryEventHelper historyEventHelper) {
+        historyService.passQuestion(historyEventHelper.getUserId(), historyEventHelper.getQuestionId());
+    }
+
+    @PostMapping("{userId}/add_sticker")
+    void addSticker(@PathVariable long userId, @RequestBody long stickerId) {
+        userService.addSticker(userId, stickerId);
     }
 
     @PatchMapping("{id}")
@@ -56,6 +60,35 @@ public class UserController {
     @DeleteMapping("{id}")
     void deleteUser(@PathVariable long id) {
         userService.deleteUser(id);
+    }
+
+//    just to get friendly mapping of json body
+    public class HistoryEventHelper {
+        private long questionId;
+        private long userId;
+
+        public HistoryEventHelper() {}
+
+        public HistoryEventHelper(long questionId, long userId) {
+            this.questionId = questionId;
+            this.userId = userId;
+        }
+
+        public long getQuestionId() {
+            return questionId;
+        }
+
+        public long getUserId() {
+            return userId;
+        }
+
+        public void setQuestionId(long questionId) {
+            this.questionId = questionId;
+        }
+
+        public void setUserId(long userId) {
+            this.userId = userId;
+        }
     }
 
 }
