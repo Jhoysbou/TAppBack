@@ -1,6 +1,7 @@
 package com.tapp.api.v1.controllers;
 
 import com.tapp.api.v1.exceptions.NotEnoughPointsException;
+import com.tapp.api.v1.models.HistoryEvent;
 import com.tapp.api.v1.models.User;
 import com.tapp.api.v1.services.HistoryService;
 import com.tapp.api.v1.services.UserService;
@@ -44,6 +45,11 @@ public class UserController {
     @PostMapping("/fail_question/")
     void failQuestion(@RequestBody HistoryEventHelper historyEventHelper) {
         historyService.passQuestion(historyEventHelper.getUserId(), historyEventHelper.getQuestionId());
+    }
+
+    @GetMapping("{userId}/get_history/{testId}")
+    List<HistoryEvent> getHistory(@PathVariable long userId, @PathVariable long testId) {
+        return historyService.getHistory(userId, testId);
     }
 
     @PostMapping("{userId}/buy_sticker/{stickerId}")

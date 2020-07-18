@@ -5,6 +5,7 @@ import com.tapp.api.v1.dao.QuestionDao;
 import com.tapp.api.v1.dao.TestDao;
 import com.tapp.api.v1.dao.UserDao;
 import com.tapp.api.v1.exceptions.QuestionNotFoundException;
+import com.tapp.api.v1.exceptions.TestNotFoundException;
 import com.tapp.api.v1.exceptions.UserNotFoundException;
 import com.tapp.api.v1.models.HistoryEvent;
 import com.tapp.api.v1.models.Question;
@@ -24,6 +25,12 @@ public class HistoryService {
     private QuestionDao questionDao = new QuestionDao();
 
     public HistoryService() {
+    }
+
+    public List<HistoryEvent> getHistory(final long userId, final long testId) {
+        User user = userDao.get(userId).orElseThrow(UserNotFoundException::new);
+        Test test = testDao.get(testId).orElseThrow(TestNotFoundException::new);
+        return historyEventDao.getByUserTestHistory(user, test);
     }
 
     public void startQuestion(final long userId, final long questionId) {
