@@ -3,7 +3,9 @@ package com.tapp.api.v1.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -27,13 +29,13 @@ public class User {
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private List<HistoryEvent> history;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "users_stickers",
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "sticker_id")}
     )
-    private List<Sticker> stickers;
+    private Set<Sticker> stickers = new HashSet<>();
 
     public User() {
     }
@@ -114,11 +116,11 @@ public class User {
         this.role = role;
     }
 
-    public List<Sticker> getStickers() {
+    public Set<Sticker> getStickers() {
         return stickers;
     }
 
-    public void setStickers(List<Sticker> stickers) {
+    public void setStickers(Set<Sticker> stickers) {
         this.stickers = stickers;
     }
 

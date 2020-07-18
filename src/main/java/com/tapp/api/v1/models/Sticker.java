@@ -1,5 +1,7 @@
 package com.tapp.api.v1.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -16,12 +18,16 @@ public class Sticker {
     @Column(name = "img")
     private String img;
 
+    @Column(name = "name")
+    private String name;
+
     @Column(name = "description")
     private String description;
 
     @Column(name = "quote")
     private String quote;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "stickers")
     private List<User> holders;
 
@@ -32,6 +38,14 @@ public class Sticker {
         this.img = img;
         this.description = description;
         this.quote = quote;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public long getId() {

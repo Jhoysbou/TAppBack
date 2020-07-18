@@ -10,8 +10,9 @@ public class StickerController {
     private StickerService stickerService = new StickerService();
 
     @PostMapping
-    void addSticker(@RequestBody Sticker sticker) {
-        stickerService.addSticker(sticker);
+    String addSticker(@RequestBody Sticker sticker) {
+        long id = stickerService.addSticker(sticker);
+        return "{'id': "+ id +" }";
     }
 
     @PatchMapping

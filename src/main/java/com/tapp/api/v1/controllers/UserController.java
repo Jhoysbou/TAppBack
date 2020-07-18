@@ -1,5 +1,6 @@
 package com.tapp.api.v1.controllers;
 
+import com.tapp.api.v1.exceptions.NotEnoughPointsException;
 import com.tapp.api.v1.models.User;
 import com.tapp.api.v1.services.HistoryService;
 import com.tapp.api.v1.services.UserService;
@@ -45,9 +46,9 @@ public class UserController {
         historyService.passQuestion(historyEventHelper.getUserId(), historyEventHelper.getQuestionId());
     }
 
-    @PostMapping("{userId}/add_sticker")
-    void addSticker(@PathVariable long userId, @RequestBody long stickerId) {
-        userService.addSticker(userId, stickerId);
+    @PostMapping("{userId}/buy_sticker/{stickerId}")
+    User buySticker(@PathVariable long userId, @PathVariable long stickerId) {
+        return userService.buySticker(userId, stickerId);
     }
 
     @PatchMapping("{id}")
