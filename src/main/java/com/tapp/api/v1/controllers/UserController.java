@@ -1,10 +1,10 @@
 package com.tapp.api.v1.controllers;
 
-import com.tapp.api.v1.exceptions.NotEnoughPointsException;
 import com.tapp.api.v1.models.HistoryEvent;
 import com.tapp.api.v1.models.User;
 import com.tapp.api.v1.services.HistoryService;
 import com.tapp.api.v1.services.UserService;
+import com.tapp.api.v1.utils.HistoryEventHelper;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -67,35 +67,6 @@ public class UserController {
     @DeleteMapping("{id}")
     void deleteUser(@PathVariable long id) {
         userService.deleteUser(id);
-    }
-
-//    just to get friendly mapping of json body
-    public class HistoryEventHelper {
-        private long questionId;
-        private long userId;
-
-        public HistoryEventHelper() {}
-
-        public HistoryEventHelper(long questionId, long userId) {
-            this.questionId = questionId;
-            this.userId = userId;
-        }
-
-        public long getQuestionId() {
-            return questionId;
-        }
-
-        public long getUserId() {
-            return userId;
-        }
-
-        public void setQuestionId(long questionId) {
-            this.questionId = questionId;
-        }
-
-        public void setUserId(long userId) {
-            this.userId = userId;
-        }
     }
 
 }
