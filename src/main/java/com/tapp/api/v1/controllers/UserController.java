@@ -32,17 +32,17 @@ public class UserController {
         userService.saveUser(user);
     }
 
-    @PostMapping("/start_question/")
+    @PostMapping("/start_question")
     void startQuestion(@RequestBody HistoryEventHelper historyEventHelper) {
         historyService.startQuestion(historyEventHelper.getUserId(), historyEventHelper.getQuestionId());
     }
 
-    @PostMapping("/pass_question/")
+    @PostMapping("/pass_question")
     void passQuestion(@RequestBody HistoryEventHelper historyEventHelper) {
         historyService.passQuestion(historyEventHelper.getUserId(), historyEventHelper.getQuestionId());
     }
 
-    @PostMapping("/fail_question/")
+    @PostMapping("/fail_question")
     void failQuestion(@RequestBody HistoryEventHelper historyEventHelper) {
         historyService.passQuestion(historyEventHelper.getUserId(), historyEventHelper.getQuestionId());
     }
