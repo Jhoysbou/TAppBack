@@ -14,7 +14,7 @@ public class Test {
     private long id;
 
     @Column(name = "img")
-    private String pathToImage;
+    private String img;
 
     @Column(name = "title")
     private String title;
@@ -36,14 +36,14 @@ public class Test {
     }
 
     public Test(String img, String title, String description, String creationDate) {
-        this.pathToImage = img;
+        this.img = img;
         this.title = title;
         this.description = description;
         this.creationDate = creationDate;
     }
 
     public Test(String img, String title, String description, List<Question> questions, String creationDate) {
-        this.pathToImage = img;
+        this.img = img;
         this.title = title;
         this.description = description;
         this.questions = questions;
@@ -58,8 +58,8 @@ public class Test {
         this.history = history;
     }
 
-    public void setPathToImage(String pathToImage) {
-        this.pathToImage = pathToImage;
+    public void setImg(String pathToImage) {
+        this.img = pathToImage;
     }
 
     public void setTitle(String title) {
@@ -82,8 +82,8 @@ public class Test {
         return id;
     }
 
-    public String getPathToImage() {
-        return pathToImage;
+    public String getImg() {
+        return img;
     }
 
     public String getTitle() {

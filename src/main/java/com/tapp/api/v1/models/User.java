@@ -40,6 +40,14 @@ public class User {
     public User() {
     }
 
+    public User(long id, long score, String school, int age, String role) {
+        this.id = id;
+        this.score = score;
+        this.school = school;
+        this.age = age;
+        this.role = role;
+    }
+
     public User(long id, int score, int age, String school) {
         this.id = id;
         this.score = score;
