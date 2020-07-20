@@ -30,24 +30,25 @@ public class Test {
     private List<Question> questions;
 
     @Column(name = "date")
-    private String creationDate;
+    private String date;
 
-    public Test() {
-    }
+    public Test() {}
 
-    public Test(String img, String title, String description, String creationDate) {
+
+
+    public Test(String img, String title, String description, String date) {
         this.img = img;
         this.title = title;
         this.description = description;
-        this.creationDate = creationDate;
+        this.date = date;
     }
 
-    public Test(String img, String title, String description, List<Question> questions, String creationDate) {
+    public Test(String img, String title, String description, List<Question> questions, String date) {
         this.img = img;
         this.title = title;
         this.description = description;
         this.questions = questions;
-        this.creationDate = creationDate;
+        this.date = date;
     }
 
     public List<HistoryEvent> getHistory() {
@@ -74,8 +75,8 @@ public class Test {
         this.questions = questions;
     }
 
-    public void setCreationDate(String creationDate) {
-        this.creationDate = creationDate;
+    public void setDate(String creationDate) {
+        this.date = creationDate;
     }
 
     public long getId() {
@@ -98,7 +99,7 @@ public class Test {
         return questions;
     }
 
-    public String getCreationDate() {
-        return creationDate;
+    public String getDate() {
+        return date;
     }
 }
