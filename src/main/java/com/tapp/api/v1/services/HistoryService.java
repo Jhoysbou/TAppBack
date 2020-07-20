@@ -40,9 +40,16 @@ public class HistoryService {
 
         List<HistoryEvent> history = historyEventDao.getByUserTestHistory(user, test);
         history.sort(new TimeOrderComparator());
-        HistoryEvent lastHistoryEvent = history.get(history.size() - 1);
 
-        if (lastHistoryEvent.getQuestion().getId() != questionId
+        final int size = history.size();
+        HistoryEvent lastHistoryEvent = null;
+
+        if (size > 0) {
+            lastHistoryEvent = history.get(history.size() - 1);
+        }
+
+        if (lastHistoryEvent == null
+                || lastHistoryEvent.getQuestion().getId() != questionId
                 || (lastHistoryEvent.getEventCode() != HistoryEventCode.STARTED
                 && lastHistoryEvent.getEventCode() != HistoryEventCode.PASSED
                 && lastHistoryEvent.getEventCode() != HistoryEventCode.FAILED)) {
@@ -86,7 +93,7 @@ public class HistoryService {
 
             final long currentScore = lastHistoryEvent.getScore();
             final long reward = question.getReward();
-            final long score =  currentScore > reward ? currentScore - reward : 0;
+            final long score = currentScore > reward ? currentScore - reward : 0;
 
             HistoryEvent historyEvent = new HistoryEvent(user, test, question,
                     LocalDateTime.now().format(DateTimeFormat.getFormatter()), HistoryEventCode.PASSED, score);
