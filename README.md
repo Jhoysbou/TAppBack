@@ -9,6 +9,9 @@ My IPv4 is `25.41.84.109`, as you see, I use `8080` port  with `GET` request to 
 ## Authentication
 In progress...
 ## Methods
+-> Right arrow means `request` JSON body \
+<- Left arrow means `response` JSON body
+
 ### Users
 `Get` on `v1/users` will return a list of all users \
 <-
@@ -152,5 +155,7 @@ Delete on `v1/tests/{id}` will delete test with id = `id` \
 Images must have `img` key.\
 <-
 ```json
-{"url": "https://tapp-media.s3.eu-north-1.amazonaws.com/test_images/a.jpg" }
+{
+  "url": "https://tapp-media.s3.eu-north-1.amazonaws.com/test_images/a.jpg" 
+}
 ```
