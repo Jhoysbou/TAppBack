@@ -152,5 +152,5 @@ Delete on `v1/tests/{id}` will delete test with id = `id` \
 Images must have `img` key.\
 <-
 ```json
-{'url': "https://tapp-media.s3.eu-north-1.amazonaws.com/test_images/a.jpg" }
+{"url": "https://tapp-media.s3.eu-north-1.amazonaws.com/test_images/a.jpg" }
 ```
