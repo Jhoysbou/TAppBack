@@ -5,7 +5,7 @@ Now IPv4 address is an IP address than you can use to send requests. I prefer to
 To send a simple requests you just need to write correct address with port `8080` and select a right type.
 #### Example: 
 My IPv4 is `25.41.84.109`, as you see, I use `8080` port  with `GET` request to `v1/users`.
-![Request example](readme_images/Screen Shot 2020-07-22 at 00.05.52.png)
+![Request example](readme_images/example.png)
 ## Authentication
 In progress...
 ## Methods
@@ -149,4 +149,8 @@ Delete on `v1/tests/{id}` will delete test with id = `id` \
 
 ### Images
 `POST` on `v1/media` will upload an attached image to Amazon S3 cloud storage and return url to get it. 
-Image must have `img` key to 
+Images must have `img` key.\
+<-
+```json
+{'url': "https://tapp-media.s3.eu-north-1.amazonaws.com/test_images/a.jpg" }
+```
