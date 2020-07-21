@@ -130,6 +130,8 @@ In progress...
 ```
 
 `Post` on `v1/tests` will create a new entity of test in database and return its id \
+*Attention* data in format `dd-MM-yyyy HH:mm:ss`
+
 -> 
 ```json
 {
