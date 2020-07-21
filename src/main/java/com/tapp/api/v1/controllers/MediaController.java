@@ -11,9 +11,9 @@ public class MediaController {
     private MediaService mediaService = new MediaService();
 
     @PostMapping()
-    public String uploadImage(@RequestParam MultipartFile file) {
-        return mediaService.uploadTestImage(file);
+    public String uploadTestImage(@RequestParam MultipartFile img) {
+        final String url = mediaService.uploadTestImage(img);
+        return "{'url': "+ url +" }";
     }
-
 
 }
