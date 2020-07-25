@@ -8,6 +8,7 @@ import com.tapp.api.v1.utils.HistoryEventHelper;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 @RestController
 @RequestMapping("v1/users")
@@ -16,12 +17,12 @@ public class UserController {
     private HistoryService historyService = new HistoryService();
 
     @GetMapping
-    List<User> getAllUsers() {
+    CompletableFuture<List<User>> getAllUsers() {
         return userService.getAllUsers();
     }
 
     @GetMapping("{id}")
-    User getUser(@PathVariable long id) {
+    CompletableFuture<User> getUser(@PathVariable long id) {
         return userService.getUser(id);
     }
 
@@ -48,12 +49,12 @@ public class UserController {
     }
 
     @GetMapping("{userId}/get_history/{testId}")
-    List<HistoryEvent> getHistory(@PathVariable long userId, @PathVariable long testId) {
+    CompletableFuture<List<HistoryEvent>> getHistory(@PathVariable long userId, @PathVariable long testId) {
         return historyService.getHistory(userId, testId);
     }
 
     @PostMapping("{userId}/buy_sticker/{stickerId}")
-    User buySticker(@PathVariable long userId, @PathVariable long stickerId) {
+    CompletableFuture<User> buySticker(@PathVariable long userId, @PathVariable long stickerId) {
         return userService.buySticker(userId, stickerId);
     }
 
