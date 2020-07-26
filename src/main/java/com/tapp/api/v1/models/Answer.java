@@ -25,16 +25,20 @@ public class Answer {
     public Answer() {
     }
 
+    public String getAnswerType() {
+        return answerType;
+    }
+
+    public void setAnswerType(String answerType) {
+        this.answerType = answerType;
+    }
+
     public long getId() {
         return id;
     }
 
     public Question getQuestion() {
         return question;
-    }
-
-    public String getAnswer_type() {
-        return answerType;
     }
 
     public String getAnswer() {
@@ -47,10 +51,6 @@ public class Answer {
 
     public void setQuestion(Question question) {
         this.question = question;
-    }
-
-    public void setAnswer_type(String answer_type) {
-        this.answerType = answer_type;
     }
 
     public void setAnswer(String answer) {
