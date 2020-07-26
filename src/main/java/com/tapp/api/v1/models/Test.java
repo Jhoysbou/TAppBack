@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 
 @Entity
@@ -21,13 +22,13 @@ public class Test {
 
     @JsonIgnore
     @OneToMany(mappedBy = "test", fetch = FetchType.LAZY)
-    private List<HistoryEvent> history;
+    private Set<HistoryEvent> history;
 
     @Column(name = "description")
     private String description;
 
     @OneToMany(mappedBy = "test", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-    private List<Question> questions;
+    private Set<Question> questions;
 
     @Column(name = "date")
     private String date;
@@ -42,7 +43,7 @@ public class Test {
         this.date = date;
     }
 
-    public Test(String img, String title, String description, List<Question> questions, String date) {
+    public Test(String img, String title, String description, Set<Question> questions, String date) {
         this.img = img;
         this.title = title;
         this.description = description;
@@ -50,11 +51,11 @@ public class Test {
         this.date = date;
     }
 
-    public List<HistoryEvent> getHistory() {
+    public Set<HistoryEvent> getHistory() {
         return history;
     }
 
-    public void setHistory(List<HistoryEvent> history) {
+    public void setHistory(Set<HistoryEvent> history) {
         this.history = history;
     }
 
@@ -70,7 +71,7 @@ public class Test {
         this.description = description;
     }
 
-    public void setQuestions(List<Question> questions) {
+    public void setQuestions(Set<Question> questions) {
         this.questions = questions;
     }
 
@@ -94,7 +95,7 @@ public class Test {
         return description;
     }
 
-    public List<Question> getQuestions() {
+    public Set<Question> getQuestions() {
         return questions;
     }
 

@@ -21,7 +21,10 @@ public class TestService {
 
     @Async
     public CompletableFuture<Long> saveTest(Test test) {
-        test.getQuestions().stream().forEach(question -> question.setTest(test));
+        test.getQuestions().stream().forEach(question -> {
+            question.setTest(test);
+            question.getAnswers().forEach(answer -> answer.setQuestion(question));
+        });
         testDao.save(test);
 
         return CompletableFuture.completedFuture(test.getId());
