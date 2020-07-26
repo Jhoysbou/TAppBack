@@ -14,7 +14,7 @@ public class Answer {
     private Question question;
 
     @Column(name = "answer_type")
-    private AnswerType answer_type;
+    private String answerType;
 
     @Column(name = "answer")
     private String answer;
@@ -33,8 +33,8 @@ public class Answer {
         return question;
     }
 
-    public AnswerType getAnswer_type() {
-        return answer_type;
+    public String getAnswer_type() {
+        return answerType;
     }
 
     public String getAnswer() {
@@ -49,8 +49,8 @@ public class Answer {
         this.question = question;
     }
 
-    public void setAnswer_type(AnswerType answer_type) {
-        this.answer_type = answer_type;
+    public void setAnswer_type(String answer_type) {
+        this.answerType = answer_type;
     }
 
     public void setAnswer(String answer) {

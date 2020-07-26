@@ -3,6 +3,7 @@ package com.tapp.api.v1;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableAsync;
 
 import java.util.concurrent.Executor;
@@ -20,7 +21,7 @@ public class TApplication {
     @Bean
     public Executor taskExecutor() {
         final int cores = Runtime.getRuntime().availableProcessors();
-        ThreadPoolExecutor executor = new ThreadPoolExecutor(cores, cores, 10, TimeUnit.SECONDS, new LinkedBlockingDeque<>(10));
+        ThreadPoolExecutor executor = new ThreadPoolExecutor(cores, 2 * cores, 10, TimeUnit.SECONDS, new LinkedBlockingDeque<>(200));
         return executor;
     }
 }

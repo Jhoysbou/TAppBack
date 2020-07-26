@@ -12,8 +12,8 @@ public class TestAsyncService {
     public TestAsyncService() {}
 
     @Async
-    public CompletableFuture<TestAsyncModel> longProcess(String name) throws InterruptedException {
-        TestAsyncModel testAsyncModel = new TestAsyncModel(1, name);
+    public CompletableFuture<TestAsyncModel> longProcess() throws InterruptedException {
+        TestAsyncModel testAsyncModel = new TestAsyncModel(1, "1");
         Thread.sleep(1000L);
         return CompletableFuture.completedFuture(testAsyncModel);
     }

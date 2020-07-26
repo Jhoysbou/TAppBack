@@ -47,8 +47,8 @@ public class TestController {
         testService.deleteTest(id);
     }
 
-    @GetMapping("async/{name}")
-    CompletableFuture<TestAsyncModel> getTestAsync(@PathVariable String name) throws InterruptedException {
-        return testAsyncService.longProcess(name);
+    @GetMapping("async")
+    CompletableFuture<TestAsyncModel> getTestAsync() throws InterruptedException {
+        return testAsyncService.longProcess();
     }
 }

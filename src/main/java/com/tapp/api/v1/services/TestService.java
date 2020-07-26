@@ -2,7 +2,6 @@ package com.tapp.api.v1.services;
 
 import com.tapp.api.v1.dao.TestDao;
 import com.tapp.api.v1.exceptions.UserNotFoundException;
-import com.tapp.api.v1.models.Question;
 import com.tapp.api.v1.models.Test;
 import org.springframework.scheduling.annotation.Async;
 
