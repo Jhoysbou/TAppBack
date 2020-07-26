@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 @RestController
+@CrossOrigin
 @RequestMapping("v1/users")
 public class UserController {
     private UserService userService = new UserService();

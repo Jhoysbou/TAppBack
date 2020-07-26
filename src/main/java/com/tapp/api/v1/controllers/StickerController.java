@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.concurrent.ExecutionException;
 
 @RestController
+@CrossOrigin
 @RequestMapping("v1/stickers")
 public class StickerController {
     private StickerService stickerService = new StickerService();

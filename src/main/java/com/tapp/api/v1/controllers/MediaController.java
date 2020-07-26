@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.concurrent.ExecutionException;
 
 @RestController
+@CrossOrigin
 @RequestMapping("v1/media")
 public class MediaController {
     private MediaService mediaService = new MediaService();

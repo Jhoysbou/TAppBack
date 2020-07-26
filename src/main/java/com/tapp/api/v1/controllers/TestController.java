@@ -12,6 +12,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
 @RestController
+@CrossOrigin
 @RequestMapping("v1/tests")
 public class TestController {
     private TestService testService = new TestService();
