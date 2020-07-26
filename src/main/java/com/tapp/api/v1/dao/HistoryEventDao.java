@@ -22,11 +22,16 @@ public class HistoryEventDao implements Dao<HistoryEvent> {
 
     @Override
     public List<HistoryEvent> getAll() {
-        return HibernateSessionFactoryUtil
+        Session session = HibernateSessionFactoryUtil
                 .getSessionFactory()
-                .openSession()
+                .openSession();
+
+        List<HistoryEvent> history = session
                 .createQuery("from HistoryEvent", HistoryEvent.class)
                 .list();
+
+        session.close();
+        return history;
     }
 
     @Override
@@ -41,12 +46,18 @@ public class HistoryEventDao implements Dao<HistoryEvent> {
     }
 
     public List<HistoryEvent> getByUserTestHistory(final User user, final Test test) {
-        return HibernateSessionFactoryUtil
+        Session session = HibernateSessionFactoryUtil
                 .getSessionFactory()
-                .openSession()
+                .openSession();
+
+        List<HistoryEvent> history = session
                 .createQuery("from HistoryEvent where user=:user and test=:test", HistoryEvent.class)
                 .setParameter("user", user)
                 .setParameter("test", test)
                 .list();
+
+        session.close();
+
+        return history;
     }
 }

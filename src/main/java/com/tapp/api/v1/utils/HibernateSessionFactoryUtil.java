@@ -12,19 +12,21 @@ public class HibernateSessionFactoryUtil {
     }
 
     public static SessionFactory getSessionFactory() {
-        try {
-            Configuration configuration = new Configuration().configure();
-            configuration.addAnnotatedClass(User.class);
-            configuration.addAnnotatedClass(Test.class);
-            configuration.addAnnotatedClass(Question.class);
-            configuration.addAnnotatedClass(Answer.class);
-            configuration.addAnnotatedClass(Sticker.class);
-            configuration.addAnnotatedClass(HistoryEvent.class);
-            StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties());
-            sessionFactory = configuration.buildSessionFactory(builder.build());
+        if (sessionFactory == null) {
+            try {
+                Configuration configuration = new Configuration().configure();
+                configuration.addAnnotatedClass(User.class);
+                configuration.addAnnotatedClass(Test.class);
+                configuration.addAnnotatedClass(Question.class);
+                configuration.addAnnotatedClass(Answer.class);
+                configuration.addAnnotatedClass(Sticker.class);
+                configuration.addAnnotatedClass(HistoryEvent.class);
+                StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties());
+                sessionFactory = configuration.buildSessionFactory(builder.build());
 
-        } catch (Exception e) {
-            System.out.print("Ecxeption in HibernateSessionFactoryUtil: " + e);
+            } catch (Exception e) {
+                System.out.print("Ecxeption in HibernateSessionFactoryUtil: " + e);
+            }
         }
         return sessionFactory;
     }

@@ -1,5 +1,6 @@
 package com.tapp.api.v1.controllers;
 
+import com.tapp.api.v1.exceptions.UserNotFoundException;
 import com.tapp.api.v1.models.HistoryEvent;
 import com.tapp.api.v1.models.User;
 import com.tapp.api.v1.services.HistoryService;
@@ -24,7 +25,11 @@ public class UserController {
 
     @GetMapping("{id}")
     CompletableFuture<User> getUser(@PathVariable long id) {
-        return userService.getUser(id);
+        try {
+            return userService.getUser(id);
+        } catch (NullPointerException e) {
+            throw new UserNotFoundException();
+        }
     }
 
     @PutMapping("{id}")
