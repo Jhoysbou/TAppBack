@@ -19,8 +19,8 @@ public class User {
     @Column(name = "school")
     private String school;
 
-    @Column(name = "age")
-    private int age;
+    @Column(name = "bdate")
+    private String bdate;
 
     @Column(name = "role")
     private String role;
@@ -40,35 +40,30 @@ public class User {
     public User() {
     }
 
-    public User(long id, long score, String school, int age, String role) {
+    public User(long id, long score, String school, String bdate, String role) {
         this.id = id;
         this.score = score;
         this.school = school;
-        this.age = age;
+        this.bdate = bdate;
         this.role = role;
     }
 
-    public User(long id, int score, int age, String school) {
+    public User(long id, int score, String bdate, String school) {
         this.id = id;
         this.score = score;
         this.school = school;
-        this.age = age;
+        this.bdate = bdate;
     }
 
-    public User(int level, int age, String school) {
+    public User(int level, String bdate, String school) {
         this.score = level;
         this.school = school;
-        this.age = age;
+        this.bdate = bdate;
     }
 
-    public User(int score, int age) {
+    public User(int score, String bdate) {
         this.score = score;
-        this.age = age;
-    }
-
-    public User(int level, String school) {
-        this.score = level;
-        this.school = school;
+        this.bdate = bdate;
     }
 
     public User(int score) {
@@ -91,12 +86,12 @@ public class User {
         this.school = school;
     }
 
-    public int getAge() {
-        return age;
+    public String getBdate() {
+        return bdate;
     }
 
-    public void setAge(int age) {
-        this.age = age;
+    public void setBdate(String bdate) {
+        this.bdate = bdate;
     }
 
     public long getId() {
