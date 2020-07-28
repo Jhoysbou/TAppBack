@@ -13,10 +13,12 @@ import com.tapp.api.v1.models.Test;
 import com.tapp.api.v1.models.User;
 import com.tapp.api.v1.utils.DateTimeFormat;
 import com.tapp.api.v1.utils.HistoryEventCode;
+import org.springframework.scheduling.annotation.Async;
 
 import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 public class HistoryService {
     private HistoryEventDao historyEventDao = new HistoryEventDao();
@@ -27,12 +29,14 @@ public class HistoryService {
     public HistoryService() {
     }
 
-    public List<HistoryEvent> getHistory(final long userId, final long testId) {
+    @Async
+    public CompletableFuture<List<HistoryEvent>> getHistory(final long userId, final long testId) {
         User user = userDao.get(userId).orElseThrow(UserNotFoundException::new);
         Test test = testDao.get(testId).orElseThrow(TestNotFoundException::new);
-        return historyEventDao.getByUserTestHistory(user, test);
+        return CompletableFuture.completedFuture((historyEventDao.getByUserTestHistory(user, test)));
     }
 
+    @Async
     public void startQuestion(final long userId, final long questionId) {
         User user = userDao.get(userId).orElseThrow(UserNotFoundException::new);
         Question question = questionDao.get(questionId).orElseThrow(QuestionNotFoundException::new);
@@ -59,6 +63,7 @@ public class HistoryService {
         }
     }
 
+    @Async
     public void passQuestion(final long userId, final long questionId) {
         User user = userDao.get(userId).orElseThrow(UserNotFoundException::new);
         Question question = questionDao.get(questionId).orElseThrow(QuestionNotFoundException::new);
@@ -78,6 +83,7 @@ public class HistoryService {
         }
     }
 
+    @Async
     public void failQuestion(final long userId, final long questionId) {
         User user = userDao.get(userId).orElseThrow(UserNotFoundException::new);
         Question question = questionDao.get(questionId).orElseThrow(QuestionNotFoundException::new);

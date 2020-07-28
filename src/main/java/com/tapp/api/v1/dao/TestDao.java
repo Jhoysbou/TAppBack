@@ -20,11 +20,12 @@ public class TestDao implements Dao<Test> {
 
     @Override
     public List<Test> getAll() {
-        List<Test> tests = (List<Test>) HibernateSessionFactoryUtil
-                .getSessionFactory()
-                .openSession()
+        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
+        List<Test> tests = session
                 .createQuery("from Test", Test.class)
                 .list();
+
+        session.close();
         return tests;
     }
 

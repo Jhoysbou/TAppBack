@@ -1,5 +1,6 @@
 package com.tapp.api.v1.controllers;
 
+import com.tapp.api.v1.exceptions.UserNotFoundException;
 import com.tapp.api.v1.models.HistoryEvent;
 import com.tapp.api.v1.models.User;
 import com.tapp.api.v1.services.HistoryService;
@@ -8,21 +9,27 @@ import com.tapp.api.v1.utils.HistoryEventHelper;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 @RestController
+@CrossOrigin
 @RequestMapping("v1/users")
 public class UserController {
     private UserService userService = new UserService();
     private HistoryService historyService = new HistoryService();
 
     @GetMapping
-    List<User> getAllUsers() {
+    CompletableFuture<List<User>> getAllUsers() {
         return userService.getAllUsers();
     }
 
     @GetMapping("{id}")
-    User getUser(@PathVariable long id) {
-        return userService.getUser(id);
+    CompletableFuture<User> getUser(@PathVariable long id) {
+        try {
+            return userService.getUser(id);
+        } catch (NullPointerException e) {
+            throw new UserNotFoundException();
+        }
     }
 
     @PutMapping("{id}")
@@ -48,12 +55,12 @@ public class UserController {
     }
 
     @GetMapping("{userId}/get_history/{testId}")
-    List<HistoryEvent> getHistory(@PathVariable long userId, @PathVariable long testId) {
+    CompletableFuture<List<HistoryEvent>> getHistory(@PathVariable long userId, @PathVariable long testId) {
         return historyService.getHistory(userId, testId);
     }
 
     @PostMapping("{userId}/buy_sticker/{stickerId}")
-    User buySticker(@PathVariable long userId, @PathVariable long stickerId) {
+    CompletableFuture<User> buySticker(@PathVariable long userId, @PathVariable long stickerId) {
         return userService.buySticker(userId, stickerId);
     }
 

@@ -1,5 +1,7 @@
 package com.tapp.api.v1.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
@@ -9,12 +11,13 @@ public class Answer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "question_id", nullable = false)
     private Question question;
 
     @Column(name = "answer_type")
-    private AnswerType answer_type;
+    private String answerType;
 
     @Column(name = "answer")
     private String answer;
@@ -25,16 +28,20 @@ public class Answer {
     public Answer() {
     }
 
+    public String getAnswerType() {
+        return answerType;
+    }
+
+    public void setAnswerType(String answerType) {
+        this.answerType = answerType;
+    }
+
     public long getId() {
         return id;
     }
 
     public Question getQuestion() {
         return question;
-    }
-
-    public AnswerType getAnswer_type() {
-        return answer_type;
     }
 
     public String getAnswer() {
@@ -47,10 +54,6 @@ public class Answer {
 
     public void setQuestion(Question question) {
         this.question = question;
-    }
-
-    public void setAnswer_type(AnswerType answer_type) {
-        this.answer_type = answer_type;
     }
 
     public void setAnswer(String answer) {

@@ -2,10 +2,11 @@ package com.tapp.api.v1.services;
 
 import com.tapp.api.v1.dao.TestDao;
 import com.tapp.api.v1.exceptions.UserNotFoundException;
-import com.tapp.api.v1.models.Question;
 import com.tapp.api.v1.models.Test;
+import org.springframework.scheduling.annotation.Async;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 public class TestService {
     private TestDao testDao = new TestDao();
@@ -13,26 +14,34 @@ public class TestService {
     public TestService() {
     }
 
-    public Test getTest(long id) {
-        return testDao.get(id).orElseThrow(UserNotFoundException::new);
+    @Async
+    public CompletableFuture<Test> getTest(long id) {
+        return CompletableFuture.completedFuture(testDao.get(id).orElseThrow(UserNotFoundException::new));
     }
 
-    public long saveTest(Test test) {
-        test.getQuestions().stream().forEach(question -> question.setTest(test));
+    @Async
+    public CompletableFuture<Long> saveTest(Test test) {
+        test.getQuestions().stream().forEach(question -> {
+            question.setTest(test);
+            question.getAnswers().forEach(answer -> answer.setQuestion(question));
+        });
         testDao.save(test);
 
-        return test.getId();
+        return CompletableFuture.completedFuture(test.getId());
     }
 
+    @Async
     public void deleteTest(long id) {
         testDao.deleteById(id);
     }
 
+    @Async
     public void updateTest(Test test) {
         testDao.update(test);
     }
 
-    public List<Test> getAllTests() {
-        return testDao.getAll();
+    @Async
+    public CompletableFuture<List<Test>> getAllTests() {
+        return CompletableFuture.completedFuture(testDao.getAll());
     }
 }

@@ -13,6 +13,7 @@ repositories {
 }
 
 dependencies {
+    compile group: 'org.ehcache', name: 'ehcache', version: '3.8.1'
     compile group: 'commons-io', name: 'commons-io', version: '2.6'
     compile group: 'org.postgresql', name: 'postgresql', version: '42.1.4'
     compile group: 'org.hibernate', name: 'hibernate-gradle-plugin', version: '5.4.14.Final'

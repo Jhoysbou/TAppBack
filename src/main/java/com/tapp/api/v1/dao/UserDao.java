@@ -20,11 +20,14 @@ public class UserDao implements Dao<User> {
 
     @Override
     public List<User> getAll() {
-        List<User> users = (List<User>) HibernateSessionFactoryUtil
+        Session session = HibernateSessionFactoryUtil
                 .getSessionFactory()
-                .openSession()
+                .openSession();
+
+        List<User> users = (List<User>) session
                 .createQuery("from User", User.class)
                 .list();
+        session.close();
         return users;
     }
 

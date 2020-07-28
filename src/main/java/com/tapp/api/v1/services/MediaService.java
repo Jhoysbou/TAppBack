@@ -8,10 +8,12 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.tapp.api.v1.utils.AwsCredentials;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.util.concurrent.CompletableFuture;
 
 public class MediaService {
     private static final AWSCredentials CREDENTIALS = new BasicAWSCredentials(AwsCredentials.ACCESS_KEY, AwsCredentials.SECRET_ACCESS_KEY);
@@ -19,7 +21,8 @@ public class MediaService {
     private static final String TEST_IMAGES_PATH = "test_images/";
     private static AmazonS3 s3Client;
 
-    public String uploadTestImage(final MultipartFile file) {
+    @Async
+    public CompletableFuture<String> uploadTestImage(final MultipartFile file) {
         s3Client = AmazonS3ClientBuilder
                 .standard()
                 .withCredentials(new AWSStaticCredentialsProvider(CREDENTIALS))
@@ -31,6 +34,6 @@ public class MediaService {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return "https://tapp-media.s3.eu-north-1.amazonaws.com/test_images/" + file.getOriginalFilename();
+        return CompletableFuture.completedFuture("https://tapp-media.s3.eu-north-1.amazonaws.com/test_images/" + file.getOriginalFilename());
     }
 }

@@ -20,11 +20,12 @@ public class QuestionDao implements Dao<Question> {
 
     @Override
     public List<Question> getAll() {
-        List<Question> questions = (List<Question>) HibernateSessionFactoryUtil
-                .getSessionFactory()
-                .openSession()
+        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
+        List<Question> questions = session
                 .createQuery("from Question ", Question.class)
                 .list();
+
+        session.close();
         return questions;
     }
 

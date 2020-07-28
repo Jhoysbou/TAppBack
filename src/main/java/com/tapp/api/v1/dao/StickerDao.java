@@ -21,11 +21,12 @@ public class StickerDao implements Dao<Sticker> {
 
     @Override
     public List<Sticker> getAll() {
-        List<Sticker> stickers = (List<Sticker>) HibernateSessionFactoryUtil
-                .getSessionFactory()
-                .openSession()
+        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
+        List<Sticker> stickers = session
                 .createQuery("from Sticker ", Sticker.class)
                 .list();
+
+        session.close();
         return stickers;
     }
 

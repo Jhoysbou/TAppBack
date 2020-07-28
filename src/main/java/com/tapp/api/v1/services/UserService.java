@@ -6,10 +6,12 @@ import com.tapp.api.v1.dao.UserDao;
 import com.tapp.api.v1.exceptions.NotEnoughPointsException;
 import com.tapp.api.v1.exceptions.StickerNotFoundException;
 import com.tapp.api.v1.exceptions.UserNotFoundException;
-import com.tapp.api.v1.models.*;
+import com.tapp.api.v1.models.Sticker;
+import com.tapp.api.v1.models.User;
+import org.springframework.scheduling.annotation.Async;
 
-import java.nio.channels.FileChannel;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 public class UserService {
     private UserDao usersDao = new UserDao();
@@ -19,27 +21,33 @@ public class UserService {
     public UserService() {
     }
 
-    public User getUser(long id) {
-        return usersDao.get(id).orElseThrow(UserNotFoundException::new);
+    @Async
+    public CompletableFuture<User> getUser(long id) {
+        return CompletableFuture.completedFuture(usersDao.get(id).orElseThrow(UserNotFoundException::new));
     }
 
+    @Async
     public void saveUser(User user) {
         usersDao.save(user);
     }
 
+    @Async
     public void deleteUser(long id) {
         usersDao.deleteById(id);
     }
 
+    @Async
     public void updateUser(User user) {
         usersDao.update(user);
     }
 
-    public List<User> getAllUsers() {
-        return usersDao.getAll();
+    @Async
+    public CompletableFuture<List<User>> getAllUsers() {
+        return CompletableFuture.completedFuture(usersDao.getAll());
     }
 
-    public User buySticker(final long userId, final long stickerId) {
+    @Async
+    public CompletableFuture<User> buySticker(final long userId, final long stickerId) {
         final User user = usersDao.get(userId).orElseThrow(UserNotFoundException::new);
         final Sticker sticker = stickerDao.get(stickerId).orElseThrow(StickerNotFoundException::new);
         final long score = user.getScore();
@@ -53,12 +61,12 @@ public class UserService {
         }
 
         if (isContains) {
-            return user;
+            return CompletableFuture.completedFuture(user);
         } else if (score >= cost) {
             user.addSticker(sticker);
             user.setScore(score - cost);
             usersDao.update(user);
-            return user;
+            return CompletableFuture.completedFuture(user);
         } else {
             throw new NotEnoughPointsException();
         }

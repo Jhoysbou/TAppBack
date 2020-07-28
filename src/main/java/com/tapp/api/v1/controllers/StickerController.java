@@ -4,14 +4,17 @@ import com.tapp.api.v1.models.Sticker;
 import com.tapp.api.v1.services.StickerService;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.concurrent.ExecutionException;
+
 @RestController
+@CrossOrigin
 @RequestMapping("v1/stickers")
 public class StickerController {
     private StickerService stickerService = new StickerService();
 
     @PostMapping
-    String addSticker(@RequestBody Sticker sticker) {
-        long id = stickerService.addSticker(sticker);
+    String addSticker(@RequestBody Sticker sticker) throws ExecutionException, InterruptedException {
+        long id = stickerService.addSticker(sticker).get();
         return "{'id': "+ id +" }";
     }
 
