@@ -3,7 +3,6 @@ package com.tapp.api.v1.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import java.util.List;
 import java.util.Set;
 
 
@@ -33,6 +32,12 @@ public class Test {
     @Column(name = "date")
     private String date;
 
+    @Column(name = "max_score")
+    private long maxScore;
+
+    @Column(name = "complete_time")
+    private String timeToComplete;
+
     public Test() {}
 
 
@@ -49,6 +54,22 @@ public class Test {
         this.description = description;
         this.questions = questions;
         this.date = date;
+    }
+
+    public long getMaxScore() {
+        return maxScore;
+    }
+
+    public String getTimeToComplete() {
+        return timeToComplete;
+    }
+
+    public void setMaxScore(long maxScore) {
+        this.maxScore = maxScore;
+    }
+
+    public void setTimeToComplete(String timeToComplete) {
+        this.timeToComplete = timeToComplete;
     }
 
     public Set<HistoryEvent> getHistory() {
