@@ -56,7 +56,8 @@ public class HistoryService {
                 || lastHistoryEvent.getQuestion().getId() != questionId
                 || (lastHistoryEvent.getEventCode() != HistoryEventCode.STARTED
                 && lastHistoryEvent.getEventCode() != HistoryEventCode.PASSED
-                && lastHistoryEvent.getEventCode() != HistoryEventCode.FAILED)) {
+                && lastHistoryEvent.getEventCode() != HistoryEventCode.FAILED
+                && lastHistoryEvent.getEventCode() != HistoryEventCode.SKIPPED)) {
             HistoryEvent historyEvent = new HistoryEvent(user, test, question,
                     LocalDateTime.now().format(DateTimeFormat.getFormatter()), HistoryEventCode.STARTED, 0);
             historyEventDao.save(historyEvent);
@@ -72,10 +73,11 @@ public class HistoryService {
         List<HistoryEvent> history = historyEventDao.getByUserTestHistory(user, test);
         history.sort(new TimeOrderComparator());
         HistoryEvent lastHistoryEvent = history.get(history.size() - 1);
-        System.out.println(lastHistoryEvent.getEventCode());
+
         if (lastHistoryEvent.getQuestion().getId() != questionId
                 || (lastHistoryEvent.getEventCode() != HistoryEventCode.PASSED
-                && lastHistoryEvent.getEventCode() != HistoryEventCode.FAILED)) {
+                && lastHistoryEvent.getEventCode() != HistoryEventCode.FAILED
+                && lastHistoryEvent.getEventCode() != HistoryEventCode.SKIPPED)) {
             final long score = lastHistoryEvent.getScore() + question.getReward();
             HistoryEvent historyEvent = new HistoryEvent(user, test, question,
                     LocalDateTime.now().format(DateTimeFormat.getFormatter()), HistoryEventCode.PASSED, score);
@@ -95,7 +97,8 @@ public class HistoryService {
 
         if (lastHistoryEvent.getQuestion().getId() != questionId
                 || lastHistoryEvent.getEventCode() != HistoryEventCode.PASSED
-                || lastHistoryEvent.getEventCode() != HistoryEventCode.FAILED) {
+                || lastHistoryEvent.getEventCode() != HistoryEventCode.FAILED
+                || lastHistoryEvent.getEventCode() != HistoryEventCode.SKIPPED) {
 
             final long currentScore = lastHistoryEvent.getScore();
             final long reward = question.getReward();
@@ -106,6 +109,14 @@ public class HistoryService {
             historyEventDao.save(historyEvent);
         }
     }
+
+    @Async
+    public void skipQuestion(final long userId, final long questionId) {
+        User user = userDao.get(userId).orElseThrow(UserNotFoundException::new);
+        Question question = questionDao.get(questionId).orElseThrow(QuestionNotFoundException::new);
+        Test test = question.getTest();
+    }
+
 
     class TimeOrderComparator implements Comparator<HistoryEvent> {
         @Override

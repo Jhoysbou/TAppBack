@@ -1,6 +1,6 @@
 package com.tapp.api.v1.utils;
 
-//    just to get friendly mapping of json body
+// just to get friendly mapping of json body
 public class HistoryEventHelper {
     private long questionId;
     private long userId;

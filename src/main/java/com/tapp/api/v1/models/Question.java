@@ -1,6 +1,7 @@
 package com.tapp.api.v1.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.graalvm.compiler.api.replacements.ClassSubstitution;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -40,6 +41,9 @@ public class Question {
             fetch = FetchType.EAGER)
     private Set<Answer> answers;
 
+    @Column(name = "explain")
+    private String explain;
+
     @Column(name = "serial_number")
     private int serialNumber;
 
@@ -50,6 +54,14 @@ public class Question {
         this.questionText = questionText;
         this.img = img;
         this.serialNumber = serialNumber;
+    }
+
+    public String getExplain() {
+        return explain;
+    }
+
+    public void setExplain(String explain) {
+        this.explain = explain;
     }
 
     public String getImg() {
