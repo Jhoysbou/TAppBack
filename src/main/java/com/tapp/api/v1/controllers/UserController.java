@@ -5,7 +5,7 @@ import com.tapp.api.v1.models.HistoryEvent;
 import com.tapp.api.v1.models.User;
 import com.tapp.api.v1.services.HistoryService;
 import com.tapp.api.v1.services.UserService;
-import com.tapp.api.v1.utils.HistoryEventHelper;
+import com.tapp.api.v1.utils.HistoryEventCode;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -40,30 +40,28 @@ public class UserController {
     }
 
     @PostMapping("{userId}/start_question/{questionId}")
-    void startQuestion(@PathVariable long userId, @PathVariable long questionId) {
-        historyService.startQuestion(userId, questionId);
+    void startQuestion(@PathVariable long userId, @PathVariable long questionId, @RequestBody int eventCode) {
+        switch (eventCode) {
+            case HistoryEventCode.FAILED:
+                historyService.failQuestion(userId, questionId);
+                break;
+            case HistoryEventCode.PASSED:
+                historyService.passQuestion(userId, questionId);
+                break;
+            case HistoryEventCode.SKIPPED:
+                historyService.skipQuestion(userId, questionId);
+                break;
+            case HistoryEventCode.STARTED:
+                historyService.startQuestion(userId, questionId);
+                break;
+        }
     }
 
-    @PostMapping("{userId}/pass_question/{questionId}")
-    void passQuestion(@PathVariable long userId, @PathVariable long questionId) {
-        historyService.passQuestion(userId, questionId);
-    }
-
-    @PostMapping("{userId}/fail_question/{questionId}")
-    void failQuestion(@PathVariable long userId, @PathVariable long questionId) {
-        historyService.passQuestion(userId, questionId);
-    }
-
-    @PostMapping("{userId}/skip_history/{questionId}")
-    void skipQuestion(@PathVariable long userId, @PathVariable long questionId) {
-        historyService.skipQuestion(userId, questionId);
-    }
 
     @GetMapping("{userId}/get_history/{testId}")
     CompletableFuture<List<HistoryEvent>> getHistory(@PathVariable long userId, @PathVariable long testId) {
         return historyService.getHistory(userId, testId);
     }
-
 
 
     @PostMapping("{userId}/buy_sticker/{stickerId}")
