@@ -39,25 +39,32 @@ public class UserController {
         userService.saveUser(user);
     }
 
-    @PostMapping("/start_question")
-    void startQuestion(@RequestBody HistoryEventHelper historyEventHelper) {
-        historyService.startQuestion(historyEventHelper.getUserId(), historyEventHelper.getQuestionId());
+    @PostMapping("{userId}/start_question/{questionId}")
+    void startQuestion(@PathVariable long userId, @PathVariable long questionId) {
+        historyService.startQuestion(userId, questionId);
     }
 
-    @PostMapping("/pass_question")
-    void passQuestion(@RequestBody HistoryEventHelper historyEventHelper) {
-        historyService.passQuestion(historyEventHelper.getUserId(), historyEventHelper.getQuestionId());
+    @PostMapping("{userId}/pass_question/{questionId}")
+    void passQuestion(@PathVariable long userId, @PathVariable long questionId) {
+        historyService.passQuestion(userId, questionId);
     }
 
-    @PostMapping("/fail_question")
-    void failQuestion(@RequestBody HistoryEventHelper historyEventHelper) {
-        historyService.passQuestion(historyEventHelper.getUserId(), historyEventHelper.getQuestionId());
+    @PostMapping("{userId}/fail_question/{questionId}")
+    void failQuestion(@PathVariable long userId, @PathVariable long questionId) {
+        historyService.passQuestion(userId, questionId);
+    }
+
+    @GetMapping("{userId}/skip_history/{questionId}")
+    void skipQuestion(@PathVariable long userId, @PathVariable long questionId) {
+        historyService.skipQuestion(userId, questionId);
     }
 
     @GetMapping("{userId}/get_history/{testId}")
     CompletableFuture<List<HistoryEvent>> getHistory(@PathVariable long userId, @PathVariable long testId) {
         return historyService.getHistory(userId, testId);
     }
+
+
 
     @PostMapping("{userId}/buy_sticker/{stickerId}")
     CompletableFuture<User> buySticker(@PathVariable long userId, @PathVariable long stickerId) {
