@@ -22,7 +22,7 @@ public class Answer {
     @Column(name = "answer")
     private String answer;
 
-    @Column(name = "right_answer")
+    @Column(name = "is_right")
     private int isRight;
 
     public Answer() {
