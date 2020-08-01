@@ -23,7 +23,7 @@ public class Answer {
     private String answer;
 
     @Column(name = "right_answer")
-    private int rightAnswer;
+    private int isRight;
 
     public Answer() {
     }
@@ -48,8 +48,8 @@ public class Answer {
         return answer;
     }
 
-    public int getRightAnswer() {
-        return rightAnswer;
+    public int getIsRight() {
+        return isRight;
     }
 
     public void setQuestion(Question question) {
@@ -60,8 +60,8 @@ public class Answer {
         this.answer = answer;
     }
 
-    public void setRightAnswer(int rightAnswer) {
-        this.rightAnswer = rightAnswer;
+    public void setIsRight(int rightAnswer) {
+        this.isRight = rightAnswer;
     }
 
 
