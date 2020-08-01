@@ -15,7 +15,7 @@ public class QuestionDao implements Dao<Question> {
         Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
         Question question = session.get(Question.class, id);
         session.close();
-        return Optional.of(question);
+        return Optional.ofNullable(question);
     }
 
     @Override

@@ -15,7 +15,7 @@ public class TestDao implements Dao<Test> {
         Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
         Test test = session.get(Test.class, id);
         session.close();
-        return Optional.of(test);
+        return Optional.ofNullable(test);
     }
 
     @Override

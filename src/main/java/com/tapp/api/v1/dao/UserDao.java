@@ -15,7 +15,7 @@ public class UserDao implements Dao<User> {
         Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
         User user = session.get(User.class, id);
         session.close();
-        return Optional.of(user);
+        return Optional.ofNullable(user);
     }
 
     @Override

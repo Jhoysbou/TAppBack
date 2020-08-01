@@ -54,7 +54,7 @@ public class UserController {
         historyService.passQuestion(userId, questionId);
     }
 
-    @GetMapping("{userId}/skip_history/{questionId}")
+    @PostMapping("{userId}/skip_history/{questionId}")
     void skipQuestion(@PathVariable long userId, @PathVariable long questionId) {
         historyService.skipQuestion(userId, questionId);
     }

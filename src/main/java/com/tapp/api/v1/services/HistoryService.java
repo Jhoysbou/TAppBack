@@ -39,6 +39,7 @@ public class HistoryService {
     @Async
     public void startQuestion(final long userId, final long questionId) {
         User user = userDao.get(userId).orElseThrow(UserNotFoundException::new);
+
         Question question = questionDao.get(questionId).orElseThrow(QuestionNotFoundException::new);
         Test test = question.getTest();
 

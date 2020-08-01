@@ -17,7 +17,7 @@ public class HistoryEventDao implements Dao<HistoryEvent> {
         Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
         HistoryEvent historyEvent = session.get(HistoryEvent.class, id);
         session.close();
-        return Optional.of(historyEvent);
+        return Optional.ofNullable(historyEvent);
     }
 
     @Override

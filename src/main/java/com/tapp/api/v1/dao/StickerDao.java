@@ -16,7 +16,7 @@ public class StickerDao implements Dao<Sticker> {
         Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
         Sticker sticker = session.get(Sticker.class, id);
         session.close();
-        return Optional.of(sticker);
+        return Optional.ofNullable(sticker);
     }
 
     @Override
