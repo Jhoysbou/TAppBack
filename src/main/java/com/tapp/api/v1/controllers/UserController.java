@@ -39,7 +39,7 @@ public class UserController {
         userService.saveUser(user);
     }
 
-    @PostMapping("{userId}/start_question/{questionId}")
+    @PostMapping("{userId}/send_event/{questionId}")
     void startQuestion(@PathVariable long userId, @PathVariable long questionId, @RequestBody int eventCode) {
         switch (eventCode) {
             case HistoryEventCode.FAILED:
