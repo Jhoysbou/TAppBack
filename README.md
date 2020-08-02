@@ -1,11 +1,4 @@
 # REST API for TApp
-## How to use 
-You need to get hamachi (xD). Probably you have to register a LogMeIn account. Network ID: `jhoysbou-server`, password: `kvfg6Q29`.
-Now IPv4 address is an IP address than you can use to send requests. I prefer to use `Postman` to do it.
-To send a simple requests you just need to write correct address with port `8080` and select a right type.
-#### Example: 
-My IPv4 is `25.41.84.109`, as you see, I use `8080` port  with `GET` request to `v1/users`.
-![Request example](readme_images/example.png)
 ## Authentication
 In progress...
 ## Methods
