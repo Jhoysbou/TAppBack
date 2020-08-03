@@ -52,7 +52,7 @@ public class HistoryService {
         if (size > 0) {
             lastHistoryEvent = history.get(history.size() - 1);
         }
-        if (lastHistoryEvent == null) {
+        if (lastHistoryEvent != null) {
             if (lastHistoryEvent.getQuestion().getId() != questionId
                     || (lastHistoryEvent.getEventCode() != HistoryEventCode.STARTED
                     && lastHistoryEvent.getEventCode() != HistoryEventCode.PASSED
@@ -80,9 +80,16 @@ public class HistoryService {
 
         List<HistoryEvent> history = historyEventDao.getByUserTestHistory(user, test);
         history.sort(new TimeOrderComparator());
-        HistoryEvent lastHistoryEvent = history.get(history.size() - 1);
 
-        if (lastHistoryEvent.getQuestion().getId() != questionId
+        final int size = history.size();
+        HistoryEvent lastHistoryEvent = null;
+
+        if (size > 0) {
+            lastHistoryEvent = history.get(history.size() - 1);
+        }
+
+        if (lastHistoryEvent != null
+                || lastHistoryEvent.getQuestion().getId() != questionId
                 || (lastHistoryEvent.getEventCode() != HistoryEventCode.PASSED
                 && lastHistoryEvent.getEventCode() != HistoryEventCode.FAILED
                 && lastHistoryEvent.getEventCode() != HistoryEventCode.SKIPPED)) {
@@ -101,9 +108,16 @@ public class HistoryService {
 
         List<HistoryEvent> history = historyEventDao.getByUserTestHistory(user, test);
         history.sort(new TimeOrderComparator());
-        HistoryEvent lastHistoryEvent = history.get(history.size() - 1);
 
-        if (lastHistoryEvent.getQuestion().getId() != questionId
+        final int size = history.size();
+        HistoryEvent lastHistoryEvent = null;
+
+        if (size > 0) {
+            lastHistoryEvent = history.get(history.size() - 1);
+        }
+
+        if (lastHistoryEvent != null
+                || lastHistoryEvent.getQuestion().getId() != questionId
                 || (lastHistoryEvent.getEventCode() != HistoryEventCode.PASSED
                 && lastHistoryEvent.getEventCode() != HistoryEventCode.FAILED
                 && lastHistoryEvent.getEventCode() != HistoryEventCode.SKIPPED)) {
@@ -126,9 +140,16 @@ public class HistoryService {
 
         List<HistoryEvent> history = historyEventDao.getByUserTestHistory(user, test);
         history.sort(new TimeOrderComparator());
-        HistoryEvent lastHistoryEvent = history.get(history.size() - 1);
 
-        if (lastHistoryEvent.getQuestion().getId() != questionId
+        final int size = history.size();
+        HistoryEvent lastHistoryEvent = null;
+
+        if (size > 0) {
+            lastHistoryEvent = history.get(history.size() - 1);
+        }
+
+        if (lastHistoryEvent != null
+                || lastHistoryEvent.getQuestion().getId() != questionId
                 || (lastHistoryEvent.getEventCode() != HistoryEventCode.PASSED
                 && lastHistoryEvent.getEventCode() != HistoryEventCode.FAILED
                 && lastHistoryEvent.getEventCode() != HistoryEventCode.SKIPPED)) {
