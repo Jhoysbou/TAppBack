@@ -58,7 +58,7 @@ public class HistoryService {
                     && lastHistoryEvent.getEventCode() != HistoryEventCode.PASSED
                     && lastHistoryEvent.getEventCode() != HistoryEventCode.FAILED
                     && lastHistoryEvent.getEventCode() != HistoryEventCode.SKIPPED)) {
-                final long score = lastHistoryEvent.getScore() + question.getReward();
+                final long score = lastHistoryEvent.getScore();
 
                 HistoryEvent historyEvent = new HistoryEvent(user, test, question,
                         LocalDateTime.now().format(DateTimeFormat.getFormatter()), HistoryEventCode.STARTED, score);
