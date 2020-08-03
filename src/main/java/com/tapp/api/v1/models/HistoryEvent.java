@@ -40,8 +40,8 @@ public class HistoryEvent {
     @Column(name = "score")
     private long score;
 
-    public HistoryEvent() {
-    }
+    public HistoryEvent() {}
+
 
     public HistoryEvent(User user, Test test, Question question) {
         this.user = user;
