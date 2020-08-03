@@ -4,7 +4,6 @@ import com.tapp.api.v1.dao.HistoryEventDao;
 import com.tapp.api.v1.dao.QuestionDao;
 import com.tapp.api.v1.dao.TestDao;
 import com.tapp.api.v1.dao.UserDao;
-import com.tapp.api.v1.exceptions.NotFoundException;
 import com.tapp.api.v1.exceptions.QuestionNotFoundException;
 import com.tapp.api.v1.exceptions.TestNotFoundException;
 import com.tapp.api.v1.exceptions.UserNotFoundException;
@@ -86,19 +85,8 @@ public class HistoryService {
         final int size = history.size();
         HistoryEvent lastHistoryEvent = null;
 
-        long prevScore = 0;
-
         if (size > 0) {
             lastHistoryEvent = history.get(history.size() - 1);
-            try {
-                prevScore = history.stream()
-                        .max(Comparator.comparingLong(HistoryEvent::getScore))
-                        .orElseThrow(NotFoundException::new)
-                        .getScore();
-            } catch (NotFoundException e) {
-//                TODO: add logging
-                System.out.println("empty history");
-            }
         }
 
         if (lastHistoryEvent != null
@@ -106,7 +94,7 @@ public class HistoryService {
                 || (lastHistoryEvent.getEventCode() != HistoryEventCode.PASSED
                 && lastHistoryEvent.getEventCode() != HistoryEventCode.FAILED
                 && lastHistoryEvent.getEventCode() != HistoryEventCode.SKIPPED)) {
-            final long score = prevScore + question.getReward();
+            final long score = lastHistoryEvent.getScore() + question.getReward();
             HistoryEvent historyEvent = new HistoryEvent(user, test, question,
                     LocalDateTime.now().format(DateTimeFormat.getFormatter()), HistoryEventCode.PASSED, score);
             historyEventDao.save(historyEvent);
@@ -125,19 +113,8 @@ public class HistoryService {
         final int size = history.size();
         HistoryEvent lastHistoryEvent = null;
 
-        long prevScore = 0;
-
         if (size > 0) {
             lastHistoryEvent = history.get(history.size() - 1);
-            try {
-                prevScore = history.stream()
-                        .max(Comparator.comparingLong(HistoryEvent::getScore))
-                        .orElseThrow(NotFoundException::new)
-                        .getScore();
-            } catch (NotFoundException e) {
-//                TODO: add logging
-                System.out.println("empty history");
-            }
         }
 
         if (lastHistoryEvent != null
@@ -146,7 +123,7 @@ public class HistoryService {
                 && lastHistoryEvent.getEventCode() != HistoryEventCode.FAILED
                 && lastHistoryEvent.getEventCode() != HistoryEventCode.SKIPPED)) {
 
-            final long currentScore = prevScore;
+            final long currentScore = lastHistoryEvent.getScore();
             final long reward = question.getReward();
             final long score = currentScore > reward ? currentScore - reward : 0;
 
@@ -168,19 +145,8 @@ public class HistoryService {
         final int size = history.size();
         HistoryEvent lastHistoryEvent = null;
 
-        long prevScore = 0;
-
         if (size > 0) {
             lastHistoryEvent = history.get(history.size() - 1);
-            try {
-                prevScore = history.stream()
-                        .max(Comparator.comparingLong(HistoryEvent::getScore))
-                        .orElseThrow(NotFoundException::new)
-                        .getScore();
-            } catch (NotFoundException e) {
-//                TODO: add logging
-                System.out.println("empty history");
-            }
         }
 
         if (lastHistoryEvent != null
@@ -189,7 +155,7 @@ public class HistoryService {
                 && lastHistoryEvent.getEventCode() != HistoryEventCode.FAILED
                 && lastHistoryEvent.getEventCode() != HistoryEventCode.SKIPPED)) {
 
-            final long currentScore = prevScore;
+            final long currentScore = lastHistoryEvent.getScore();
             final long reward = question.getReward();
             final long score = currentScore > reward ? currentScore - reward : 0;
 
