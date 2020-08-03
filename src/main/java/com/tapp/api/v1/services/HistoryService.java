@@ -52,17 +52,24 @@ public class HistoryService {
         if (size > 0) {
             lastHistoryEvent = history.get(history.size() - 1);
         }
+        if (lastHistoryEvent == null) {
+            if (lastHistoryEvent.getQuestion().getId() != questionId
+                    || (lastHistoryEvent.getEventCode() != HistoryEventCode.STARTED
+                    && lastHistoryEvent.getEventCode() != HistoryEventCode.PASSED
+                    && lastHistoryEvent.getEventCode() != HistoryEventCode.FAILED
+                    && lastHistoryEvent.getEventCode() != HistoryEventCode.SKIPPED)) {
+                final long score = lastHistoryEvent.getScore() + question.getReward();
 
-        if (lastHistoryEvent == null
-                || lastHistoryEvent.getQuestion().getId() != questionId
-                || (lastHistoryEvent.getEventCode() != HistoryEventCode.STARTED
-                && lastHistoryEvent.getEventCode() != HistoryEventCode.PASSED
-                && lastHistoryEvent.getEventCode() != HistoryEventCode.FAILED
-                && lastHistoryEvent.getEventCode() != HistoryEventCode.SKIPPED)) {
+                HistoryEvent historyEvent = new HistoryEvent(user, test, question,
+                        LocalDateTime.now().format(DateTimeFormat.getFormatter()), HistoryEventCode.STARTED, score);
+                historyEventDao.save(historyEvent);
+            }
+        } else {
             HistoryEvent historyEvent = new HistoryEvent(user, test, question,
                     LocalDateTime.now().format(DateTimeFormat.getFormatter()), HistoryEventCode.STARTED, 0);
             historyEventDao.save(historyEvent);
         }
+
     }
 
     @Async
