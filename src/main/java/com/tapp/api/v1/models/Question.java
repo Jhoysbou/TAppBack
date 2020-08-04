@@ -36,7 +36,7 @@ public class Question {
     private Test test;
 
     @OneToMany(mappedBy = "question",
-            cascade = CascadeType.ALL,
+            cascade = CascadeType.REMOVE,
             orphanRemoval = true,
             fetch = FetchType.EAGER)
     private Set<Answer> answers;

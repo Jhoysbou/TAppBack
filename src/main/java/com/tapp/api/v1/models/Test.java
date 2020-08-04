@@ -26,7 +26,7 @@ public class Test {
     @Column(name = "description")
     private String description;
 
-    @OneToMany(mappedBy = "test", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "test", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.EAGER)
     private Set<Question> questions;
 
     @Column(name = "date")

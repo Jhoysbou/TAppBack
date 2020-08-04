@@ -26,7 +26,7 @@ public class User {
     private String role;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private List<HistoryEvent> history;
 
     @ManyToMany(fetch = FetchType.EAGER)
