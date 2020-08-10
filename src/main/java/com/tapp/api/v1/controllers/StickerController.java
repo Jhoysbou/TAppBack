@@ -19,6 +19,11 @@ public class StickerController {
         return stickerService.getAll();
     }
 
+    @GetMapping("/{id}")
+    Sticker getSticker(@PathVariable long id) {
+        return stickerService.get(id);
+    }
+
     @PostMapping
     String addSticker(@RequestBody Sticker sticker) throws ExecutionException, InterruptedException {
         long id = stickerService.addSticker(sticker).get();

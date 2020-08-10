@@ -1,6 +1,7 @@
 package com.tapp.api.v1.services;
 
 import com.tapp.api.v1.dao.StickerDao;
+import com.tapp.api.v1.exceptions.StickerNotFoundException;
 import com.tapp.api.v1.models.Sticker;
 import org.springframework.scheduling.annotation.Async;
 
@@ -15,6 +16,11 @@ public class StickerService {
     @Async
     public List<Sticker> getAll() {
         return stickerDao.getAll();
+    }
+
+    @Async
+    public Sticker get(long id) {
+        return stickerDao.get(id).orElseThrow(StickerNotFoundException::new);
     }
 
     @Async
