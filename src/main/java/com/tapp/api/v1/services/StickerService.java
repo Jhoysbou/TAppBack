@@ -4,10 +4,18 @@ import com.tapp.api.v1.dao.StickerDao;
 import com.tapp.api.v1.models.Sticker;
 import org.springframework.scheduling.annotation.Async;
 
+import java.security.Signature;
+import java.util.List;
+import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 
 public class StickerService {
     private StickerDao stickerDao = new StickerDao();
+
+    @Async
+    public List<Sticker> getAll() {
+        return stickerDao.getAll();
+    }
 
     @Async
     public CompletableFuture<Long> addSticker(final Sticker sticker) {
