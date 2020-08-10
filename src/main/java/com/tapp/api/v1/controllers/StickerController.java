@@ -5,7 +5,7 @@ import com.tapp.api.v1.services.StickerService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Set;
+
 import java.util.concurrent.ExecutionException;
 
 @RestController

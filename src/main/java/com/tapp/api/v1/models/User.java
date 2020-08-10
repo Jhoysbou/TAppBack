@@ -25,6 +25,10 @@ public class User {
     @Column(name = "role")
     private String role;
 
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id")
+    private Sticker activeSticker;
+
     @JsonIgnore
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private List<HistoryEvent> history;
@@ -68,6 +72,14 @@ public class User {
 
     public User(int score) {
         this.score = score;
+    }
+
+    public Sticker getActiveSticker() {
+        return activeSticker;
+    }
+
+    public void setActiveSticker(Sticker activeSticker) {
+        this.activeSticker = activeSticker;
     }
 
     public long getScore() {
