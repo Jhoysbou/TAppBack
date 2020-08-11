@@ -6,6 +6,9 @@ website_stat.db
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**
 !**/src/test/**
+logErrors.txt
+myLogs.txt
+
 
 src/main/resources
 src/main/java/com/tapp/api/v1/utils/AwsCredentials.java
