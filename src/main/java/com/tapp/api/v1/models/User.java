@@ -25,7 +25,8 @@ public class User {
     @Column(name = "role")
     private String role;
 
-    @OneToOne(mappedBy = "id")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "active_sticker", nullable = false)
     private Sticker activeSticker;
 
     @JsonIgnore
