@@ -25,7 +25,7 @@ public class User {
     @Column(name = "role")
     private String role;
 
-    @OneToOne(mappedBy = "stickers")
+    @OneToOne(mappedBy = "id")
     private Sticker activeSticker;
 
     @JsonIgnore
