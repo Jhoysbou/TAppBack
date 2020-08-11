@@ -26,7 +26,7 @@ public class User {
     private String role;
 
     @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "id", referencedColumnName = "active_sticker")
     private Sticker activeSticker;
 
     @JsonIgnore
