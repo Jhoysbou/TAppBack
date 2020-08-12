@@ -68,7 +68,7 @@ public class UserController {
         return userService.buySticker(userId, stickerId);
     }
     @PatchMapping("{userId}/set_active_sticker/{stickerId}")
-    voCompletableFuture<User>id setActiveSticker(@PathVariable long userId, @PathVariable long stickerId) {
+    voCompletableFuture<User> setActiveSticker(@PathVariable long userId, @PathVariable long stickerId) {
         return userService.setActiveSticker(stickerId, userId);
     }
 
