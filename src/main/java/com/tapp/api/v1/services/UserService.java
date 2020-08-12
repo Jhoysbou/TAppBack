@@ -47,12 +47,13 @@ public class UserService {
     }
 
     @Async
-    public void setActiveSticker(final long stickerId, final long userId) {
+    public CompletableFuture<User> setActiveSticker(final long stickerId, final long userId) {
         final User user = usersDao.get(userId).orElseThrow(UserNotFoundException::new);
         final Sticker sticker = stickerDao.get(stickerId).orElseThrow(StickerNotFoundException::new);
         user.setActiveSticker(sticker);
 
         usersDao.update(user);
+        return CompletableFuture.completedFuture(user);
     }
 
     @Async

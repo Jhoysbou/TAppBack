@@ -63,14 +63,13 @@ public class UserController {
         return historyService.getHistory(userId, testId);
     }
 
-    @PostMapping("{userId}/buy_sticker/{stickerId}")
+    @PatchMapping("{userId}/buy_sticker/{stickerId}")
     CompletableFuture<User> buySticker(@PathVariable long userId, @PathVariable long stickerId) {
         return userService.buySticker(userId, stickerId);
     }
-
-    @PostMapping("{userId}/set_active_sticker/{stickerId}")
-    void setActiveSticker(@PathVariable long userId, @PathVariable long stickerId) {
-        userService.setActiveSticker(stickerId, userId);
+    @PatchMapping("{userId}/set_active_sticker/{stickerId}")
+    voCompletableFuture<User>id setActiveSticker(@PathVariable long userId, @PathVariable long stickerId) {
+        return userService.setActiveSticker(stickerId, userId);
     }
 
     @PatchMapping("{id}")
