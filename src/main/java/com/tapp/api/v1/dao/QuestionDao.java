@@ -23,6 +23,7 @@ public class QuestionDao implements Dao<Question> {
         Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
         List<Question> questions = session
                 .createQuery("from Question ", Question.class)
+                .setCacheable(true)
                 .list();
 
         session.close();
@@ -36,6 +37,7 @@ public class QuestionDao implements Dao<Question> {
         Transaction tx1 = session.beginTransaction();
         Query q = session.createQuery(hql).setParameter("id", id);
         q.executeUpdate();
+        q.setCacheable(true);
         tx1.commit();
         session.close();
     }
