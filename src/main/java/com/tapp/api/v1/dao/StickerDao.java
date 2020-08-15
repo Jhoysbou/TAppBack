@@ -24,6 +24,7 @@ public class StickerDao implements Dao<Sticker> {
         Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
         List<Sticker> stickers = session
                 .createQuery("from Sticker ", Sticker.class)
+                .setCacheable(true)
                 .list();
 
         session.close();
@@ -36,6 +37,7 @@ public class StickerDao implements Dao<Sticker> {
         Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
         Transaction tx1 = session.beginTransaction();
         Query q = session.createQuery(hql).setParameter("id", id);
+        q.setCacheable(true);
         q.executeUpdate();
         tx1.commit();
         session.close();

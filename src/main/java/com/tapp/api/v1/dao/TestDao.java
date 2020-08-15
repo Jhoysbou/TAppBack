@@ -23,6 +23,7 @@ public class TestDao implements Dao<Test> {
         Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
         List<Test> tests = session
                 .createQuery("from Test", Test.class)
+                .setCacheable(true)
                 .list();
 
         session.close();
@@ -36,6 +37,7 @@ public class TestDao implements Dao<Test> {
         Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
         Transaction tx1 = session.beginTransaction();
         Query q = session.createQuery(hql).setParameter("id", id);
+        q.setCacheable(true);
         q.executeUpdate();
         tx1.commit();
         session.close();

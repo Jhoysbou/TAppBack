@@ -28,6 +28,7 @@ public class HistoryEventDao implements Dao<HistoryEvent> {
 
         List<HistoryEvent> history = session
                 .createQuery("from HistoryEvent", HistoryEvent.class)
+                .setCacheable(true)
                 .list();
 
         session.close();
@@ -40,6 +41,7 @@ public class HistoryEventDao implements Dao<HistoryEvent> {
         Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
         Transaction tx1 = session.beginTransaction();
         Query q = session.createQuery(hql).setParameter("id", id);
+        q.setCacheable(true);
         q.executeUpdate();
         tx1.commit();
         session.close();
@@ -52,6 +54,7 @@ public class HistoryEventDao implements Dao<HistoryEvent> {
 
         List<HistoryEvent> history = session
                 .createQuery("from HistoryEvent where user=:user and test=:test", HistoryEvent.class)
+                .setCacheable(true)
                 .setParameter("user", user)
                 .setParameter("test", test)
                 .list();

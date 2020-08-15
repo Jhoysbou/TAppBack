@@ -1,11 +1,15 @@
 package com.tapp.api.v1.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
+@Cacheable
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @Table(name = "stickers")
 public class Sticker {
     @Id
@@ -28,7 +32,7 @@ public class Sticker {
     private String quote;
 
     @JsonIgnore
-    @ManyToMany(mappedBy = "stickers")
+    @ManyToMany(mappedBy = "stickers", fetch = FetchType.LAZY)
     private List<User> holders;
 
     public Sticker() {}

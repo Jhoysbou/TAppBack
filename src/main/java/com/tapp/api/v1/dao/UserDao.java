@@ -26,6 +26,7 @@ public class UserDao implements Dao<User> {
 
         List<User> users = (List<User>) session
                 .createQuery("from User", User.class)
+                .setCacheable(true)
                 .list();
         session.close();
         return users;
@@ -37,6 +38,7 @@ public class UserDao implements Dao<User> {
         Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
         Transaction tx1 = session.beginTransaction();
         Query q = session.createQuery(hql).setParameter("id", id);
+        q.setCacheable(true);
         q.executeUpdate();
         tx1.commit();
         session.close();

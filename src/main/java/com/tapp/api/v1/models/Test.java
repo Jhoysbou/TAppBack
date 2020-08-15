@@ -1,12 +1,16 @@
 package com.tapp.api.v1.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 import java.util.Set;
 
 
 @Entity
+@Cacheable
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @Table(name = "tests")
 public class Test {
     @Id
@@ -26,7 +30,11 @@ public class Test {
     @Column(name = "description")
     private String description;
 
-    @OneToMany(mappedBy = "test", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.EAGER)
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    @OneToMany(mappedBy = "test",
+            cascade = CascadeType.REMOVE,
+            orphanRemoval = true,
+            fetch = FetchType.EAGER)
     private Set<Question> questions;
 
     @Column(name = "date")
@@ -38,7 +46,8 @@ public class Test {
     @Column(name = "complete_time")
     private String timeToComplete;
 
-    public Test() {}
+    public Test() {
+    }
 
 
     public Test(String img, String title, String description, String date) {
@@ -60,12 +69,12 @@ public class Test {
         return maxScore;
     }
 
-    public String getTimeToComplete() {
-        return timeToComplete;
-    }
-
     public void setMaxScore(long maxScore) {
         this.maxScore = maxScore;
+    }
+
+    public String getTimeToComplete() {
+        return timeToComplete;
     }
 
     public void setTimeToComplete(String timeToComplete) {
@@ -80,26 +89,6 @@ public class Test {
         this.history = history;
     }
 
-    public void setImg(String pathToImage) {
-        this.img = pathToImage;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void setQuestions(Set<Question> questions) {
-        this.questions = questions;
-    }
-
-    public void setDate(String creationDate) {
-        this.date = creationDate;
-    }
-
     public long getId() {
         return id;
     }
@@ -108,19 +97,39 @@ public class Test {
         return img;
     }
 
+    public void setImg(String pathToImage) {
+        this.img = pathToImage;
+    }
+
     public String getTitle() {
         return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getDescription() {
         return description;
     }
 
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public Set<Question> getQuestions() {
         return questions;
     }
 
+    public void setQuestions(Set<Question> questions) {
+        this.questions = questions;
+    }
+
     public String getDate() {
         return date;
+    }
+
+    public void setDate(String creationDate) {
+        this.date = creationDate;
     }
 }

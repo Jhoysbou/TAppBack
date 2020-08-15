@@ -1,14 +1,18 @@
 package com.tapp.api.v1.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.graalvm.compiler.api.replacements.ClassSubstitution;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 
 import javax.persistence.*;
-import java.util.HashSet;
+
 import java.util.List;
 import java.util.Set;
 
 @Entity
+@Cacheable
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @Table(name = "questions")
 public class Question {
     @Id
@@ -25,9 +29,10 @@ public class Question {
     private String img;
 
     @JsonIgnore
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @OneToMany(mappedBy = "question",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true)
+            cascade = CascadeType.DETACH,
+            fetch = FetchType.LAZY)
     private List<HistoryEvent> history;
 
     @JsonIgnore
@@ -35,6 +40,7 @@ public class Question {
     @JoinColumn(name = "test_id", nullable = false)
     private Test test;
 
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @OneToMany(mappedBy = "question",
             cascade = CascadeType.REMOVE,
             orphanRemoval = true,
