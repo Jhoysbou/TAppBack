@@ -33,10 +33,10 @@ public class UserController {
     }
 
     @PutMapping("{id}")
-    void saveUser(@PathVariable long id,
+    User saveUser(@PathVariable long id,
                   @RequestBody User user) {
         user.setId(id);
-        userService.saveUser(user);
+        return userService.saveUser(user);
     }
 
     @PostMapping("{userId}/send_event/{questionId}")
