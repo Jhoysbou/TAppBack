@@ -27,7 +27,7 @@ public class UserService {
     }
 
     @Async
-    public void saveUser(User user) {
+    public User saveUser(User user) {
         List<Sticker> stickers = stickerDao.getAll();
         if (stickers.size() > 0) {
             Sticker s = stickers.get(0);
@@ -35,6 +35,7 @@ public class UserService {
             user.addSticker(s);
         }
         usersDao.save(user);
+        return user;
     }
 
     @Async
