@@ -16,9 +16,9 @@ import com.tapp.api.v1.utils.HistoryEventCode;
 import org.springframework.scheduling.annotation.Async;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 
 public class HistoryService {
@@ -98,6 +98,11 @@ public class HistoryService {
             HistoryEvent historyEvent = new HistoryEvent(user, test, question,
                     LocalDateTime.now().format(DateTimeFormat.getFormatter()), HistoryEventCode.PASSED, score);
             historyEventDao.save(historyEvent);
+
+            if (isFinished(question, test)) {
+                user.setScore(user.getScore() + score);
+                userDao.save(user);
+            }
         }
     }
 
@@ -130,6 +135,11 @@ public class HistoryService {
             HistoryEvent historyEvent = new HistoryEvent(user, test, question,
                     LocalDateTime.now().format(DateTimeFormat.getFormatter()), HistoryEventCode.FAILED, score);
             historyEventDao.save(historyEvent);
+
+            if (isFinished(question, test)) {
+                user.setScore(user.getScore() + score);
+                userDao.save(user);
+            }
         }
     }
 
@@ -160,7 +170,23 @@ public class HistoryService {
             HistoryEvent historyEvent = new HistoryEvent(user, test, question,
                     LocalDateTime.now().format(DateTimeFormat.getFormatter()), HistoryEventCode.SKIPPED, score);
             historyEventDao.save(historyEvent);
+
+            if (isFinished(question, test)) {
+                user.setScore(user.getScore() + score);
+                userDao.save(user);
+            }
         }
+    }
+
+
+
+    private boolean isFinished(final Question question, final Test test) {
+        final Set<Question> questionList = test.getQuestions();
+        final long length = questionList.stream()
+                .filter(q -> q.getSerialNumber() > question.getSerialNumber())
+                .count();
+
+        return length == 0;
     }
 
 
