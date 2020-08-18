@@ -73,6 +73,12 @@ public class UserController {
         return userService.setActiveSticker(stickerId, userId);
     }
 
+    @PatchMapping("{userId}/delete_history")
+    void deleteHistory(@PathVariable long userId) {
+        historyService.deleteHistory(userId);
+    }
+
+
     @PatchMapping("{id}")
     void updateUser(@PathVariable long id,
                     @RequestBody User user) {

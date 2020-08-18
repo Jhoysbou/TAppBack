@@ -47,6 +47,17 @@ public class HistoryEventDao implements Dao<HistoryEvent> {
         session.close();
     }
 
+    public void deleteByUser(final User user) {
+        String hql = "delete HistoryEvent where user=:user";
+        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
+        Transaction tx = session.beginTransaction();
+        Query q = session.createQuery(hql).setParameter("user", user);
+        q.setCacheable(true);
+        q.executeUpdate();
+        tx.commit();
+        session.close();
+    }
+
     public List<HistoryEvent> getByUserTestHistory(final User user, final Test test) {
         Session session = HibernateSessionFactoryUtil
                 .getSessionFactory()

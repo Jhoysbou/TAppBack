@@ -38,6 +38,12 @@ public class HistoryService {
     }
 
     @Async
+    public void deleteHistory(final long userId) {
+        User user = userDao.get(userId).orElseThrow(UserNotFoundException::new);
+        historyEventDao.deleteByUser(user);
+    }
+
+    @Async
     public void startQuestion(final long userId, final long questionId) {
         User user = userDao.get(userId).orElseThrow(UserNotFoundException::new);
 
