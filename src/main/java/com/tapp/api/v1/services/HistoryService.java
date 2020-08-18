@@ -101,7 +101,7 @@ public class HistoryService {
 
             if (isFinished(question, test)) {
                 user.setScore(user.getScore() + score);
-                userDao.save(user);
+                userDao.update(user);
             }
         }
     }
@@ -138,7 +138,7 @@ public class HistoryService {
 
             if (isFinished(question, test)) {
                 user.setScore(user.getScore() + score);
-                userDao.save(user);
+                userDao.update(user);
             }
         }
     }
