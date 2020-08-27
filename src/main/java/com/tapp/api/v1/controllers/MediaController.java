@@ -1,6 +1,7 @@
 package com.tapp.api.v1.controllers;
 
 
+import com.tapp.api.v1.exceptions.NotFoundException;
 import com.tapp.api.v1.exceptions.SignCheckException;
 import com.tapp.api.v1.exceptions.UploadImageException;
 import com.tapp.api.v1.models.User;
@@ -39,17 +40,17 @@ public class MediaController {
                     }
                     throw new UploadImageException();
                 } else {
-                    throw new UnsupportedOperationException();
+                    throw new NotFoundException();
                 }
 
             } else {
-                throw new UnsupportedOperationException();
+                throw new NotFoundException();
             }
         } catch (SignCheckException e) {
-            throw new UnsupportedOperationException();
+            throw new NotFoundException();
         } catch (MalformedURLException | InterruptedException | ExecutionException e) {
             e.printStackTrace();
-            throw new UnsupportedOperationException();
+            throw new NotFoundException();
         }
     }
 

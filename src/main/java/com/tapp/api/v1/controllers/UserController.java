@@ -1,5 +1,6 @@
 package com.tapp.api.v1.controllers;
 
+import com.tapp.api.v1.exceptions.NotFoundException;
 import com.tapp.api.v1.exceptions.SignCheckException;
 import com.tapp.api.v1.exceptions.UserNotFoundException;
 import com.tapp.api.v1.models.HistoryEvent;
@@ -56,17 +57,27 @@ public class UserController {
     }
 
     @PutMapping("{id}")
-    User saveUser(@PathVariable long id,
+    User saveUser(@RequestHeader("params") String params,
+                  @PathVariable long id,
                   @RequestBody User user) {
-        user.setId(id);
-        return userService.saveUser(user);
+        try {
+            if (ParamsUtil.isAuthentic(params) && id == ParamsUtil.getUserId(params)) {
+                user.setId(id);
+                return userService.saveUser(user);
+            } else {
+                throw new NotFoundException();
+            }
+        } catch (SignCheckException | MalformedURLException e) {
+            throw new NotFoundException();
+        }
+
     }
 
     @PostMapping("{userId}/send_event/{questionId}")
     void startQuestion(@RequestHeader("params") String params,
                        @PathVariable long userId,
                        @PathVariable long questionId,
-                       @RequestBody int eventCode) throws UnsupportedOperationException {
+                       @RequestBody int eventCode) throws NotFoundException {
         try {
             if (ParamsUtil.isAuthentic(params) && userId == ParamsUtil.getUserId(params)) {
                 switch (eventCode) {
@@ -85,10 +96,9 @@ public class UserController {
                 }
             }
         } catch (SignCheckException | MalformedURLException e) {
-            throw new UnsupportedOperationException();
+            throw new NotFoundException();
         }
     }
-
 
     @GetMapping("{userId}/get_history/{testId}")
     CompletableFuture<List<HistoryEvent>> getHistory(@RequestHeader("params") String params,
@@ -98,10 +108,10 @@ public class UserController {
             if (ParamsUtil.isAuthentic(params) && userId == ParamsUtil.getUserId(params)) {
                 return historyService.getHistory(userId, testId);
             } else {
-                throw new UnsupportedOperationException();
+                throw new NotFoundException();
             }
         } catch (SignCheckException | MalformedURLException e) {
-            throw new UnsupportedOperationException();
+            throw new NotFoundException();
         }
     }
 
@@ -113,10 +123,10 @@ public class UserController {
             if (ParamsUtil.isAuthentic(params) && userId == ParamsUtil.getUserId(params)) {
                 return userService.buySticker(userId, stickerId);
             } else {
-                throw new UnsupportedOperationException();
+                throw new NotFoundException();
             }
         } catch (SignCheckException | MalformedURLException e) {
-            throw new UnsupportedOperationException();
+            throw new NotFoundException();
         }
     }
 
@@ -128,10 +138,10 @@ public class UserController {
             if (ParamsUtil.isAuthentic(params) && userId == ParamsUtil.getUserId(params)) {
                 return userService.setActiveSticker(stickerId, userId);
             } else {
-                throw new UnsupportedOperationException();
+                throw new NotFoundException();
             }
         } catch (SignCheckException | MalformedURLException e) {
-            throw new UnsupportedOperationException();
+            throw new NotFoundException();
         }
     }
 

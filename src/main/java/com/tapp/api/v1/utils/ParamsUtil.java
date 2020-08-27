@@ -38,16 +38,21 @@ public class ParamsUtil {
         return sign.equals(queryParams.getOrDefault("sign", ""));
     }
 
-    public static long getUserId(String url) throws MalformedURLException {
+    public static long getUserId(String url) throws MalformedURLException, SignCheckException {
         url = "https://example.com/" + url;
         Map<String, String> queryParams = getQueryParams(new URL(url));
         return Long.parseLong(queryParams.get("vk_user_id"));
     }
 
 
-    private static Map<String, String> getQueryParams(URL url) {
+    private static Map<String, String> getQueryParams(URL url) throws SignCheckException {
         final Map<String, String> result = new LinkedHashMap<>();
-        final String[] pairs = url.getQuery().split("&");
+        String[] pairs;
+        try {
+            pairs = url.getQuery().split("&");
+        } catch (NullPointerException e) {
+            throw new SignCheckException();
+        }
 
         for (String pair : pairs) {
             int idx = pair.indexOf("=");

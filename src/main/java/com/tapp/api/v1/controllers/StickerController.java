@@ -1,5 +1,6 @@
 package com.tapp.api.v1.controllers;
 
+import com.tapp.api.v1.exceptions.NotFoundException;
 import com.tapp.api.v1.exceptions.SignCheckException;
 import com.tapp.api.v1.models.Sticker;
 import com.tapp.api.v1.models.User;
@@ -41,13 +42,13 @@ public class StickerController {
                     return stickerService.addSticker(sticker);
                 }
             }
-            throw new UnsupportedOperationException();
+            throw new NotFoundException();
 
         } catch (SignCheckException e) {
-            throw new UnsupportedOperationException();
+            throw new NotFoundException();
         } catch (MalformedURLException | InterruptedException | ExecutionException e) {
             e.printStackTrace();
-            throw new UnsupportedOperationException();
+            throw new NotFoundException();
         }
 
     }
@@ -62,13 +63,13 @@ public class StickerController {
                     stickerService.updateSticker(sticker);
                 }
             }
-            throw new UnsupportedOperationException();
+            throw new NotFoundException();
 
         } catch (SignCheckException e) {
-            throw new UnsupportedOperationException();
+            throw new NotFoundException();
         } catch (MalformedURLException | InterruptedException | ExecutionException e) {
             e.printStackTrace();
-            throw new UnsupportedOperationException();
+            throw new NotFoundException();
         }
     }
 
@@ -82,13 +83,13 @@ public class StickerController {
                     stickerService.deleteSticker(id);
                 }
             }
-            throw new UnsupportedOperationException();
+            throw new NotFoundException();
 
         } catch (SignCheckException e) {
-            throw new UnsupportedOperationException();
+            throw new NotFoundException();
         } catch (MalformedURLException | InterruptedException | ExecutionException e) {
             e.printStackTrace();
-            throw new UnsupportedOperationException();
+            throw new NotFoundException();
         }
     }
 }
