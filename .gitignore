@@ -11,7 +11,7 @@ myLogs.txt
 
 
 src/main/resources
-src/main/java/com/tapp/api/v1/utils/AwsCredentials.java
+src/main/java/com/tapp/api/v1/utils/Credentials.java
 
 ### STS ###
 .apt_generated

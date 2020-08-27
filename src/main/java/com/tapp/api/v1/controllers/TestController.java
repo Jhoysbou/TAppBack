@@ -1,10 +1,15 @@
 package com.tapp.api.v1.controllers;
 
-import com.tapp.api.v1.exceptions.SaveTestException;
+import com.tapp.api.v1.exceptions.SignCheckException;
 import com.tapp.api.v1.models.Test;
+import com.tapp.api.v1.models.User;
 import com.tapp.api.v1.services.TestService;
+import com.tapp.api.v1.services.UserService;
+import com.tapp.api.v1.utils.ParamsUtil;
+import com.tapp.api.v1.utils.UserRoles;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.MalformedURLException;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
@@ -14,6 +19,7 @@ import java.util.concurrent.ExecutionException;
 @RequestMapping("v1/tests")
 public class TestController {
     private TestService testService = new TestService();
+    private UserService userService = new UserService();
 
     @GetMapping
     CompletableFuture<List<Test>> getAllTests() {
@@ -26,20 +32,45 @@ public class TestController {
     }
 
     @PostMapping
-    String saveTest(@RequestBody Test test) {
+    CompletableFuture<Test> saveTest(@RequestHeader("params") String params,
+                                     @RequestBody Test test) {
         try {
-            long id = testService.saveTest(test).get();
-            return "{'id': "+ id +" }";
-        } catch (InterruptedException e) {
+            if (ParamsUtil.isAuthentic(params)) {
+                User user = userService.getUser(ParamsUtil.getUserId(params)).get();
+                if (user.getRole().equals(UserRoles.admin.toString())) {
+                    return testService.saveTest(test);
+                }
+            }
+            throw new UnsupportedOperationException();
+
+        } catch (SignCheckException e) {
+            throw new UnsupportedOperationException();
+        } catch (MalformedURLException | InterruptedException | ExecutionException e) {
             e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
+            throw new UnsupportedOperationException();
         }
-        throw new SaveTestException();
+
     }
 
     @DeleteMapping("{id}")
-    void deleteTest(@PathVariable long id) {
-        testService.deleteTest(id);
+    void deleteTest(@RequestHeader("params") String params,
+                    @PathVariable long id) {
+
+        try {
+            if (ParamsUtil.isAuthentic(params)) {
+                User user = userService.getUser(ParamsUtil.getUserId(params)).get();
+                if (user.getRole().equals(UserRoles.admin.toString())) {
+                    testService.deleteTest(id);
+                }
+            }
+            throw new UnsupportedOperationException();
+
+        } catch (SignCheckException e) {
+            throw new UnsupportedOperationException();
+        } catch (MalformedURLException | InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+            throw new UnsupportedOperationException();
+        }
+
     }
 }

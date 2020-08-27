@@ -24,9 +24,9 @@ public class StickerService {
     }
 
     @Async
-    public CompletableFuture<Long> addSticker(final Sticker sticker) {
+    public CompletableFuture<Sticker> addSticker(final Sticker sticker) {
         stickerDao.save(sticker);
-        return CompletableFuture.completedFuture(sticker.getId());
+        return CompletableFuture.completedFuture(sticker);
     }
 
     @Async

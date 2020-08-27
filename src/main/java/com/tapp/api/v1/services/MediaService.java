@@ -7,7 +7,7 @@ import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.ObjectMetadata;
-import com.tapp.api.v1.utils.AwsCredentials;
+import com.tapp.api.v1.utils.Credentials;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.util.concurrent.CompletableFuture;
 
 public class MediaService {
-    private static final AWSCredentials CREDENTIALS = new BasicAWSCredentials(AwsCredentials.ACCESS_KEY, AwsCredentials.SECRET_ACCESS_KEY);
+    private static final AWSCredentials CREDENTIALS = new BasicAWSCredentials(Credentials.AWS_ACCESS_KEY, Credentials.AWS_SECRET_ACCESS_KEY);
     private static final String BUCKET_NAME = "tapp-media";
     private static final String TEST_IMAGES_PATH = "test_images/";
     private static AmazonS3 s3Client;
