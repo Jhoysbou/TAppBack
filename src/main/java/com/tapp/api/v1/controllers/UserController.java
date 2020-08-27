@@ -33,12 +33,12 @@ public class UserController {
                 }
             }
 
-            throw new UnsupportedOperationException();
+            throw new UserNotFoundException();
         } catch (MalformedURLException | InterruptedException | ExecutionException e) {
             e.printStackTrace();
-            throw new UnsupportedOperationException();
+            throw new UserNotFoundException();
         } catch (SignCheckException e) {
-            throw new UnsupportedOperationException();
+            throw new UserNotFoundException();
         }
     }
 
