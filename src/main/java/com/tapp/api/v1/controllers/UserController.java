@@ -21,8 +21,8 @@ import java.util.concurrent.ExecutionException;
 @CrossOrigin
 @RequestMapping("v1/users")
 public class UserController {
-    private UserService userService = new UserService();
-    private HistoryService historyService = new HistoryService();
+    private final UserService userService = new UserService();
+    private final HistoryService historyService = new HistoryService();
 
     @GetMapping
     CompletableFuture<List<User>> getAllUsers(@RequestHeader("params") String params) {
