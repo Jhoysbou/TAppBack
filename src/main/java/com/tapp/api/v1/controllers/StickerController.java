@@ -36,7 +36,7 @@ public class StickerController {
     CompletableFuture<Sticker> addSticker(@RequestHeader("params") String params,
                                           @RequestBody Sticker sticker) {
         try {
-            if (ParamsUtil.isAuthentic(params)) {
+            if (ParamsUtil.isValid(params)) {
                 User user = userService.getUser(ParamsUtil.getUserId(params)).get();
                 if (user.getRole().equals(UserRoles.admin.toString())) {
                     return stickerService.addSticker(sticker);
@@ -57,7 +57,7 @@ public class StickerController {
     void updateSticker(@RequestHeader("params") String params,
                        @RequestBody Sticker sticker) {
         try {
-            if (ParamsUtil.isAuthentic(params)) {
+            if (ParamsUtil.isValid(params)) {
                 User user = userService.getUser(ParamsUtil.getUserId(params)).get();
                 if (user.getRole().equals(UserRoles.admin.toString())) {
                     stickerService.updateSticker(sticker);
@@ -77,7 +77,7 @@ public class StickerController {
     void deleteSticker(@RequestHeader("params") String params,
                        @PathVariable long id) {
         try {
-            if (ParamsUtil.isAuthentic(params)) {
+            if (ParamsUtil.isValid(params)) {
                 User user = userService.getUser(ParamsUtil.getUserId(params)).get();
                 if (user.getRole().equals(UserRoles.admin.toString())) {
                     stickerService.deleteSticker(id);

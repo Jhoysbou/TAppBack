@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.net.MalformedURLException;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
 @RestController
@@ -26,7 +25,7 @@ public class MediaController {
     @PostMapping()
     public String uploadTestImage(@RequestHeader("params") String params, @RequestParam MultipartFile img) {
         try {
-            if (ParamsUtil.isAuthentic(params)) {
+            if (ParamsUtil.isValid(params)) {
                 User user = userService.getUser(ParamsUtil.getUserId(params)).get();
                 if (user.getRole().equals(UserRoles.admin.toString())) {
                     final String url;

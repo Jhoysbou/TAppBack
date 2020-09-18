@@ -35,7 +35,7 @@ public class TestController {
     CompletableFuture<Test> saveTest(@RequestHeader("params") String params,
                                      @RequestBody Test test) {
         try {
-            if (ParamsUtil.isAuthentic(params)) {
+            if (ParamsUtil.isValid(params)) {
                 User user = userService.getUser(ParamsUtil.getUserId(params)).get();
                 if (user.getRole().equals(UserRoles.admin.toString())) {
                     return testService.saveTest(test);
@@ -52,12 +52,36 @@ public class TestController {
 
     }
 
+    @PatchMapping
+    void updateTest(@RequestHeader("params") String params,
+                                       @RequestBody Test test) {
+        try {
+            if (ParamsUtil.isValid(params)) {
+                User user = userService.getUser(ParamsUtil.getUserId(params)).get();
+                if (user.getRole().equals(UserRoles.admin.toString())) {
+                    testService.updateTest(test);
+                } else {
+                    throw new UnsupportedOperationException();
+                }
+            } else {
+                throw new UnsupportedOperationException();
+            }
+
+
+        } catch (SignCheckException e) {
+            throw new UnsupportedOperationException();
+        } catch (MalformedURLException | InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+            throw new UnsupportedOperationException();
+        }
+    }
+
     @DeleteMapping("{id}")
     void deleteTest(@RequestHeader("params") String params,
                     @PathVariable long id) {
 
         try {
-            if (ParamsUtil.isAuthentic(params)) {
+            if (ParamsUtil.isValid(params)) {
                 User user = userService.getUser(ParamsUtil.getUserId(params)).get();
                 if (user.getRole().equals(UserRoles.admin.toString())) {
                     testService.deleteTest(id);
@@ -71,6 +95,5 @@ public class TestController {
             e.printStackTrace();
             throw new UnsupportedOperationException();
         }
-
     }
 }

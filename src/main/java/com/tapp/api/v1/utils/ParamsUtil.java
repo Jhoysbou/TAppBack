@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 public class ParamsUtil {
     private static final String ENCODING = "UTF-8";
 
-    public static boolean isAuthentic(String url) throws SignCheckException, MalformedURLException {
+    public static boolean isValid(String url) throws SignCheckException, MalformedURLException {
         url = "https://example.com/" + url;
         Map<String, String> queryParams = getQueryParams(new URL(url));
 

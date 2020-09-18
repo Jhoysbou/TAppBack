@@ -27,7 +27,7 @@ public class UserController {
     @GetMapping
     CompletableFuture<List<User>> getAllUsers(@RequestHeader("params") String params) {
         try {
-            if (ParamsUtil.isAuthentic(params)) {
+            if (ParamsUtil.isValid(params)) {
                 User user = userService.getUser(ParamsUtil.getUserId(params)).get();
                 if (user.getRole().equals(UserRoles.admin.toString())) {
                     return userService.getAllUsers();
@@ -46,7 +46,7 @@ public class UserController {
     @GetMapping("{id}")
     CompletableFuture<User> getUser(@PathVariable long id, @RequestHeader("params") String params) throws UserNotFoundException {
         try {
-            if (ParamsUtil.isAuthentic(params) && id == ParamsUtil.getUserId(params)) {
+            if (ParamsUtil.isValid(params) && id == ParamsUtil.getUserId(params)) {
                 return userService.getUser(id);
             } else {
                 throw new UserNotFoundException();
@@ -61,7 +61,7 @@ public class UserController {
                   @PathVariable long id,
                   @RequestBody User user) {
         try {
-            if (ParamsUtil.isAuthentic(params) && id == ParamsUtil.getUserId(params)) {
+            if (ParamsUtil.isValid(params) && id == ParamsUtil.getUserId(params)) {
                 user.setId(id);
                 return userService.saveUser(user);
             } else {
@@ -79,7 +79,7 @@ public class UserController {
                        @PathVariable long questionId,
                        @RequestBody int eventCode) throws NotFoundException {
         try {
-            if (ParamsUtil.isAuthentic(params) && userId == ParamsUtil.getUserId(params)) {
+            if (ParamsUtil.isValid(params) && userId == ParamsUtil.getUserId(params)) {
                 switch (eventCode) {
                     case HistoryEventCode.FAILED:
                         historyService.failQuestion(userId, questionId);
@@ -105,7 +105,7 @@ public class UserController {
                                                      @PathVariable long userId,
                                                      @PathVariable long testId) {
         try {
-            if (ParamsUtil.isAuthentic(params) && userId == ParamsUtil.getUserId(params)) {
+            if (ParamsUtil.isValid(params) && userId == ParamsUtil.getUserId(params)) {
                 return historyService.getHistory(userId, testId);
             } else {
                 throw new NotFoundException();
@@ -120,7 +120,7 @@ public class UserController {
                                        @PathVariable long userId,
                                        @PathVariable long stickerId) {
         try {
-            if (ParamsUtil.isAuthentic(params) && userId == ParamsUtil.getUserId(params)) {
+            if (ParamsUtil.isValid(params) && userId == ParamsUtil.getUserId(params)) {
                 return userService.buySticker(userId, stickerId);
             } else {
                 throw new NotFoundException();
@@ -135,7 +135,7 @@ public class UserController {
                                              @PathVariable long userId,
                                              @PathVariable long stickerId) {
         try {
-            if (ParamsUtil.isAuthentic(params) && userId == ParamsUtil.getUserId(params)) {
+            if (ParamsUtil.isValid(params) && userId == ParamsUtil.getUserId(params)) {
                 return userService.setActiveSticker(stickerId, userId);
             } else {
                 throw new NotFoundException();
