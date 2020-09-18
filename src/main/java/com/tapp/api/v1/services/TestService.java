@@ -28,7 +28,9 @@ public class TestService {
         if (test.getQuestions() != null) {
             test.getQuestions().stream().forEach(question -> {
                 question.setTest(test);
-                question.getAnswers().forEach(answer -> answer.setQuestion(question));
+                if (question.getAnswers() != null) {
+                    question.getAnswers().forEach(answer -> answer.setQuestion(question));
+                }
             });
         }
         testDao.save(test);
