@@ -85,9 +85,12 @@ public class TestController {
                 User user = userService.getUser(ParamsUtil.getUserId(params)).get();
                 if (user.getRole().equals(UserRoles.admin.toString())) {
                     testService.deleteTest(id);
+                } else {
+                    throw new UnsupportedOperationException();
                 }
+            } else {
+                throw new UnsupportedOperationException();
             }
-            throw new UnsupportedOperationException();
 
         } catch (SignCheckException e) {
             throw new UnsupportedOperationException();
