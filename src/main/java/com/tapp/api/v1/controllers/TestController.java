@@ -54,7 +54,7 @@ public class TestController {
 
     @PatchMapping
     void updateTest(@RequestHeader("params") String params,
-                                       @RequestBody Test test) {
+                    @RequestBody Test test) {
         try {
             if (ParamsUtil.isValid(params)) {
                 User user = userService.getUser(ParamsUtil.getUserId(params)).get();
@@ -77,20 +77,17 @@ public class TestController {
     }
 
     @DeleteMapping("{id}")
-    void deleteTest(@RequestHeader("params") String params,
-                    @PathVariable long id) {
+    CompletableFuture<List<Test>> deleteTest(@RequestHeader("params") String params,
+                                             @PathVariable long id) {
 
         try {
             if (ParamsUtil.isValid(params)) {
                 User user = userService.getUser(ParamsUtil.getUserId(params)).get();
                 if (user.getRole().equals(UserRoles.admin.toString())) {
-                    testService.deleteTest(id);
-                } else {
-                    throw new UnsupportedOperationException();
+                    return testService.deleteTest(id);
                 }
-            } else {
-                throw new UnsupportedOperationException();
             }
+            throw new UnsupportedOperationException();
 
         } catch (SignCheckException e) {
             throw new UnsupportedOperationException();

@@ -39,8 +39,9 @@ public class TestService {
     }
 
     @Async
-    public void deleteTest(long id) {
+    public CompletableFuture<List<Test>> deleteTest(long id) {
         testDao.deleteById(id);
+        return getAllTests();
     }
 
     @Async
