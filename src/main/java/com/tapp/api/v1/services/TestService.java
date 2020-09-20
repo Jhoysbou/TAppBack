@@ -31,8 +31,11 @@ public class TestService {
 
     @Async
     public CompletableFuture<Test> saveTest(Test test, MultipartFile img) throws ExecutionException, InterruptedException {
-        final String url = mediaService.uploadTestImage(img).get();
-        test.setImg(url);
+        if (img != null) {
+            final String url = mediaService.uploadTestImage(img).get();
+            test.setImg(url);
+        }
+       
 
 //        if (test.getQuestions() != null) {
 //            test.getQuestions().forEach(question -> {
