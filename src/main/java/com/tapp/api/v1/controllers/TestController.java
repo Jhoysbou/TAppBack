@@ -8,6 +8,7 @@ import com.tapp.api.v1.services.UserService;
 import com.tapp.api.v1.utils.ParamsUtil;
 import com.tapp.api.v1.utils.UserRoles;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.net.MalformedURLException;
 import java.util.List;
@@ -33,12 +34,23 @@ public class TestController {
 
     @PostMapping
     CompletableFuture<Test> saveTest(@RequestHeader("params") String params,
-                                     @RequestBody Test test) {
+                                     @RequestParam String title,
+                                     @RequestParam String date,
+                                     @RequestParam(required = false) MultipartFile img,
+                                     @RequestParam(required = false) String description,
+                                     @RequestParam(required = false) String timeToComplete) {
         try {
             if (ParamsUtil.isValid(params)) {
                 User user = userService.getUser(ParamsUtil.getUserId(params)).get();
                 if (user.getRole().equals(UserRoles.admin.toString())) {
-                    return testService.saveTest(test);
+                    System.out.println(title);
+                    final Test test = new Test();
+                    test.setDescription(description);
+                    test.setTitle(title);
+                    test.setTimeToComplete(timeToComplete);
+                    test.setDate(date);
+
+                    return testService.saveTest(test, img);
                 }
             }
             throw new UnsupportedOperationException();

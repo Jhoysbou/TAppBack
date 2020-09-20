@@ -49,6 +49,15 @@ public class Test {
     public Test() {
     }
 
+    public Test(String title) {
+        this.title = title;
+    }
+
+    public Test(String title, String description, String date) {
+        this.title = title;
+        this.description = description;
+        this.date = date;
+    }
 
     public Test(String img, String title, String description, String date) {
         this.img = img;

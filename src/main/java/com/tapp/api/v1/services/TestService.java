@@ -2,10 +2,10 @@ package com.tapp.api.v1.services;
 
 import com.tapp.api.v1.dao.TestDao;
 import com.tapp.api.v1.exceptions.TestNotFoundException;
-import com.tapp.api.v1.exceptions.UserNotFoundException;
 import com.tapp.api.v1.models.Question;
 import com.tapp.api.v1.models.Test;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Set;
@@ -14,6 +14,7 @@ import java.util.concurrent.ExecutionException;
 
 public class TestService {
     private TestDao testDao = new TestDao();
+    private MediaService mediaService = new MediaService();
 
     public TestService() {
     }
@@ -23,19 +24,26 @@ public class TestService {
         return CompletableFuture.completedFuture(testDao.get(id).orElseThrow(TestNotFoundException::new));
     }
 
-    @Async
-    public CompletableFuture<Test> saveTest(Test test) {
-        if (test.getQuestions() != null) {
-            test.getQuestions().stream().forEach(question -> {
-                question.setTest(test);
-                if (question.getAnswers() != null) {
-                    question.getAnswers().forEach(answer -> answer.setQuestion(question));
-                }
-            });
-        }
+    private CompletableFuture<Test> saveTest(Test test) {
         testDao.save(test);
-
         return CompletableFuture.completedFuture(test);
+    }
+
+    @Async
+    public CompletableFuture<Test> saveTest(Test test, MultipartFile img) throws ExecutionException, InterruptedException {
+        final String url = mediaService.uploadTestImage(img).get();
+        test.setImg(url);
+
+//        if (test.getQuestions() != null) {
+//            test.getQuestions().forEach(question -> {
+//                question.setTest(test);
+//                if (question.getAnswers() != null) {
+//                    question.getAnswers().forEach(answer -> answer.setQuestion(question));
+//                }
+//            });
+//        }
+
+        return saveTest(test);
     }
 
     @Async
