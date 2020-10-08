@@ -2,6 +2,7 @@ plugins {
     id 'org.springframework.boot' version '2.2.2.RELEASE'
     id 'io.spring.dependency-management' version '1.0.8.RELEASE'
     id 'java'
+    id "io.swagger.core.v3.swagger-gradle-plugin" version "2.1.5"
 }
 
 group = 'com.tapp'
@@ -15,6 +16,9 @@ repositories {
 dependencies {
     compile group: 'org.ehcache', name: 'ehcache', version: '3.8.1'
     compile group: 'org.hibernate', name: 'hibernate-ehcache', version: '5.4.14.Final'
+//    Swagger
+    compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.7.0'
+    compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.7.0'
 
     compile group: 'commons-io', name: 'commons-io', version: '2.6'
     compile group: 'org.postgresql', name: 'postgresql', version: '42.1.4'
@@ -29,3 +33,5 @@ dependencies {
 test {
     useJUnitPlatform()
 }
+
+apply plugin: "io.swagger.core.v3.swagger-gradle-plugin"

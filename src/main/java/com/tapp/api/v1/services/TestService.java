@@ -35,7 +35,7 @@ public class TestService {
             final String url = mediaService.uploadTestImage(img).get();
             test.setImg(url);
         }
-       
+
 
 //        if (test.getQuestions() != null) {
 //            test.getQuestions().forEach(question -> {
@@ -75,19 +75,19 @@ public class TestService {
 
     private Test mergeTests(Test oldTest, final Test newTest) {
         String img = newTest.getImg();
-        oldTest.setImg( img != null ? img : oldTest.getImg());
+        oldTest.setImg(img != null ? img : oldTest.getImg());
 
         String title = newTest.getTitle();
-        oldTest.setTitle( title != null ? title : oldTest.getTitle());
+        oldTest.setTitle(title != null ? title : oldTest.getTitle());
 
         String description = newTest.getDescription();
-        oldTest.setDescription( description != null ? description : oldTest.getDescription());
+        oldTest.setDescription(description != null ? description : oldTest.getDescription());
 
         Set<Question> questions = newTest.getQuestions();
         oldTest.setQuestions(questions != null ? questions : oldTest.getQuestions());
 
         String date = newTest.getDate();
-        oldTest.setDate( date != null ? date : oldTest.getDate());
+        oldTest.setDate(date != null ? date : oldTest.getDate());
 
         long maxScore = newTest.getMaxScore();
         oldTest.setMaxScore(maxScore > 0 ? maxScore : oldTest.getMaxScore());
