@@ -1,5 +1,6 @@
 package com.tapp.api.v1.controllers;
 
+import com.tapp.api.v1.exceptions.InternalException;
 import com.tapp.api.v1.exceptions.NotFoundException;
 import com.tapp.api.v1.exceptions.SignCheckException;
 import com.tapp.api.v1.exceptions.UserNotFoundException;
@@ -25,12 +26,12 @@ public class UserController {
     private final HistoryService historyService = new HistoryService();
 
     @GetMapping
-    CompletableFuture<List<User>> getAllUsers(@RequestHeader("params") String params) {
+    List<User> getAllUsers(@RequestHeader("params") String params) {
         try {
             if (ParamsUtil.isValid(params)) {
                 User user = userService.getUser(ParamsUtil.getUserId(params)).get();
                 if (user.getRole().equals(UserRoles.admin.toString())) {
-                    return userService.getAllUsers();
+                    return userService.getAllUsers().get();
                 }
             }
 
@@ -44,16 +45,22 @@ public class UserController {
     }
 
     @GetMapping("{id}")
-    CompletableFuture<User> getUser(@PathVariable long id, @RequestHeader("params") String params) throws UserNotFoundException {
+    User getUser(@PathVariable long id, @RequestHeader("params") String params) throws UserNotFoundException {
         try {
             if (ParamsUtil.isValid(params) && id == ParamsUtil.getUserId(params)) {
-                return userService.getUser(id);
+                return userService.getUser(id).get();
             } else {
                 throw new UserNotFoundException();
             }
         } catch (MalformedURLException | SignCheckException e) {
             throw new UserNotFoundException();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
         }
+
+        throw new InternalException();
     }
 
     @PutMapping("{id}")
@@ -101,48 +108,64 @@ public class UserController {
     }
 
     @GetMapping("{userId}/get_history/{testId}")
-    CompletableFuture<List<HistoryEvent>> getHistory(@RequestHeader("params") String params,
+    List<HistoryEvent> getHistory(@RequestHeader("params") String params,
                                                      @PathVariable long userId,
                                                      @PathVariable long testId) {
         try {
             if (ParamsUtil.isValid(params) && userId == ParamsUtil.getUserId(params)) {
-                return historyService.getHistory(userId, testId);
+                return historyService.getHistory(userId, testId).get();
             } else {
                 throw new NotFoundException();
             }
         } catch (SignCheckException | MalformedURLException e) {
             throw new NotFoundException();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
         }
+        throw new InternalException();
     }
 
     @PatchMapping("{userId}/buy_sticker/{stickerId}")
-    CompletableFuture<User> buySticker(@RequestHeader("params") String params,
+    User buySticker(@RequestHeader("params") String params,
                                        @PathVariable long userId,
                                        @PathVariable long stickerId) {
         try {
             if (ParamsUtil.isValid(params) && userId == ParamsUtil.getUserId(params)) {
-                return userService.buySticker(userId, stickerId);
+                return userService.buySticker(userId, stickerId).get();
             } else {
                 throw new NotFoundException();
             }
         } catch (SignCheckException | MalformedURLException e) {
             throw new NotFoundException();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
         }
+
+        throw new InternalException();
     }
 
     @PatchMapping("{userId}/set_active_sticker/{stickerId}")
-    CompletableFuture<User> setActiveSticker(@RequestHeader("params") String params,
+    User setActiveSticker(@RequestHeader("params") String params,
                                              @PathVariable long userId,
                                              @PathVariable long stickerId) {
         try {
             if (ParamsUtil.isValid(params) && userId == ParamsUtil.getUserId(params)) {
-                return userService.setActiveSticker(stickerId, userId);
+                return userService.setActiveSticker(stickerId, userId).get();
             } else {
                 throw new NotFoundException();
             }
         } catch (SignCheckException | MalformedURLException e) {
             throw new NotFoundException();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
         }
+        throw new InternalException();
     }
 
 

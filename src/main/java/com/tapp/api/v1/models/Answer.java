@@ -69,5 +69,4 @@ public class Answer {
         this.isRight = rightAnswer;
     }
 
-
 }

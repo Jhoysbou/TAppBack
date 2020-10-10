@@ -1,5 +1,6 @@
 package com.tapp.api.v1.controllers;
 
+import com.tapp.api.v1.exceptions.InternalException;
 import com.tapp.api.v1.exceptions.SignCheckException;
 import com.tapp.api.v1.models.Test;
 import com.tapp.api.v1.models.User;
@@ -23,17 +24,31 @@ public class TestController {
     private UserService userService = new UserService();
 
     @GetMapping
-    CompletableFuture<List<Test>> getAllTests() {
-        return testService.getAllTests();
+    List<Test> getAllTests() {
+        try {
+            return testService.getAllTests().get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        throw new InternalException();
     }
 
     @GetMapping("{id}")
-    CompletableFuture<Test> getTest(@PathVariable long id) {
-        return testService.getTest(id);
+    Test getTest(@PathVariable long id) {
+        try {
+            return testService.getTest(id).get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        throw new InternalException();
     }
 
     @PostMapping
-    CompletableFuture<Test> saveTest(@RequestHeader("params") String params,
+    Test saveTest(@RequestHeader("params") String params,
                                      @RequestParam String title,
                                      @RequestParam String date,
                                      @RequestParam(required = false) MultipartFile img,
@@ -50,7 +65,7 @@ public class TestController {
                     test.setTimeToComplete(timeToComplete);
                     test.setDate(date);
 
-                    return testService.saveTest(test, img);
+                    return testService.saveTest(test, img).get();
                 }
             }
             throw new UnsupportedOperationException();
@@ -59,7 +74,7 @@ public class TestController {
             throw new UnsupportedOperationException();
         } catch (MalformedURLException | InterruptedException | ExecutionException e) {
             e.printStackTrace();
-            throw new UnsupportedOperationException();
+            throw new InternalException();
         }
 
     }
@@ -89,14 +104,14 @@ public class TestController {
     }
 
     @DeleteMapping("{id}")
-    CompletableFuture<List<Test>> deleteTest(@RequestHeader("params") String params,
+    List<Test> deleteTest(@RequestHeader("params") String params,
                                              @PathVariable long id) {
 
         try {
             if (ParamsUtil.isValid(params)) {
                 User user = userService.getUser(ParamsUtil.getUserId(params)).get();
                 if (user.getRole().equals(UserRoles.admin.toString())) {
-                    return testService.deleteTest(id);
+                    return testService.deleteTest(id).get();
                 }
             }
             throw new UnsupportedOperationException();
@@ -105,7 +120,7 @@ public class TestController {
             throw new UnsupportedOperationException();
         } catch (MalformedURLException | InterruptedException | ExecutionException e) {
             e.printStackTrace();
-            throw new UnsupportedOperationException();
+            throw new InternalException();
         }
     }
 }

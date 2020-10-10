@@ -1,5 +1,6 @@
 package com.tapp.api.v1.controllers;
 
+import com.tapp.api.v1.exceptions.InternalException;
 import com.tapp.api.v1.exceptions.NotFoundException;
 import com.tapp.api.v1.exceptions.SignCheckException;
 import com.tapp.api.v1.models.Sticker;
@@ -33,13 +34,13 @@ public class StickerController {
     }
 
     @PostMapping
-    CompletableFuture<Sticker> addSticker(@RequestHeader("params") String params,
+    Sticker addSticker(@RequestHeader("params") String params,
                                           @RequestBody Sticker sticker) {
         try {
             if (ParamsUtil.isValid(params)) {
                 User user = userService.getUser(ParamsUtil.getUserId(params)).get();
                 if (user.getRole().equals(UserRoles.admin.toString())) {
-                    return stickerService.addSticker(sticker);
+                    return stickerService.addSticker(sticker).get();
                 }
             }
             throw new NotFoundException();
@@ -48,7 +49,7 @@ public class StickerController {
             throw new NotFoundException();
         } catch (MalformedURLException | InterruptedException | ExecutionException e) {
             e.printStackTrace();
-            throw new NotFoundException();
+            throw new InternalException();
         }
 
     }
