@@ -5,30 +5,9 @@ The string must not contain domains (e.g. https://example.com/).
  
  Example for string `?vk_access_token_settings=notify&vk_app_id=6736218&vk_are_notifications_enabled=0&vk_is_app_user=0&vk_language=ru&vk_platform=android&vk_user_id=494075`
 
----
-title: Api Documentation v1.0
-language_tabs:
-  - shell: Shell
-  - http: HTTP
-  - javascript: JavaScript
-  - ruby: Ruby
-  - python: Python
-  - php: PHP
-  - java: Java
-  - go: Go
-toc_footers: []
-includes: []
-search: true
-highlight_theme: darkula
-headingLevel: 2
-
----
-
 <!-- Generator: Widdershins v4.0.1 -->
 
 <h1 id="api-documentation">Api Documentation v1.0</h1>
-
-> Scroll down for code samples, example requests and responses. Select a language for code samples from the tabs above or the mobile navigation menu.
 
 Api Documentation
 
