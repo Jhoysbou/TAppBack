@@ -36,16 +36,6 @@ public class TestService {
             test.setImg(url);
         }
 
-
-//        if (test.getQuestions() != null) {
-//            test.getQuestions().forEach(question -> {
-//                question.setTest(test);
-//                if (question.getAnswers() != null) {
-//                    question.getAnswers().forEach(answer -> answer.setQuestion(question));
-//                }
-//            });
-//        }
-
         return saveTest(test);
     }
 
@@ -84,7 +74,15 @@ public class TestService {
         oldTest.setDescription(description != null ? description : oldTest.getDescription());
 
         Set<Question> questions = newTest.getQuestions();
-        oldTest.setQuestions(questions != null ? questions : oldTest.getQuestions());
+        if (questions != null) {
+            oldTest.setQuestions(questions);
+            oldTest.getQuestions().forEach(question -> {
+                question.setTest(oldTest);
+                if (question.getAnswers() != null) {
+                    question.getAnswers().forEach(answer -> answer.setQuestion(question));
+                }
+            });
+        }
 
         String date = newTest.getDate();
         oldTest.setDate(date != null ? date : oldTest.getDate());

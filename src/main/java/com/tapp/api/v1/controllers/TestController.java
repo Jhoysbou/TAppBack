@@ -58,7 +58,6 @@ public class TestController {
             if (ParamsUtil.isValid(params)) {
                 User user = userService.getUser(ParamsUtil.getUserId(params)).get();
                 if (user.getRole().equals(UserRoles.admin.toString())) {
-                    System.out.println(title);
                     final Test test = new Test();
                     test.setDescription(description);
                     test.setTitle(title);
