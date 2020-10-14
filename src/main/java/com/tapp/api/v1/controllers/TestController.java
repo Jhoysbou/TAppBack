@@ -33,16 +33,21 @@ import java.util.concurrent.ExecutionException;
 @CrossOrigin
 @RequestMapping("v1/tests")
 public class TestController {
-    private TestService testService = new TestService();
-    private UserService userService = new UserService();
+    private final TestService testService = new TestService();
+    private final UserService userService = new UserService();
 
     @GetMapping
-    List<Test> getAllTests() {
+    List<Test> getAllTests(@RequestHeader("params") String params) {
         try {
-            return testService.getAllTests().get();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
+            if (ParamsUtil.isValid(params)) {
+                User user = userService.getUser(ParamsUtil.getUserId(params)).get();
+                if (user.getRole().equals(UserRoles.admin.toString())) {
+                    return testService.getAllTests().get();
+                } else {
+                    return testService.getAllPublicTests().get();
+                }
+            }
+        } catch (InterruptedException | ExecutionException | SignCheckException | MalformedURLException e) {
             e.printStackTrace();
         }
         throw new InternalException();
@@ -52,9 +57,7 @@ public class TestController {
     Test getTest(@PathVariable long id) {
         try {
             return testService.getTest(id).get();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
+        } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
         throw new InternalException();

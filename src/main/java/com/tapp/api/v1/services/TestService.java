@@ -4,17 +4,24 @@ import com.tapp.api.v1.dao.TestDao;
 import com.tapp.api.v1.exceptions.TestNotFoundException;
 import com.tapp.api.v1.models.Question;
 import com.tapp.api.v1.models.Test;
+import com.tapp.api.v1.utils.DateTimeFormat;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAccessor;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
 
 public class TestService {
-    private TestDao testDao = new TestDao();
-    private MediaService mediaService = new MediaService();
+    private final TestDao testDao = new TestDao();
+    private final MediaService mediaService = new MediaService();
 
     public TestService() {
     }
@@ -111,5 +118,16 @@ public class TestService {
     @Async
     public CompletableFuture<List<Test>> getAllTests() {
         return CompletableFuture.completedFuture(testDao.getAll());
+    }
+
+    @Async
+    public CompletableFuture<List<Test>> getAllPublicTests() {
+        List<Test> tests = testDao.getAll();
+        tests = tests.stream().filter(test -> {
+            LocalDateTime date = LocalDateTime.parse(test.getDate(), DateTimeFormat.getFormatter());
+            return date.isBefore(LocalDateTime.now());
+        }).collect(Collectors.toList());
+
+        return CompletableFuture.completedFuture(tests);
     }
 }
