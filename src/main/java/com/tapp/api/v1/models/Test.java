@@ -5,6 +5,7 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 
@@ -35,7 +36,7 @@ public class Test {
             cascade = CascadeType.ALL,
             orphanRemoval = true,
             fetch = FetchType.EAGER)
-    private Set<Question> questions;
+    private Set<Question> questions = new HashSet<>();
 
     @Column(name = "date")
     private String date;
@@ -46,32 +47,10 @@ public class Test {
     @Column(name = "complete_time")
     private String timeToComplete;
 
-    public Test() {
-    }
+    public Test() {}
 
-    public Test(String title) {
-        this.title = title;
-    }
-
-    public Test(String title, String description, String date) {
-        this.title = title;
-        this.description = description;
-        this.date = date;
-    }
-
-    public Test(String img, String title, String description, String date) {
-        this.img = img;
-        this.title = title;
-        this.description = description;
-        this.date = date;
-    }
-
-    public Test(String img, String title, String description, Set<Question> questions, String date) {
-        this.img = img;
-        this.title = title;
-        this.description = description;
-        this.questions = questions;
-        this.date = date;
+    public void setId(long id) {
+        this.id = id;
     }
 
     public long getMaxScore() {
@@ -128,10 +107,6 @@ public class Test {
 
     public Set<Question> getQuestions() {
         return questions;
-    }
-
-    public void setQuestions(Set<Question> questions) {
-        this.questions = questions;
     }
 
     public String getDate() {

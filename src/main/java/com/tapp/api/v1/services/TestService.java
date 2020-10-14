@@ -24,17 +24,23 @@ public class TestService {
         return CompletableFuture.completedFuture(testDao.get(id).orElseThrow(TestNotFoundException::new));
     }
 
-    private CompletableFuture<Test> saveTest(Test test) {
+    private CompletableFuture<Test> saveTest(final Test test) {
         testDao.save(test);
         return CompletableFuture.completedFuture(test);
     }
 
-    @Async
-    public CompletableFuture<Test> saveTest(Test test, MultipartFile img) throws ExecutionException, InterruptedException {
+    private Test uploadAndSetImg(final Test test, final MultipartFile img) throws ExecutionException, InterruptedException {
         if (img != null) {
             final String url = mediaService.uploadTestImage(img).get();
             test.setImg(url);
         }
+
+        return test;
+    }
+
+    @Async
+    public CompletableFuture<Test> saveTest(Test test, MultipartFile img) throws ExecutionException, InterruptedException {
+        test = uploadAndSetImg(test, img);
 
         return saveTest(test);
     }
@@ -46,7 +52,9 @@ public class TestService {
     }
 
     @Async
-    public void updateTest(final Test test) throws ExecutionException, InterruptedException {
+    public void updateTest(Test test, final MultipartFile img) throws ExecutionException, InterruptedException {
+        test = uploadAndSetImg(test, img);
+
         Test savedTest = null;
 
         try {
@@ -75,7 +83,10 @@ public class TestService {
 
         Set<Question> questions = newTest.getQuestions();
         if (questions != null) {
-            oldTest.setQuestions(questions);
+            Set<Question> oldQuestions = oldTest.getQuestions();
+            oldQuestions.clear();
+            oldQuestions.addAll(questions);
+
             oldTest.getQuestions().forEach(question -> {
                 question.setTest(oldTest);
                 if (question.getAnswers() != null) {
@@ -95,6 +106,7 @@ public class TestService {
 
         return oldTest;
     }
+
 
     @Async
     public CompletableFuture<List<Test>> getAllTests() {

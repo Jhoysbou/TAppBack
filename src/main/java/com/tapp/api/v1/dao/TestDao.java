@@ -30,7 +30,6 @@ public class TestDao implements Dao<Test> {
         return tests;
     }
 
-
     @Override
     public void deleteById(long id) {
         String hql = "delete Test where id=:id";
