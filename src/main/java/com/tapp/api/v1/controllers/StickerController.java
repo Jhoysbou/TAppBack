@@ -9,11 +9,21 @@ import com.tapp.api.v1.services.StickerService;
 import com.tapp.api.v1.services.UserService;
 import com.tapp.api.v1.utils.ParamsUtil;
 import com.tapp.api.v1.utils.UserRoles;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.net.MalformedURLException;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
 @RestController
@@ -34,13 +44,22 @@ public class StickerController {
     }
 
     @PostMapping
-    Sticker addSticker(@RequestHeader("params") String params,
-                                          @RequestBody Sticker sticker) {
+    List<Sticker> addSticker(@RequestHeader("params") String params,
+                       @RequestParam long cost,
+                       @RequestParam MultipartFile img,
+                       @RequestParam String name,
+                       @RequestParam String description,
+                       @RequestParam String quote) {
         try {
             if (ParamsUtil.isValid(params)) {
                 User user = userService.getUser(ParamsUtil.getUserId(params)).get();
                 if (user.getRole().equals(UserRoles.admin.toString())) {
-                    return stickerService.addSticker(sticker).get();
+                    Sticker sticker = new Sticker();
+                    sticker.setCost(cost);
+                    sticker.setDescription(description);
+                    sticker.setName(name);
+                    sticker.setQuote(quote);
+                    return stickerService.addSticker(sticker, img).get();
                 }
             }
             throw new NotFoundException();
