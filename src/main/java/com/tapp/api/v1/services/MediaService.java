@@ -19,15 +19,19 @@ public class MediaService {
     private static final AWSCredentials CREDENTIALS = new BasicAWSCredentials(Credentials.AWS_ACCESS_KEY, Credentials.AWS_SECRET_ACCESS_KEY);
     private static final String BUCKET_NAME = "tapp-media";
     private static final String TEST_IMAGES_PATH = "test_images/";
+    private static final String STICKER_IMAGES_PATH = "sticker_images/";
     private static AmazonS3 s3Client;
 
-    @Async
-    public CompletableFuture<String> uploadTestImage(final MultipartFile file) {
+    public MediaService() {
         s3Client = AmazonS3ClientBuilder
                 .standard()
                 .withCredentials(new AWSStaticCredentialsProvider(CREDENTIALS))
                 .withRegion(Regions.EU_NORTH_1)
                 .build();
+    }
+
+    @Async
+    public CompletableFuture<String> uploadTestImage(final MultipartFile file) {
         try {
             s3Client.putObject(BUCKET_NAME, TEST_IMAGES_PATH + file.getOriginalFilename(),
                     new ByteArrayInputStream(file.getBytes()), new ObjectMetadata());
@@ -35,5 +39,15 @@ public class MediaService {
             e.printStackTrace();
         }
         return CompletableFuture.completedFuture("https://tapp-media.s3.eu-north-1.amazonaws.com/test_images/" + file.getOriginalFilename());
+    }
+
+    public CompletableFuture<String> uploadStickerImage(final MultipartFile file) {
+        try {
+            s3Client.putObject(BUCKET_NAME, STICKER_IMAGES_PATH + file.getOriginalFilename(),
+                    new ByteArrayInputStream(file.getBytes()), new ObjectMetadata());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return CompletableFuture.completedFuture("https://tapp-media.s3.eu-north-1.amazonaws.com/sticker_images/" + file.getOriginalFilename());
     }
 }

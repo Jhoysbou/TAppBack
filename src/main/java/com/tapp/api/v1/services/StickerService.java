@@ -29,7 +29,7 @@ public class StickerService {
     @Async
     public CompletableFuture<List<Sticker>> addSticker(final Sticker sticker, final MultipartFile img) throws ExecutionException, InterruptedException {
         if (img != null) {
-            final String url = mediaService.uploadTestImage(img).get();
+            final String url = mediaService.uploadStickerImage(img).get();
             sticker.setImg(url);
         }
 
