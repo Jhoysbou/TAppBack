@@ -1,4 +1,0 @@
-before=$(($(gdate +%s%N)/1000000))
-seq 1 100 | xargs -n1 -P10  curl "http://localhost:8080/v1/users/"
-now=$(($(gdate +%s%N)/1000000))
-echo "Ellapsed time : $(($now - $before))"

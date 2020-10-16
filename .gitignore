@@ -8,6 +8,7 @@ website_stat.db
 !**/src/test/**
 logErrors.txt
 myLogs.txt
+api_doc.md
 
 
 src/main/resources

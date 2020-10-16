@@ -5,9 +5,30 @@ The string must not contain domains (e.g. https://example.com/).
  
  Example for string `?vk_access_token_settings=notify&vk_app_id=6736218&vk_are_notifications_enabled=0&vk_is_app_user=0&vk_language=ru&vk_platform=android&vk_user_id=494075`
 
+---
+title: Api Documentation v1.0
+language_tabs:
+  - shell: Shell
+  - http: HTTP
+  - javascript: JavaScript
+  - ruby: Ruby
+  - python: Python
+  - php: PHP
+  - java: Java
+  - go: Go
+toc_footers: []
+includes: []
+search: true
+highlight_theme: darkula
+headingLevel: 2
+
+---
+
 <!-- Generator: Widdershins v4.0.1 -->
 
 <h1 id="api-documentation">Api Documentation v1.0</h1>
+
+> Scroll down for code samples, example requests and responses. Select a language for code samples from the tabs above or the mobile navigation menu.
 
 Api Documentation
 
@@ -30,6 +51,12 @@ Test Controller
 `GET /v1/tests`
 
 *getAllTests*
+
+<h3 id="getalltestsusingget-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|params|header|string|true|params|
 
 > Example responses
 
@@ -130,34 +157,9 @@ This operation does not require authentication
 
 > Body parameter
 
-```json
-{
-  "date": "string",
-  "description": "string",
-  "id": 0,
-  "img": "string",
-  "maxScore": 0,
-  "questions": [
-    {
-      "answers": [
-        {
-          "answer": "string",
-          "answerType": "string",
-          "id": 0,
-          "isRight": 0
-        }
-      ],
-      "explain": "string",
-      "id": 0,
-      "img": "string",
-      "questionText": "string",
-      "reward": 0,
-      "serialNumber": 0
-    }
-  ],
-  "timeToComplete": "string",
-  "title": "string"
-}
+```yaml
+img: string
+
 ```
 
 <h3 id="updatetestusingpatch-parameters">Parameters</h3>
@@ -165,7 +167,15 @@ This operation does not require authentication
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
 |params|header|string|true|params|
-|body|body|[Test](#schematest)|true|test|
+|id|query|integer(int64)|true|id|
+|title|query|string|true|title|
+|date|query|string|true|date|
+|questions|query|string|false|questions|
+|maxScore|query|integer(int32)|false|maxScore|
+|description|query|string|false|description|
+|timeToComplete|query|string|false|timeToComplete|
+|body|body|object|false|none|
+|» img|body|string(binary)|false|img|
 
 <h3 id="updatetestusingpatch-responses">Responses</h3>
 
@@ -635,15 +645,9 @@ This operation does not require authentication
 
 > Body parameter
 
-```json
-{
-  "cost": 0,
-  "description": "string",
-  "id": 0,
-  "img": "string",
-  "name": "string",
-  "quote": "string"
-}
+```yaml
+img: string
+
 ```
 
 <h3 id="addstickerusingpost-parameters">Parameters</h3>
@@ -651,7 +655,12 @@ This operation does not require authentication
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
 |params|header|string|true|params|
-|body|body|[Sticker](#schemasticker)|true|sticker|
+|cost|query|integer(int64)|true|cost|
+|name|query|string|true|name|
+|description|query|string|true|description|
+|quote|query|string|true|quote|
+|body|body|object|true|none|
+|» img|body|string(binary)|true|img|
 
 > Example responses
 
@@ -661,11 +670,25 @@ This operation does not require authentication
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|OK|[Sticker](#schemasticker)|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|OK|Inline|
 |201|[Created](https://tools.ietf.org/html/rfc7231#section-6.3.2)|Created|None|
 |401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
 |403|[Forbidden](https://tools.ietf.org/html/rfc7231#section-6.5.3)|Forbidden|None|
 |404|[Not Found](https://tools.ietf.org/html/rfc7231#section-6.5.4)|Not Found|None|
+
+<h3 id="addstickerusingpost-responseschema">Response Schema</h3>
+
+Status Code **200**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|*anonymous*|[[Sticker](#schemasticker)]|false|none|none|
+|» cost|integer(int64)|false|none|none|
+|» description|string|false|none|none|
+|» id|integer(int64)|false|none|none|
+|» img|string|false|none|none|
+|» name|string|false|none|none|
+|» quote|string|false|none|none|
 
 <aside class="success">
 This operation does not require authentication
@@ -775,234 +798,206 @@ This operation does not require authentication
 
 Basic Error Controller
 
-## errorUsingGET
+## errorHtmlUsingGET
 
-<a id="opIderrorUsingGET"></a>
+<a id="opIderrorHtmlUsingGET"></a>
 
 `GET /error`
 
-*error*
+*errorHtml*
 
 > Example responses
 
 > 200 Response
 
-<h3 id="errorusingget-responses">Responses</h3>
+```
+{"empty":true,"model":{},"modelMap":{"property1":{},"property2":{}},"reference":true,"status":"100 CONTINUE","view":{"contentType":"string"},"viewName":"string"}
+```
+
+<h3 id="errorhtmlusingget-responses">Responses</h3>
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|OK|Inline|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|OK|[ModelAndView](#schemamodelandview)|
 |401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
 |403|[Forbidden](https://tools.ietf.org/html/rfc7231#section-6.5.3)|Forbidden|None|
 |404|[Not Found](https://tools.ietf.org/html/rfc7231#section-6.5.4)|Not Found|None|
-
-<h3 id="errorusingget-responseschema">Response Schema</h3>
-
-Status Code **200**
-
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|» **additionalProperties**|object|false|none|none|
 
 <aside class="success">
 This operation does not require authentication
 </aside>
 
-## errorUsingHEAD
+## errorHtmlUsingHEAD
 
-<a id="opIderrorUsingHEAD"></a>
+<a id="opIderrorHtmlUsingHEAD"></a>
 
 `HEAD /error`
 
-*error*
+*errorHtml*
 
 > Example responses
 
 > 200 Response
 
-<h3 id="errorusinghead-responses">Responses</h3>
+```
+{"empty":true,"model":{},"modelMap":{"property1":{},"property2":{}},"reference":true,"status":"100 CONTINUE","view":{"contentType":"string"},"viewName":"string"}
+```
+
+<h3 id="errorhtmlusinghead-responses">Responses</h3>
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|OK|Inline|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|OK|[ModelAndView](#schemamodelandview)|
 |204|[No Content](https://tools.ietf.org/html/rfc7231#section-6.3.5)|No Content|None|
 |401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
 |403|[Forbidden](https://tools.ietf.org/html/rfc7231#section-6.5.3)|Forbidden|None|
-
-<h3 id="errorusinghead-responseschema">Response Schema</h3>
-
-Status Code **200**
-
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|» **additionalProperties**|object|false|none|none|
 
 <aside class="success">
 This operation does not require authentication
 </aside>
 
-## errorUsingPOST
+## errorHtmlUsingPOST
 
-<a id="opIderrorUsingPOST"></a>
+<a id="opIderrorHtmlUsingPOST"></a>
 
 `POST /error`
 
-*error*
+*errorHtml*
 
 > Example responses
 
 > 200 Response
 
-<h3 id="errorusingpost-responses">Responses</h3>
+```
+{"empty":true,"model":{},"modelMap":{"property1":{},"property2":{}},"reference":true,"status":"100 CONTINUE","view":{"contentType":"string"},"viewName":"string"}
+```
+
+<h3 id="errorhtmlusingpost-responses">Responses</h3>
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|OK|Inline|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|OK|[ModelAndView](#schemamodelandview)|
 |201|[Created](https://tools.ietf.org/html/rfc7231#section-6.3.2)|Created|None|
 |401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
 |403|[Forbidden](https://tools.ietf.org/html/rfc7231#section-6.5.3)|Forbidden|None|
 |404|[Not Found](https://tools.ietf.org/html/rfc7231#section-6.5.4)|Not Found|None|
 
-<h3 id="errorusingpost-responseschema">Response Schema</h3>
-
-Status Code **200**
-
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|» **additionalProperties**|object|false|none|none|
-
 <aside class="success">
 This operation does not require authentication
 </aside>
 
-## errorUsingPUT
+## errorHtmlUsingPUT
 
-<a id="opIderrorUsingPUT"></a>
+<a id="opIderrorHtmlUsingPUT"></a>
 
 `PUT /error`
 
-*error*
+*errorHtml*
 
 > Example responses
 
 > 200 Response
 
-<h3 id="errorusingput-responses">Responses</h3>
+```
+{"empty":true,"model":{},"modelMap":{"property1":{},"property2":{}},"reference":true,"status":"100 CONTINUE","view":{"contentType":"string"},"viewName":"string"}
+```
+
+<h3 id="errorhtmlusingput-responses">Responses</h3>
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|OK|Inline|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|OK|[ModelAndView](#schemamodelandview)|
 |201|[Created](https://tools.ietf.org/html/rfc7231#section-6.3.2)|Created|None|
 |401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
 |403|[Forbidden](https://tools.ietf.org/html/rfc7231#section-6.5.3)|Forbidden|None|
 |404|[Not Found](https://tools.ietf.org/html/rfc7231#section-6.5.4)|Not Found|None|
 
-<h3 id="errorusingput-responseschema">Response Schema</h3>
-
-Status Code **200**
-
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|» **additionalProperties**|object|false|none|none|
-
 <aside class="success">
 This operation does not require authentication
 </aside>
 
-## errorUsingDELETE
+## errorHtmlUsingDELETE
 
-<a id="opIderrorUsingDELETE"></a>
+<a id="opIderrorHtmlUsingDELETE"></a>
 
 `DELETE /error`
 
-*error*
+*errorHtml*
 
 > Example responses
 
 > 200 Response
 
-<h3 id="errorusingdelete-responses">Responses</h3>
+```
+{"empty":true,"model":{},"modelMap":{"property1":{},"property2":{}},"reference":true,"status":"100 CONTINUE","view":{"contentType":"string"},"viewName":"string"}
+```
+
+<h3 id="errorhtmlusingdelete-responses">Responses</h3>
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|OK|Inline|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|OK|[ModelAndView](#schemamodelandview)|
 |204|[No Content](https://tools.ietf.org/html/rfc7231#section-6.3.5)|No Content|None|
 |401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
 |403|[Forbidden](https://tools.ietf.org/html/rfc7231#section-6.5.3)|Forbidden|None|
-
-<h3 id="errorusingdelete-responseschema">Response Schema</h3>
-
-Status Code **200**
-
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|» **additionalProperties**|object|false|none|none|
 
 <aside class="success">
 This operation does not require authentication
 </aside>
 
-## errorUsingOPTIONS
+## errorHtmlUsingOPTIONS
 
-<a id="opIderrorUsingOPTIONS"></a>
+<a id="opIderrorHtmlUsingOPTIONS"></a>
 
 `OPTIONS /error`
 
-*error*
+*errorHtml*
 
 > Example responses
 
 > 200 Response
 
-<h3 id="errorusingoptions-responses">Responses</h3>
+```
+{"empty":true,"model":{},"modelMap":{"property1":{},"property2":{}},"reference":true,"status":"100 CONTINUE","view":{"contentType":"string"},"viewName":"string"}
+```
+
+<h3 id="errorhtmlusingoptions-responses">Responses</h3>
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|OK|Inline|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|OK|[ModelAndView](#schemamodelandview)|
 |204|[No Content](https://tools.ietf.org/html/rfc7231#section-6.3.5)|No Content|None|
 |401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
 |403|[Forbidden](https://tools.ietf.org/html/rfc7231#section-6.5.3)|Forbidden|None|
-
-<h3 id="errorusingoptions-responseschema">Response Schema</h3>
-
-Status Code **200**
-
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|» **additionalProperties**|object|false|none|none|
 
 <aside class="success">
 This operation does not require authentication
 </aside>
 
-## errorUsingPATCH
+## errorHtmlUsingPATCH
 
-<a id="opIderrorUsingPATCH"></a>
+<a id="opIderrorHtmlUsingPATCH"></a>
 
 `PATCH /error`
 
-*error*
+*errorHtml*
 
 > Example responses
 
 > 200 Response
 
-<h3 id="errorusingpatch-responses">Responses</h3>
+```
+{"empty":true,"model":{},"modelMap":{"property1":{},"property2":{}},"reference":true,"status":"100 CONTINUE","view":{"contentType":"string"},"viewName":"string"}
+```
+
+<h3 id="errorhtmlusingpatch-responses">Responses</h3>
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|OK|Inline|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|OK|[ModelAndView](#schemamodelandview)|
 |204|[No Content](https://tools.ietf.org/html/rfc7231#section-6.3.5)|No Content|None|
 |401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
 |403|[Forbidden](https://tools.ietf.org/html/rfc7231#section-6.5.3)|Forbidden|None|
-
-<h3 id="errorusingpatch-responseschema">Response Schema</h3>
-
-Status Code **200**
-
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|» **additionalProperties**|object|false|none|none|
 
 <aside class="success">
 This operation does not require authentication
