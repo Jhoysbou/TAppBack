@@ -35,21 +35,31 @@ public class StickerController {
 
     @GetMapping
     List<Sticker> getSticker() {
-        return stickerService.getAll();
+        try {
+            return stickerService.getAll().get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+            throw new InternalException();
+        }
     }
 
     @GetMapping("/{id}")
     Sticker getSticker(@PathVariable long id) {
-        return stickerService.get(id);
+        try {
+            return stickerService.get(id).get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+            throw new InternalException();
+        }
     }
 
     @PostMapping
     List<Sticker> addSticker(@RequestHeader("params") String params,
-                       @RequestParam long cost,
-                       @RequestParam MultipartFile img,
-                       @RequestParam String name,
-                       @RequestParam String description,
-                       @RequestParam String quote) {
+                             @RequestParam long cost,
+                             @RequestParam MultipartFile img,
+                             @RequestParam String name,
+                             @RequestParam String description,
+                             @RequestParam String quote) {
         try {
             if (ParamsUtil.isValid(params)) {
                 User user = userService.getUser(ParamsUtil.getUserId(params)).get();
@@ -94,13 +104,13 @@ public class StickerController {
     }
 
     @DeleteMapping("{id}")
-    void deleteSticker(@RequestHeader("params") String params,
-                       @PathVariable long id) {
+    List<Sticker> deleteSticker(@RequestHeader("params") String params,
+                                @PathVariable long id) {
         try {
             if (ParamsUtil.isValid(params)) {
                 User user = userService.getUser(ParamsUtil.getUserId(params)).get();
                 if (user.getRole().equals(UserRoles.admin.toString())) {
-                    stickerService.deleteSticker(id);
+                    return stickerService.deleteSticker(id).get();
                 }
             }
             throw new NotFoundException();
@@ -109,7 +119,7 @@ public class StickerController {
             throw new NotFoundException();
         } catch (MalformedURLException | InterruptedException | ExecutionException e) {
             e.printStackTrace();
-            throw new NotFoundException();
+            throw new InternalException();
         }
     }
 }

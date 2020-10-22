@@ -17,13 +17,13 @@ public class StickerService {
     private MediaService mediaService = new MediaService();
 
     @Async
-    public List<Sticker> getAll() {
-        return stickerDao.getAll();
+    public CompletableFuture<List<Sticker>> getAll() {
+        return CompletableFuture.completedFuture(stickerDao.getAll());
     }
 
     @Async
-    public Sticker get(long id) {
-        return stickerDao.get(id).orElseThrow(StickerNotFoundException::new);
+    public CompletableFuture<Sticker> get(long id) {
+        return CompletableFuture.completedFuture(stickerDao.get(id).orElseThrow(StickerNotFoundException::new));
     }
 
     @Async
@@ -34,7 +34,7 @@ public class StickerService {
         }
 
         stickerDao.save(sticker);
-        return CompletableFuture.completedFuture(getAll());
+        return getAll();
     }
 
     @Async
@@ -43,7 +43,8 @@ public class StickerService {
     }
 
     @Async
-    public void deleteSticker(final long id) {
+    public CompletableFuture<List<Sticker>> deleteSticker(final long id) {
         stickerDao.deleteById(id);
+        return getAll();
     }
 }
