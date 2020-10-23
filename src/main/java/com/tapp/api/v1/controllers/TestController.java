@@ -54,10 +54,16 @@ public class TestController {
     }
 
     @GetMapping("{id}")
-    Test getTest(@PathVariable long id) {
+    Test getTest(@RequestHeader("params") String params,
+                 @PathVariable long id) {
         try {
-            return testService.getTest(id).get();
-        } catch (InterruptedException | ExecutionException e) {
+            if (ParamsUtil.isValid(params)) {
+                User user = userService.getUser(ParamsUtil.getUserId(params)).get();
+                if (user.getRole().equals(UserRoles.admin.toString())) {
+                    return testService.getTest(id).get();
+                }
+            }
+        } catch (InterruptedException | ExecutionException | SignCheckException | MalformedURLException e) {
             e.printStackTrace();
         }
         throw new InternalException();
@@ -115,7 +121,8 @@ public class TestController {
                     ObjectMapper mapper = new ObjectMapper();
                     Set<Question> questionSet;
                     try {
-                        questionSet = mapper.readValue(questions, new TypeReference<Set<Question>>() {});
+                        questionSet = mapper.readValue(questions, new TypeReference<Set<Question>>() {
+                        });
                     } catch (IOException e) {
                         throw new InternalException();
                     }
