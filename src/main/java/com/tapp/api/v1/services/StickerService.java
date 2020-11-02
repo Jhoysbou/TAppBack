@@ -46,6 +46,13 @@ public class StickerService {
             e.printStackTrace();
             throw new StickerNotFoundException();
         }
+
+//        Delete photo from s3
+        final String img = sticker.getImg();
+        if (img != null && !img.equals("")) {
+            mediaService.deleteImage(img);
+        }
+
         List<User> holders = sticker.getHolders();
         holders.stream().map(user -> {
             if (user.getActiveSticker() == sticker) {

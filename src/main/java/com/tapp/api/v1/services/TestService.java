@@ -50,7 +50,15 @@ public class TestService {
 
     @Async
     public CompletableFuture<List<Test>> deleteTest(long id) {
-        testDao.deleteById(id);
+        final Test test = testDao.get(id).get();
+
+//        deleting image from s3
+        final String img = test.getImg();
+        if (img != null && !img.equals("")) {
+            mediaService.deleteImage(img);
+        }
+
+        testDao.delete(test);
         return getAllTests();
     }
 

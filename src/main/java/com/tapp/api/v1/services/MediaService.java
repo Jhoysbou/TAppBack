@@ -6,6 +6,7 @@ import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
+import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.tapp.api.v1.utils.Credentials;
 import org.springframework.scheduling.annotation.Async;
@@ -41,6 +42,7 @@ public class MediaService {
         return CompletableFuture.completedFuture("https://tapp-media.s3.eu-north-1.amazonaws.com/test_images/" + file.getOriginalFilename());
     }
 
+    @Async
     public CompletableFuture<String> uploadStickerImage(final MultipartFile file) {
         try {
             s3Client.putObject(BUCKET_NAME, STICKER_IMAGES_PATH + file.getOriginalFilename(),
@@ -49,5 +51,12 @@ public class MediaService {
             e.printStackTrace();
         }
         return CompletableFuture.completedFuture("https://tapp-media.s3.eu-north-1.amazonaws.com/sticker_images/" + file.getOriginalFilename());
+    }
+
+    @Async
+    public void deleteImage(final String url) {
+        final String keyName = url.replace("https://tapp-media.s3.eu-north-1.amazonaws.com/", "");
+        final DeleteObjectRequest deleteObjectRequest = new DeleteObjectRequest(BUCKET_NAME, keyName);
+        s3Client.deleteObject(deleteObjectRequest);
     }
 }
