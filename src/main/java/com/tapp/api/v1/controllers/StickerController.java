@@ -82,27 +82,7 @@ public class StickerController {
         }
 
     }
-
-    @PatchMapping
-    void updateSticker(@RequestHeader("params") String params,
-                       @RequestBody Sticker sticker) {
-        try {
-            if (ParamsUtil.isValid(params)) {
-                User user = userService.getUser(ParamsUtil.getUserId(params)).get();
-                if (user.getRole().equals(UserRoles.admin.toString())) {
-                    stickerService.updateSticker(sticker);
-                }
-            }
-            throw new NotFoundException();
-
-        } catch (SignCheckException e) {
-            throw new NotFoundException();
-        } catch (MalformedURLException | InterruptedException | ExecutionException e) {
-            e.printStackTrace();
-            throw new NotFoundException();
-        }
-    }
-
+    
     @DeleteMapping("{id}")
     List<Sticker> deleteSticker(@RequestHeader("params") String params,
                                 @PathVariable long id) {

@@ -59,9 +59,7 @@ public class TestController {
         try {
             if (ParamsUtil.isValid(params)) {
                 User user = userService.getUser(ParamsUtil.getUserId(params)).get();
-                if (user.getRole().equals(UserRoles.admin.toString())) {
-                    return testService.getTest(id).get();
-                }
+                return testService.getTest(id).get();
             }
         } catch (InterruptedException | ExecutionException | SignCheckException | MalformedURLException e) {
             e.printStackTrace();

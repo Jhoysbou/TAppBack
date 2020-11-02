@@ -91,4 +91,12 @@ public class Sticker {
     public void setQuote(String quote) {
         this.quote = quote;
     }
+
+    public List<User> getHolders() {
+        return holders;
+    }
+
+    public void setHolders(List<User> holders) {
+        this.holders = holders;
+    }
 }
