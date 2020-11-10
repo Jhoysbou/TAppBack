@@ -46,12 +46,14 @@ public class TestController {
                     User user = userService.getUser(ParamsUtil.getUserId(params)).get();
                     if (user.getRole().equals(UserRoles.admin.toString())) {
                         return testService.getAllTests().get();
+                    } else {
+                        return tests;
                     }
                 }
-            } catch (UserNotFoundException e) {
+            } catch (UserNotFoundException | SignCheckException | MalformedURLException e) {
                 return tests;
             }
-        } catch (SignCheckException | MalformedURLException  | InterruptedException | ExecutionException e) {
+        } catch (InterruptedException | ExecutionException e) {
             System.out.println("error");
             e.printStackTrace();
             throw new InternalException();
