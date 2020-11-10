@@ -20,6 +20,10 @@ dependencies {
     compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.7.0'
     compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.7.0'
 
+//    Logging
+    compile("org.slf4j:slf4j-api:1.7.26")
+    compile("ch.qos.logback:logback-classic:1.2.3")
+
     compile group: 'commons-io', name: 'commons-io', version: '2.6'
     compile group: 'org.postgresql', name: 'postgresql', version: '42.1.4'
     compile group: 'org.hibernate', name: 'hibernate-gradle-plugin', version: '5.4.14.Final'

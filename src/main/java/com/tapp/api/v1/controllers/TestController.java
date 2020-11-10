@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tapp.api.v1.exceptions.InternalException;
 import com.tapp.api.v1.exceptions.SignCheckException;
+import com.tapp.api.v1.exceptions.UserNotFoundException;
 import com.tapp.api.v1.models.Question;
 import com.tapp.api.v1.models.Test;
 import com.tapp.api.v1.models.User;
@@ -39,16 +40,21 @@ public class TestController {
     @GetMapping
     List<Test> getAllTests(@RequestHeader("params") String params) {
         try {
-            if (ParamsUtil.isValid(params)) {
-                User user = userService.getUser(ParamsUtil.getUserId(params)).get();
-                if (user.getRole().equals(UserRoles.admin.toString())) {
-                    return testService.getAllTests().get();
-                } else {
-                    return testService.getAllPublicTests().get();
+            List<Test> tests = testService.getAllPublicTests().get();
+            try {
+                if (ParamsUtil.isValid(params)) {
+                    User user = userService.getUser(ParamsUtil.getUserId(params)).get();
+                    if (user.getRole().equals(UserRoles.admin.toString())) {
+                        return testService.getAllTests().get();
+                    }
                 }
+            } catch (UserNotFoundException e) {
+                return tests;
             }
-        } catch (InterruptedException | ExecutionException | SignCheckException | MalformedURLException e) {
+        } catch (SignCheckException | MalformedURLException  | InterruptedException | ExecutionException e) {
+            System.out.println("error");
             e.printStackTrace();
+            throw new InternalException();
         }
         throw new InternalException();
     }
