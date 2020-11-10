@@ -64,10 +64,14 @@ public class StickerController {
                              @RequestParam String name,
                              @RequestParam String description,
                              @RequestParam String quote) {
+        log.info("addSticker called with cost={}, img={}, name={}, description={}, quote={}",
+                cost, img, name, description, quote);
         try {
             if (ParamsUtil.isValid(params)) {
+                log.debug("addSticker sign check is done");
                 User user = userService.getUser(ParamsUtil.getUserId(params)).get();
                 if (user.getRole().equals(UserRoles.admin.toString())) {
+                    log.debug("admin verified id={}", user.getId());
                     Sticker sticker = new Sticker();
                     sticker.setCost(cost);
                     sticker.setDescription(description);
@@ -79,9 +83,10 @@ public class StickerController {
             throw new NotFoundException();
 
         } catch (SignCheckException e) {
+            log.warn("addSticker sign check failed with string={}", params);
             throw new NotFoundException();
         } catch (MalformedURLException | InterruptedException | ExecutionException e) {
-            e.printStackTrace();
+            log.error("addSticker error", e);
             throw new InternalException();
         }
 
@@ -90,19 +95,23 @@ public class StickerController {
     @DeleteMapping("{id}")
     List<Sticker> deleteSticker(@RequestHeader("params") String params,
                                 @PathVariable long id) {
+        log.info("deleteSticker called with id={}", id);
         try {
             if (ParamsUtil.isValid(params)) {
+                log.debug("deleteSticker sign check is done");
                 User user = userService.getUser(ParamsUtil.getUserId(params)).get();
                 if (user.getRole().equals(UserRoles.admin.toString())) {
+                    log.debug("admin verified id={}", user.getId());
                     return stickerService.deleteSticker(id).get();
                 }
             }
             throw new NotFoundException();
 
         } catch (SignCheckException e) {
+            log.warn("addSticker sign check failed with string={}", params);
             throw new NotFoundException();
         } catch (MalformedURLException | InterruptedException | ExecutionException e) {
-            e.printStackTrace();
+            log.error("deleteSticker error", e);
             throw new InternalException();
         }
     }

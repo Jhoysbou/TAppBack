@@ -12,6 +12,8 @@ import com.tapp.api.v1.services.TestService;
 import com.tapp.api.v1.services.UserService;
 import com.tapp.api.v1.utils.ParamsUtil;
 import com.tapp.api.v1.utils.UserRoles;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,28 +36,32 @@ import java.util.concurrent.ExecutionException;
 @CrossOrigin
 @RequestMapping("v1/tests")
 public class TestController {
+    private static final Logger log = LoggerFactory.getLogger(TestController.class);
     private final TestService testService = new TestService();
     private final UserService userService = new UserService();
 
     @GetMapping
     List<Test> getAllTests(@RequestHeader("params") String params) {
+        log.info("getAllTests called");
         try {
             List<Test> tests = testService.getAllPublicTests().get();
             try {
                 if (ParamsUtil.isValid(params)) {
+                    log.debug("getAllTests sign check is done");
                     User user = userService.getUser(ParamsUtil.getUserId(params)).get();
                     if (user.getRole().equals(UserRoles.admin.toString())) {
+                        log.debug("admin verified id={}", user.getId());
                         return testService.getAllTests().get();
                     } else {
                         return tests;
                     }
                 }
             } catch (UserNotFoundException | SignCheckException | MalformedURLException e) {
+                log.debug("getAllTests user not found or sign check failed. Returning public tests");
                 return tests;
             }
         } catch (InterruptedException | ExecutionException e) {
-            System.out.println("error");
-            e.printStackTrace();
+            log.error("getAllTests error", e);
             throw new InternalException();
         }
         throw new InternalException();
@@ -64,13 +70,15 @@ public class TestController {
     @GetMapping("{id}")
     Test getTest(@RequestHeader("params") String params,
                  @PathVariable long id) {
+        log.info("getTest called with id={}", id);
         try {
             if (ParamsUtil.isValid(params)) {
+                log.debug("getTest sign check is done");
                 User user = userService.getUser(ParamsUtil.getUserId(params)).get();
                 return testService.getTest(id).get();
             }
         } catch (InterruptedException | ExecutionException | SignCheckException | MalformedURLException e) {
-            e.printStackTrace();
+            log.error("getTest error", e);
         }
         throw new InternalException();
     }
@@ -82,10 +90,14 @@ public class TestController {
                   @RequestParam(required = false) MultipartFile img,
                   @RequestParam(required = false) String description,
                   @RequestParam(required = false) String timeToComplete) {
+        log.info("saveTest called with title={}, date={}, description={}, timeToComplete={}",
+                title, date, description, timeToComplete);
         try {
             if (ParamsUtil.isValid(params)) {
+                log.debug("saveTest sign check is done");
                 User user = userService.getUser(ParamsUtil.getUserId(params)).get();
                 if (user.getRole().equals(UserRoles.admin.toString())) {
+                    log.debug("admin verified id={}", user.getId());
                     final Test test = new Test();
                     test.setDescription(description);
                     test.setTitle(title);
@@ -98,9 +110,10 @@ public class TestController {
             throw new UnsupportedOperationException();
 
         } catch (SignCheckException e) {
+            log.warn("saveTest sign check failed with string={}", params);
             throw new UnsupportedOperationException();
         } catch (MalformedURLException | InterruptedException | ExecutionException e) {
-            e.printStackTrace();
+            log.error("saveTest error", e);
             throw new InternalException();
         }
 
@@ -116,10 +129,14 @@ public class TestController {
                     @RequestParam(required = false) MultipartFile img,
                     @RequestParam(required = false) String description,
                     @RequestParam(required = false) String timeToComplete) {
+        log.info("updateTest called with title={}, date={}, description={}, timeToComplete={}",
+                title, date, description, timeToComplete);
         try {
             if (ParamsUtil.isValid(params)) {
+                log.debug("updateTest sign check is done");
                 User user = userService.getUser(ParamsUtil.getUserId(params)).get();
                 if (user.getRole().equals(UserRoles.admin.toString())) {
+                    log.debug("admin verified id={}", user.getId());
                     final Test test = new Test();
                     test.setId(id);
                     test.setMaxScore(maxScore);
@@ -144,18 +161,15 @@ public class TestController {
                     test.setDate(date);
 
                     testService.updateTest(test, img);
-                } else {
-                    throw new UnsupportedOperationException();
                 }
-            } else {
-                throw new UnsupportedOperationException();
             }
-
+            throw new UnsupportedOperationException();
 
         } catch (SignCheckException e) {
+            log.error("updateTest sign check failed");
             throw new UnsupportedOperationException();
         } catch (MalformedURLException | InterruptedException | ExecutionException e) {
-            e.printStackTrace();
+            log.error("updateTest error", e);
             throw new UnsupportedOperationException();
         }
     }
@@ -163,20 +177,23 @@ public class TestController {
     @DeleteMapping("{id}")
     List<Test> deleteTest(@RequestHeader("params") String params,
                           @PathVariable long id) {
-
+        log.info("deleteTest called with id={}", id);
         try {
             if (ParamsUtil.isValid(params)) {
+                log.debug("deleteTest sign check is done");
                 User user = userService.getUser(ParamsUtil.getUserId(params)).get();
                 if (user.getRole().equals(UserRoles.admin.toString())) {
+                    log.debug("admin verified id={}", user.getId());
                     return testService.deleteTest(id).get();
                 }
             }
             throw new UnsupportedOperationException();
 
         } catch (SignCheckException e) {
+            log.error("deleteTest sign check failed");
             throw new UnsupportedOperationException();
         } catch (MalformedURLException | InterruptedException | ExecutionException e) {
-            e.printStackTrace();
+            log.error("deleteTest error", e);
             throw new InternalException();
         }
     }
