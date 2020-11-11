@@ -108,7 +108,7 @@ public class StickerController {
             throw new NotFoundException();
 
         } catch (SignCheckException e) {
-            log.warn("addSticker sign check failed with string={}", params);
+            log.error("addSticker sign check failed with string={}", params);
             throw new NotFoundException();
         } catch (MalformedURLException | InterruptedException | ExecutionException e) {
             log.error("deleteSticker error", e);
