@@ -1,5 +1,6 @@
 package com.tapp.api.v1.services;
 
+import com.tapp.api.v1.controllers.StickerController;
 import com.tapp.api.v1.dao.HistoryEventDao;
 import com.tapp.api.v1.dao.QuestionDao;
 import com.tapp.api.v1.dao.TestDao;
@@ -13,6 +14,8 @@ import com.tapp.api.v1.models.Test;
 import com.tapp.api.v1.models.User;
 import com.tapp.api.v1.utils.DateTimeFormat;
 import com.tapp.api.v1.utils.HistoryEventCode;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Async;
 
 import java.time.LocalDateTime;

@@ -53,6 +53,7 @@ public class TestController {
                         log.debug("admin verified id={}", user.getId());
                         return testService.getAllTests().get();
                     } else {
+                        log.info("returning public tests");
                         return tests;
                     }
                 }

@@ -2,6 +2,7 @@ HELP.md
 .gradle
 ngrok
 build/
+*.log
 website_stat.db
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**

@@ -1,6 +1,5 @@
 package com.tapp.api.v1.controllers;
 
-import com.tapp.api.v1.TApplication;
 import com.tapp.api.v1.exceptions.InternalException;
 import com.tapp.api.v1.exceptions.NotFoundException;
 import com.tapp.api.v1.exceptions.SignCheckException;
