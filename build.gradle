@@ -14,6 +14,7 @@ repositories {
 }
 
 dependencies {
+//    Cache
     compile group: 'org.ehcache', name: 'ehcache', version: '3.8.1'
     compile group: 'org.hibernate', name: 'hibernate-ehcache', version: '5.4.14.Final'
 //    Swagger
@@ -23,6 +24,9 @@ dependencies {
 //    Logging
     compile("org.slf4j:slf4j-api:1.7.26")
     compile("ch.qos.logback:logback-classic:1.2.3")
+
+//    Connection pool
+    compile group: 'c3p0', name: 'c3p0', version: '0.9.0.4'
 
     compile group: 'commons-io', name: 'commons-io', version: '2.6'
     compile group: 'org.postgresql', name: 'postgresql', version: '42.1.4'
