@@ -39,7 +39,7 @@ public class Test {
     private Set<Question> questions = new HashSet<>();
 
     @Column(name = "date")
-    private String date;
+    private long date;
 
     @Column(name = "max_score")
     private long maxScore;
@@ -109,11 +109,11 @@ public class Test {
         return questions;
     }
 
-    public String getDate() {
+    public long getDate() {
         return date;
     }
 
-    public void setDate(String creationDate) {
+    public void setDate(long creationDate) {
         this.date = creationDate;
     }
 }

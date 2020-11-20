@@ -87,7 +87,7 @@ public class TestController {
     @PostMapping
     Test saveTest(@RequestHeader("params") String params,
                   @RequestParam String title,
-                  @RequestParam String date,
+                  @RequestParam long date,
                   @RequestParam(required = false) MultipartFile img,
                   @RequestParam(required = false) String description,
                   @RequestParam(required = false) String timeToComplete) {
@@ -124,7 +124,7 @@ public class TestController {
     void updateTest(@RequestHeader("params") String params,
                     @RequestParam long id,
                     @RequestParam String title,
-                    @RequestParam String date,
+                    @RequestParam long date,
                     @RequestParam(required = false) String questions,
                     @RequestParam(required = false) int maxScore,
                     @RequestParam(required = false) MultipartFile img,

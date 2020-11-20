@@ -30,7 +30,7 @@ public class HistoryEvent {
     private Question question;
 
     @Column(name = "date")
-    private String date;
+    private long date;
 
     /*
      * 0 - question started
@@ -46,22 +46,7 @@ public class HistoryEvent {
 
     public HistoryEvent() {}
 
-
-    public HistoryEvent(User user, Test test, Question question) {
-        this.user = user;
-        this.test = test;
-        this.question = question;
-    }
-
-    public HistoryEvent(User user, Test test, Question question, String date, int eventCode) {
-        this.user = user;
-        this.test = test;
-        this.question = question;
-        this.date = date;
-        this.eventCode = eventCode;
-    }
-
-    public HistoryEvent(User user, Test test, Question question, String date, int eventCode, long score) {
+    public HistoryEvent(User user, Test test, Question question, long date, int eventCode, long score) {
         this.user = user;
         this.test = test;
         this.question = question;
@@ -98,11 +83,11 @@ public class HistoryEvent {
         this.question = question;
     }
 
-    public String getDate() {
+    public long getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(long date) {
         this.date = date;
     }
 

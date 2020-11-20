@@ -1,6 +1,5 @@
 package com.tapp.api.v1.services;
 
-import com.tapp.api.v1.controllers.StickerController;
 import com.tapp.api.v1.dao.HistoryEventDao;
 import com.tapp.api.v1.dao.QuestionDao;
 import com.tapp.api.v1.dao.TestDao;
@@ -12,10 +11,7 @@ import com.tapp.api.v1.models.HistoryEvent;
 import com.tapp.api.v1.models.Question;
 import com.tapp.api.v1.models.Test;
 import com.tapp.api.v1.models.User;
-import com.tapp.api.v1.utils.DateTimeFormat;
 import com.tapp.api.v1.utils.HistoryEventCode;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Async;
 
 import java.time.LocalDateTime;
@@ -54,7 +50,7 @@ public class HistoryService {
         Test test = question.getTest();
 
         List<HistoryEvent> history = historyEventDao.getByUserTestHistory(user, test);
-        history.sort(new TimeOrderComparator());
+        history.sort((o1, o2) -> (int) (o1.getDate() - o2.getDate()));
 
         final int size = history.size();
         HistoryEvent lastHistoryEvent = null;
@@ -70,13 +66,13 @@ public class HistoryService {
                     && lastHistoryEvent.getEventCode() != HistoryEventCode.SKIPPED)) {
                 final long score = lastHistoryEvent.getScore();
 
-                HistoryEvent historyEvent = new HistoryEvent(user, test, question,
-                        LocalDateTime.now().format(DateTimeFormat.getFormatter()), HistoryEventCode.STARTED, score);
+                HistoryEvent historyEvent = new HistoryEvent(user, test, question, System.currentTimeMillis(),
+                        HistoryEventCode.STARTED, score);
                 historyEventDao.save(historyEvent);
             }
         } else {
             HistoryEvent historyEvent = new HistoryEvent(user, test, question,
-                    LocalDateTime.now().format(DateTimeFormat.getFormatter()), HistoryEventCode.STARTED, 0);
+                    System.currentTimeMillis(), HistoryEventCode.STARTED, 0);
             historyEventDao.save(historyEvent);
         }
 
@@ -89,7 +85,7 @@ public class HistoryService {
         Test test = question.getTest();
 
         List<HistoryEvent> history = historyEventDao.getByUserTestHistory(user, test);
-        history.sort(new TimeOrderComparator());
+        history.sort((o1, o2) -> (int) (o1.getDate() - o2.getDate()));
 
         final int size = history.size();
         HistoryEvent lastHistoryEvent = null;
@@ -104,8 +100,8 @@ public class HistoryService {
                 && lastHistoryEvent.getEventCode() != HistoryEventCode.FAILED
                 && lastHistoryEvent.getEventCode() != HistoryEventCode.SKIPPED)) {
             final long score = lastHistoryEvent.getScore() + question.getReward();
-            HistoryEvent historyEvent = new HistoryEvent(user, test, question,
-                    LocalDateTime.now().format(DateTimeFormat.getFormatter()), HistoryEventCode.PASSED, score);
+            HistoryEvent historyEvent = new HistoryEvent(user, test, question, System.currentTimeMillis(),
+                    HistoryEventCode.PASSED, score);
             historyEventDao.save(historyEvent);
 
             if (isFinished(question, test)) {
@@ -122,7 +118,7 @@ public class HistoryService {
         Test test = question.getTest();
 
         List<HistoryEvent> history = historyEventDao.getByUserTestHistory(user, test);
-        history.sort(new TimeOrderComparator());
+        history.sort((o1, o2) -> (int) (o1.getDate() - o2.getDate()));
 
         final int size = history.size();
         HistoryEvent lastHistoryEvent = null;
@@ -141,8 +137,8 @@ public class HistoryService {
             final long reward = question.getReward();
             final long score = currentScore > reward ? currentScore - reward : 0;
 
-            HistoryEvent historyEvent = new HistoryEvent(user, test, question,
-                    LocalDateTime.now().format(DateTimeFormat.getFormatter()), HistoryEventCode.FAILED, score);
+            HistoryEvent historyEvent = new HistoryEvent(user, test, question, System.currentTimeMillis(),
+                    HistoryEventCode.FAILED, score);
             historyEventDao.save(historyEvent);
 
             if (isFinished(question, test)) {
@@ -159,7 +155,7 @@ public class HistoryService {
         Test test = question.getTest();
 
         List<HistoryEvent> history = historyEventDao.getByUserTestHistory(user, test);
-        history.sort(new TimeOrderComparator());
+        history.sort((o1, o2) -> (int) (o1.getDate() - o2.getDate()));
 
         final int size = history.size();
         HistoryEvent lastHistoryEvent = null;
@@ -176,8 +172,7 @@ public class HistoryService {
 
             final long score = lastHistoryEvent.getScore();
 
-            HistoryEvent historyEvent = new HistoryEvent(user, test, question,
-                    LocalDateTime.now().format(DateTimeFormat.getFormatter()), HistoryEventCode.SKIPPED, score);
+            HistoryEvent historyEvent = new HistoryEvent(user, test, question, System.currentTimeMillis(), HistoryEventCode.SKIPPED, score);
             historyEventDao.save(historyEvent);
 
             if (isFinished(question, test)) {
@@ -188,7 +183,6 @@ public class HistoryService {
     }
 
 
-
     private boolean isFinished(final Question question, final Test test) {
         final Set<Question> questionList = test.getQuestions();
         final long length = questionList.stream()
@@ -197,16 +191,4 @@ public class HistoryService {
 
         return length == 0;
     }
-
-
-    class TimeOrderComparator implements Comparator<HistoryEvent> {
-        @Override
-        public int compare(HistoryEvent o1, HistoryEvent o2) {
-            LocalDateTime date1 = LocalDateTime.parse(o1.getDate(), DateTimeFormat.getFormatter());
-            LocalDateTime date2 = LocalDateTime.parse(o2.getDate(), DateTimeFormat.getFormatter());
-            return date1.compareTo(date2);
-        }
-    }
-
-
 }

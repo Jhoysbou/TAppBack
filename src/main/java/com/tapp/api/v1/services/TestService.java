@@ -4,7 +4,6 @@ import com.tapp.api.v1.dao.TestDao;
 import com.tapp.api.v1.exceptions.TestNotFoundException;
 import com.tapp.api.v1.models.Question;
 import com.tapp.api.v1.models.Test;
-import com.tapp.api.v1.utils.DateTimeFormat;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -106,8 +105,8 @@ public class TestService {
             });
         }
 
-        String date = newTest.getDate();
-        oldTest.setDate(date != null ? date : oldTest.getDate());
+        long date = newTest.getDate();
+        oldTest.setDate(date != 0L ? date : oldTest.getDate());
 
         long maxScore = newTest.getMaxScore();
         oldTest.setMaxScore(maxScore > 0 ? maxScore : oldTest.getMaxScore());
@@ -127,10 +126,7 @@ public class TestService {
     @Async
     public CompletableFuture<List<Test>> getAllPublicTests() {
         List<Test> tests = testDao.getAll();
-        tests = tests.stream().filter(test -> {
-            LocalDateTime date = LocalDateTime.parse(test.getDate(), DateTimeFormat.getFormatter());
-            return date.isBefore(LocalDateTime.now());
-        }).collect(Collectors.toList());
+        tests = tests.stream().filter(test -> test.getDate() < System.currentTimeMillis()).collect(Collectors.toList());
 
         return CompletableFuture.completedFuture(tests);
     }
