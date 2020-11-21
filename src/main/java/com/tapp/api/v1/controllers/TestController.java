@@ -164,7 +164,6 @@ public class TestController {
                     testService.updateTest(test, img);
                 }
             }
-            throw new UnsupportedOperationException();
 
         } catch (SignCheckException e) {
             log.error("updateTest sign check failed");
